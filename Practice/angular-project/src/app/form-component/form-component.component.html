@@ -1,0 +1,13 @@
+<form [formGroup] = "userForm" (ngSubmit)="OnSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Nome</mat-label>
+    <input matInput placeholder="Digite seu nome" formControlName="name" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="Digite seu email" formControlName="email" required>
+  </mat-form-field>
+
+  <button mat-button type="submit">Enviar</button>
+</form>

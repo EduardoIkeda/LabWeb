@@ -1,0 +1,11 @@
+<ul>
+  <li *ngFor="let user of users">
+    {{ user.name }} - {{ user.age }} anos
+  </li>
+</ul>
+
+<ul>
+  <li *ngFor="let user of usersHttp">
+    {{ user.name }} ({{ user.username }})
+  </li>
+</ul>

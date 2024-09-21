@@ -1,0 +1,8 @@
+<p>parent-component works!</p>
+
+<h2>SelectedItem: {{ selectedItem }}</h2>
+
+<div *ngFor="let item of items">
+  <app-child-component [item]="item" (itemClicked)="onClick(item)"></app-child-component>
+</div>
+
