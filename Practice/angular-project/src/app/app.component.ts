@@ -1,4 +1,3 @@
-import { HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule, NgFor, AsyncPipe } from '@angular/common';
@@ -11,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-root',
   standalone: true,
   imports: [
-    MatButtonModule, HttpClientModule,
+    MatButtonModule,
     CommonModule, AsyncPipe, RouterOutlet, NgFor, ReactiveFormsModule
   ],
   templateUrl: './app.component.html',

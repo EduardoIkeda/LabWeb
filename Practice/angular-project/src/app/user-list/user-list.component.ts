@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +15,7 @@ import { UserServiceService } from './user-service.service';
   imports:
     [
       MatInputModule, MatButtonModule, MatIconModule, MatFormField, MatLabel,
-      CommonModule, AsyncPipe, RouterOutlet, NgFor
+      CommonModule, AsyncPipe, RouterOutlet, NgFor, HttpClientModule
     ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
@@ -32,6 +33,6 @@ export class UserListComponent implements OnInit {
   constructor(private userService: UserServiceService) { }
 
   ngOnInit() {
-
+    this.usersHttp = this.userService.getUsers();
   }
 }
