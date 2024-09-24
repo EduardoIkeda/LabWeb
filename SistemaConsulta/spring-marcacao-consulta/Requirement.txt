@@ -1,0 +1,93 @@
+Projeto em Grupo
+Sistema Web de Marcação de Consultas
+
+Descrição
+Definição de desenvolvimento de software na plataforma WEB para de marcação de consultas para prefeitura municipal de Salvador.
+
+Objetivos
+O objetivo deste trabalho é proporcionar aos alunos da disciplina de Laboratório de Desenvolvimento WEB a oportunidade de aprofundar o conhecimento sobre o processo de desenvolvimento de software, com foco na construção de sistemas web, incluindo front-end e back-end, além de aspectos como autenticação, validação de dados e integração com banco de dados.
+
+Contexto
+A prefeitura do município de Salvador identificou a necessidade de melhorar a gestão de marcação de consultas nos diversos postos de saúde da cidade. Atualmente, os cidadãos enfrentam dificuldades ao tentar marcar consultas devido à falta de um sistema unificado e centralizado. Para resolver esse problema, foi proposto o desenvolvimento de um sistema de marcação, remarcação e cancelamento de consultas em postos de saúde do município. O sistema também deverá gerenciar a disponibilidade de médicos e especialidades nos em cada unidade de saúde.
+
+Funcionalidades
+Cadastro de Usuários
+
+•Todos os cidadãos devem se cadastrar utilizando seu Cartão SUS. Caso não tenham um cadastro, o sistema deve fornecer um link para o cidadão realizar o cadastro em um posto de saúde.
+
+•Cada cidadão deve fornecer informações como nome completo, CPF, telefone e e-mail.
+Gerenciamento de Postos de Saúde
+•O sistema deve gerenciar a lista de postos de saúde da cidade, permitindo o cadastro de novos postos com as seguintes informações:
+o Nome do posto.
+o Localização (endereço completo).
+o Especialidades médicas disponíveis no posto (ex.: cardiologia, ortopedia, entre outras).
+o Horário de funcionamento.
+
+•Apenas administradores podem cadastrar, editar ou remover postos de saúde.
+Sistema de Marcação de Consultas
+• O cidadão pode buscar por especialidades médicas e escolher uma data e horário disponível para realizar a consulta.
+• O sistema deve mostrar a disponibilidade de vagas para cada especialidade em cada posto de saúde.
+• As consultas devem ser marcadas de acordo com a disponibilidade dos médicos e horários.
+• Caso o cidadão deseje, ele pode remarcar ou cancelar a consulta com até 24 horas de antecedência.
+
+Penalizações
+• Se um cidadão marcar uma consulta e não comparecer ou cancelar em um período menor que 24 horas antes da consulta, ele será penalizado, ficando uma semana sem poder marcar novas consultas.
+• O sistema deve rastrear as penalizações e impedir que o cidadão faça novas marcações durante o período de penalização.
+Relatórios para Administradores
+• O sistema deve permitir que os administradores visualizem relatórios de consultas agendadas, canceladas, e não comparecimentos.
+• Administradores podem gerenciar a disponibilidade de médicos e especialidades nos postos de saúde.
+Consulta de Disponibilidade
+• O cidadão deve poder consultar os postos com maior disponibilidade para a especialidade desejada, permitindo escolher o mais conveniente.
+• O sistema deve listar os médicos disponíveis em cada especialidade e posto.
+
+Notificações
+• O sistema deve enviar notificações por e-mail ou SMS para o cidadão confirmando a marcação, cancelamento ou penalização.
+
+Requisitos Técnicos
+
+Diagrama de Classes
+•Criar um diagrama de classes que represente as entidades e suas interações no sistema, incluindo:
+o Cidadão: Atributos como id, nome, cartaoSUS, CPF, email, telefone e penalizado (booleano).
+o Posto de Saúde: Atributos como id, nome, endereco, especialidades e horarioDeFuncionamento.
+o Consulta: Atributos como id, data, horario, especialidade, idCidadão, idPosto e status (marcada, cancelada, não compareceu).
+o Médico: Atributos como id, nome, especialidade e idPosto.
+
+Diagrama de Caso de Uso
+• Criar um diagrama de caso de uso que mostre as interações dos cidadãos, administradores e médicos com o sistema, como:
+o Cidadão: Pode se cadastrar, realizar login, marcar consultas, visualizar consultas agendadas, cancelar ou remarcar consultas.
+o Administrador: Pode cadastrar postos, gerenciar especialidades e médicos, visualizar relatórios e aplicar penalizações.
+o Médico: Pode visualizar suas consultas agendadas, alterar sua disponibilidade e especialidade.
+
+Modelo Conceitual do Banco de Dados
+• Elaborar um modelo conceitual que inclua as seguintes entidades e relacionamentos:
+o Cidadão: Representando os usuários do sistema que podem marcar consultas.
+o Posto de Saúde: Cada posto pode ter várias especialidades e médicos.
+o Consulta: Cada consulta está associada a um cidadão e a um posto de saúde.
+o Médico: Relacionado com os postos de saúde e especialidades.
+
+• Exemplo de Relacionamento
+o Um Cidadão pode marcar várias Consultas.
+o Um Posto de Saúde pode ter vários Médicos e oferecer várias Especialidades.
+o Uma Consulta está associada a um Posto de Saúde e a um Médico.
+
+Documentação do Sistema
+• Manual do Usuário: Explicar como os cidadãos podem se cadastrar, marcar consultas, visualizar, cancelar ou remarcar consultas.
+• Manual do Desenvolvedor: Incluir uma descrição da arquitetura do sistema, a configuração do banco de dados e os endpoints da API REST (para operações como marcação, cancelamento de consultas, e gestão de médicos e postos).
+• Documentação da API REST: Detalhar os endpoints, métodos HTTP utilizados, parâmetros e respostas para o sistema de marcação de consultas.
+
+Front-end
+• Utilizar um framework como React, Angular ou Vue.js para construir uma interface de usuário dinâmica e responsiva.
+• Implementar formulários de login, cadastro, busca de especialidades e agendamento de consultas.
+• Exibir um calendário para o cidadão visualizar as datas e horários disponíveis para consulta.
+
+Back-end
+• Implementar o servidor back-end utilizando Node.js, Java (Spring), Python (Django/Flask) ou PHP (Laravel).
+• O back-end deve expor uma API REST para o front-end e realizar operações CRUD no banco de dados.
+
+Banco de Dados
+• Utilizar um banco de dados relacional como MySQL, PostgreSQL ou qualquer outro banco de dados da preferencia da equipe.
+• Criar tabelas que armazenem informações de cidadãos, postos de saúde, consultas, especialidades e médicos.
+
+Validação e Segurança
+• Implementar autenticação e validação dos formulários para garantir que apenas usuários autenticados possam fazer reservas.
+• Validação no front-end e no back-end para garantir a integridade dos dados.
