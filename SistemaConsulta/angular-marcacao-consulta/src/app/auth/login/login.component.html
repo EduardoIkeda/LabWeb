@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="content">
+    <div class="logos">
+      <img src="sus-logo.png" alt="Logo do SUS" />
+      <img
+        src="prefeitura-de-salvador.jpg"
+        alt="Logo da Prefeitura de Salvador"
+      />
+    </div>
+    <div class="loginForm">
+      <form [formGroup]="form" class="min-width">
+        <mat-form-field class="fill-width" appearance="outline">
+          <mat-label>Número do Cartão SUS</mat-label>
+          <input
+            matInput
+            placeholder="Digite 15 algarismos"
+            formControlName="sus"
+            #sus
+          />
+          <mat-hint align="end">{{ sus.value.length || 0 }}/15</mat-hint>
+          <mat-error *ngIf="form.get('sus')?.invalid">{{
+            errorMessage("sus")
+          }}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="fill-width" appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="Mínimo 8 caracteres"
+            formControlName="password"
+            #password
+          />
+          <mat-hint align="end">{{ password.value.length || 0 }}/8</mat-hint>
+          <mat-error *ngIf="form.get('password')?.invalid">{{
+            errorMessage("password")
+          }}</mat-error>
+        </mat-form-field>
+      </form>
+      <button mat-flat-button>Entrar</button>
+    </div>
+  </div>
+</div>
