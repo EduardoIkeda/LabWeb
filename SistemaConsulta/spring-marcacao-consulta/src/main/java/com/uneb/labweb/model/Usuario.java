@@ -16,6 +16,7 @@ public class Usuario {
     private String telefone;
     private String email;
     private String numeroCartaoSus;
+    private String senha;
 
     public Usuario() {
     }
@@ -68,5 +69,13 @@ public class Usuario {
 
     public void setNumeroCartaoSus(String numeroCartaoSus) {
         this.numeroCartaoSus = numeroCartaoSus;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }
