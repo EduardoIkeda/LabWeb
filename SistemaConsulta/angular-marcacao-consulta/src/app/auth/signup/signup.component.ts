@@ -47,7 +47,7 @@ export class SignupComponent implements OnInit {
         ],
       ],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      passwordConfirm: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required, this.validateSamePassword]],
       name: [
         '',
         [Validators.required, Validators.minLength(5), Validators.maxLength(50)],
@@ -78,22 +78,19 @@ export class SignupComponent implements OnInit {
           Validators.maxLength(100)
         ],
       ],
-    },
-    {
-      validators: this.confirmPasswordValidator,
-    }
-  );
+    });
   }
 
-  confirmPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const password = control.get('password')?.value;
-    const passwordConfirm = control.get('passwordConfirm')?.value;
-    return password && passwordConfirm && password !== passwordConfirm
-    ? { PasswordNoMatch: true }
-    : null;
-  };
+  private validateSamePassword(control: AbstractControl): ValidationErrors | null {
+    const password = control.parent?.get('password');
+    const confirmPassword = control.parent?.get('confirmPassword');
+    return password?.value == confirmPassword?.value ? null : { 'notSame': true };
+}
 
   onSubmit() {
+    if(this.form.get('password') != this.form.get('confirmPassword')){
+      alert("Senhas diferentes")
+    }
     alert('cadastrou');
   }
 
@@ -107,6 +104,9 @@ export class SignupComponent implements OnInit {
     }
     if (field?.hasError('email')) {
       return `Email inválido`;
+    }
+    if (field?.hasError('notSame')) {
+      return `Senhas diferentes`;
     }
     if (field?.hasError('minlength')) {
       const requiredLength: number = field.errors
@@ -123,5 +123,13 @@ export class SignupComponent implements OnInit {
     return 'Campo inválido';
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form.get('password')?.valueChanges.subscribe(() => {
+      this.form.updateValueAndValidity();
+    });
+
+    this.form.get('passwordConfirm')?.valueChanges.subscribe(() => {
+      this.form.updateValueAndValidity();
+    });
+  }
 }

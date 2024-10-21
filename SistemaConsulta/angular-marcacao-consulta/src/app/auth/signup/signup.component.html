@@ -117,18 +117,16 @@
             matInput
             type="password"
             required
-
-            placeholder="Mínimo 8 caracteres"
-            formControlName="passwordConfirm"
-            #passwordConfirm
+            placeholder="Repita sua senha"
+            formControlName="confirmPassword"
+            #confirmPassword
           />
           <mat-hint align="end"
-            >{{ passwordConfirm.value.length || 0 }}/8</mat-hint
+            >{{ confirmPassword.value.length || 0 }}/8</mat-hint
           >
-
-          <mat-error *ngIf="form.errors?.['PasswordNoMatch'] === true">
-            Senhas diferentes
-          </mat-error>
+          <mat-error *ngIf="form.get('confirmPassword')?.invalid">{{
+            errorMessage("confirmPassword")
+          }}</mat-error>
         </mat-form-field>
 
         <a href="/auth">Já tem uma conta? Faça login</a>
