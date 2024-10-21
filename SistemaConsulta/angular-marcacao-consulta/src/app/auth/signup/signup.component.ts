@@ -6,6 +6,9 @@ import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -13,7 +16,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-signup',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -21,12 +24,12 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    CommonModule
+    CommonModule,
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './signup.component.html',
+  styleUrl: './signup.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class SignupComponent implements OnInit {
   form: FormGroup;
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -44,11 +47,54 @@ export class LoginComponent implements OnInit {
         ],
       ],
       password: ['', [Validators.required, Validators.minLength(8)]],
-    });
+      passwordConfirm: ['', [Validators.required]],
+      name: [
+        '',
+        [Validators.required, Validators.minLength(5), Validators.maxLength(50)],
+      ],
+      cpf: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(11),
+          Validators.maxLength(11),
+          Validators.pattern('^[0-9]*$'),
+        ],
+      ],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(12),
+          Validators.pattern('^[0-9]*$'),
+        ],
+      ],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.maxLength(100)
+        ],
+      ],
+    },
+    {
+      validators: this.confirmPasswordValidator,
+    }
+  );
   }
 
+  confirmPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password')?.value;
+    const passwordConfirm = control.get('passwordConfirm')?.value;
+    return password && passwordConfirm && password !== passwordConfirm
+    ? { PasswordNoMatch: true }
+    : null;
+  };
+
   onSubmit() {
-    alert("login efetuado")
+    alert('cadastrou');
   }
 
   errorMessage(fieldName: string) {
@@ -58,6 +104,9 @@ export class LoginComponent implements OnInit {
     }
     if (field?.hasError('pattern')) {
       return `Digite apenas números`;
+    }
+    if (field?.hasError('email')) {
+      return `Email inválido`;
     }
     if (field?.hasError('minlength')) {
       const requiredLength: number = field.errors

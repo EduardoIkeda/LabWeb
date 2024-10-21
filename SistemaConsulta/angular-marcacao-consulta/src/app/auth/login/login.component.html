@@ -13,6 +13,9 @@
           <mat-label>Número do Cartão SUS</mat-label>
           <input
             matInput
+            required
+            maxlength="15"
+            minlength="15"
             placeholder="Digite 15 algarismos"
             formControlName="sus"
             #sus
@@ -22,11 +25,14 @@
             errorMessage("sus")
           }}</mat-error>
         </mat-form-field>
+
         <mat-form-field class="fill-width" appearance="outline">
           <mat-label>Senha</mat-label>
           <input
             matInput
             type="password"
+            required
+            minlength="8"
             placeholder="Mínimo 8 caracteres"
             formControlName="password"
             #password
@@ -36,8 +42,10 @@
             errorMessage("password")
           }}</mat-error>
         </mat-form-field>
+
+        <a href="/auth/signup">Não tem uma conta? Cadastre-se</a>
+        <button [disabled]="!form.valid" type="submit" mat-flat-button (click)="onSubmit()">Entrar</button>
       </form>
-      <button mat-flat-button>Entrar</button>
     </div>
   </div>
 </div>

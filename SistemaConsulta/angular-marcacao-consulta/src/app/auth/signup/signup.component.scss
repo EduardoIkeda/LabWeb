@@ -14,6 +14,11 @@ h2, h1, h3, p{
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin: 7vh auto;
+
+  @media (min-width: 750px){
+    margin: 15vh auto;
+  }
 
   // @media (min-width: 750px){
   //   //border: 1px solid #74777F;
@@ -59,7 +64,7 @@ h2, h1, h3, p{
   width: 100%;
 }
 
-.loginForm{
+.signupForm{
   display: flex;
   flex-direction: column;
   row-gap: 2vh;
@@ -68,7 +73,7 @@ h2, h1, h3, p{
   width: 100%;
 }
 
-.loginForm form{
+.signupForm form{
   display: flex;
   flex-direction: column;
   row-gap: 2vh;
