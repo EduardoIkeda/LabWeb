@@ -74,6 +74,16 @@ export class SignupComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+    this.form.get('password')?.valueChanges.subscribe(() => {
+      this.form.updateValueAndValidity();
+    });
+
+    this.form.get('passwordConfirm')?.valueChanges.subscribe(() => {
+      this.form.updateValueAndValidity();
+    });
+  }
+
   private validateSamePassword(control: AbstractControl): ValidationErrors | null {
     const password = control.parent?.get('password');
     const confirmPassword = control.parent?.get('confirmPassword');
@@ -111,44 +121,5 @@ export class SignupComponent implements OnInit {
     this.snackBar.open('Erro ao salvar novo usuário', '',
       { duration : 5000, });
     //this.onCancel();
-  }
-
-  errorMessage(fieldName: string) {
-    const field = this.form.get(fieldName);
-    if (field?.hasError('required')) {
-      return 'Campo obrigatório';
-    }
-    if (field?.hasError('pattern')) {
-      return `Digite apenas números`;
-    }
-    if (field?.hasError('email')) {
-      return `Email inválido`;
-    }
-    if (field?.hasError('notSame')) {
-      return `Senhas diferentes`;
-    }
-    if (field?.hasError('minlength')) {
-      const requiredLength: number = field.errors
-        ? field.errors['minlength']['requiredLength']
-        : 8;
-      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres`;
-    }
-    if (field?.hasError('maxlength')) {
-      const requiredLength: number = field.errors
-        ? field.errors['maxlength']['requiredLength']
-        : 15;
-      return `Tamanho máximo excedido de ${requiredLength} caracteres`;
-    }
-    return 'Campo inválido';
-  }
-
-  ngOnInit(): void {
-    this.form.get('password')?.valueChanges.subscribe(() => {
-      this.form.updateValueAndValidity();
-    });
-
-    this.form.get('passwordConfirm')?.valueChanges.subscribe(() => {
-      this.form.updateValueAndValidity();
-    });
   }
 }

@@ -6,7 +6,7 @@ export interface User {
   susCardNumber: string;
   name: string;
   cpf: string;
-  telephone: string
+  phone: string
   email: string;
   password: string;
 }

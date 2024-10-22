@@ -21,9 +21,12 @@
             #sus
           />
           <mat-hint align="end">{{ sus.value.length || 0 }}/15</mat-hint>
-          <mat-error *ngIf="form.get('sus')?.invalid">{{
-            errorMessage("sus")
-          }}</mat-error>
+          <mat-error *ngIf="form.get('sus')?.invalid">
+            <!-- errorMessage("sus") -->
+            {{
+              formUtils.getErrorMessage(form, "sus")
+            }}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="fill-width" appearance="outline">
@@ -38,9 +41,12 @@
             #password
           />
           <mat-hint align="end">{{ password.value.length || 0 }}/8</mat-hint>
-          <mat-error *ngIf="form.get('password')?.invalid">{{
-            errorMessage("password")
-          }}</mat-error>
+          <mat-error *ngIf="form.get('password')?.invalid">
+            <!-- errorMessage("password") -->
+            {{
+              formUtils.getErrorMessage(form, "password")
+            }}
+          </mat-error>
         </mat-form-field>
 
         <a href="/auth/signup">Não tem uma conta? Cadastre-se</a>
