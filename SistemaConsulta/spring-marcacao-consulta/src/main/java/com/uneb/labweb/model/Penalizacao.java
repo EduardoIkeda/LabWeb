@@ -20,7 +20,7 @@ public class Penalizacao {
     }
 
     //#region Getters and Setters
-    //Teste exemplo
+    //Teste exemplo Penalização
 
     public Long getId() {
         return id;
