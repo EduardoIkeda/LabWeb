@@ -21,9 +21,12 @@
             #sus
           />
           <mat-hint align="end">{{ sus.value.length || 0 }}/15</mat-hint>
-          <mat-error *ngIf="form.get('sus')?.invalid">{{
-            errorMessage("sus")
-          }}</mat-error>
+          <mat-error *ngIf="form.get('sus')?.invalid">
+            <!-- errorMessage("sus") -->
+            {{
+              formUtils.getErrorMessage(form, "sus")
+            }}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="fill-width" appearance="outline">
@@ -38,9 +41,12 @@
             #name
           />
           <mat-hint align="end">{{ name.value.length || 0 }}/50</mat-hint>
-          <mat-error *ngIf="form.get('name')?.invalid">{{
-            errorMessage("name")
-          }}</mat-error>
+          <mat-error *ngIf="form.get('name')?.invalid">
+            <!-- errorMessage("name") -->
+            {{
+              formUtils.getErrorMessage(form, "name")
+            }}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="fill-width" appearance="outline">
@@ -55,9 +61,12 @@
             #cpf
           />
           <mat-hint align="end">{{ cpf.value.length || 0 }}/11</mat-hint>
-          <mat-error *ngIf="form.get('cpf')?.invalid">{{
-            errorMessage("cpf")
-          }}</mat-error>
+          <mat-error *ngIf="form.get('cpf')?.invalid">
+            <!-- errorMessage("cpf") -->
+            {{
+              formUtils.getErrorMessage(form, "cpf")
+            }}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="fill-width" appearance="outline">
@@ -72,9 +81,12 @@
             #phone
           />
           <mat-hint align="end">{{ phone.value.length || 0 }}/10</mat-hint>
-          <mat-error *ngIf="form.get('phone')?.invalid">{{
-            errorMessage("phone")
-          }}</mat-error>
+          <mat-error *ngIf="form.get('phone')?.invalid">
+            <!-- errorMessage("phone") -->
+            {{
+              formUtils.getErrorMessage(form, "phone")
+            }}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="fill-width" appearance="outline">
@@ -89,9 +101,12 @@
             #email
           />
           <mat-hint align="end">{{ email.value.length || 0 }}/100</mat-hint>
-          <mat-error *ngIf="form.get('email')?.invalid">{{
-            errorMessage("email")
-          }}</mat-error>
+          <mat-error *ngIf="form.get('email')?.invalid">
+            <!-- errorMessage("email") -->
+            {{
+              formUtils.getErrorMessage(form, "email")
+            }}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="fill-width" appearance="outline">
@@ -106,9 +121,12 @@
             #password
           />
           <mat-hint align="end">{{ password.value.length || 0 }}/8</mat-hint>
-          <mat-error *ngIf="form.get('password')?.invalid">{{
-            errorMessage("password")
-          }}</mat-error>
+          <mat-error *ngIf="form.get('password')?.invalid">
+            <!-- errorMessage("password") -->
+            {{
+              formUtils.getErrorMessage(form, "password")
+            }}
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="fill-width" appearance="outline">
@@ -124,9 +142,12 @@
           <mat-hint align="end"
             >{{ confirmPassword.value.length || 0 }}/8</mat-hint
           >
-          <mat-error *ngIf="form.get('confirmPassword')?.invalid">{{
-            errorMessage("confirmPassword")
-          }}</mat-error>
+          <mat-error *ngIf="form.get('confirmPassword')?.invalid">
+            <!-- errorMessage("confirmPassword") -->
+            {{
+              formUtils.getErrorMessage(form, "confirmPassword")
+            }}
+          </mat-error>
         </mat-form-field>
 
         <a href="/auth">Já tem uma conta? Faça login</a>

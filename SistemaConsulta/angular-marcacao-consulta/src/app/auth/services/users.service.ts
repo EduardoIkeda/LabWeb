@@ -35,4 +35,16 @@ export class UsersService {
     }
     */
   }
+
+  private create(record: Partial<User>){
+    return this.httpClient.post<User>(this.API, record);
+  }
+
+  private update(record: Partial<User>){
+    return this.httpClient.put<User>(`${this.API}/${record.id}`, record);
+  }
+
+  remove(id: string){
+    return this.httpClient.delete(`${this.API}/${id}`);
+  }
 }

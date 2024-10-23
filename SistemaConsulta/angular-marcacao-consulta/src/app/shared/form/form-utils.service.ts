@@ -46,45 +46,26 @@ export class FormUtilsService {
       return 'Campo obrigatório';
     }
     if (field?.hasError('minlength')) {
-      const requiredLength: number = field.errors ? field.errors['minlength']['requiredLength'] : 5;
-      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres.`;
-    }
-    if (field?.hasError('maxlength')) {
-      const requiredLength: number = field.errors ? field.errors['maxlength']['requiredLength'] : 200;
-      return `Tamanho máximo excedido de ${requiredLength} caracteres.`;
-    }
-    return 'Campo Inválido';
-  }
-
-  /*
-  errorMessage(fieldName: string) {
-    const field = this.form.get(fieldName);
-    if (field?.hasError('required')) {
-      return 'Campo obrigatório';
-    }
-    if (field?.hasError('pattern')) {
-      return `Digite apenas números`;
-    }
-    if (field?.hasError('email')) {
-      return `Email inválido`;
-    }
-    if (field?.hasError('notSame')) {
-      return `Senhas diferentes`;
-    }
-    if (field?.hasError('minlength')) {
       const requiredLength: number = field.errors
         ? field.errors['minlength']['requiredLength']
         : 8;
-      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres`;
+      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres.`;
     }
     if (field?.hasError('maxlength')) {
       const requiredLength: number = field.errors
         ? field.errors['maxlength']['requiredLength']
         : 15;
-      return `Tamanho máximo excedido de ${requiredLength} caracteres`;
+      return `Tamanho máximo excedido de ${requiredLength} caracteres.`;
+    }
+    if (field?.hasError('pattern')) {
+      return 'Digite apenas números';
+    }
+    if (field?.hasError('email')) {
+      return 'Email inválido';
+    }
+    if (field?.hasError('notSame')) {
+      return 'Senhas diferentes';
     }
     return 'Campo inválido';
   }
-
-  */
 }
