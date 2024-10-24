@@ -3,8 +3,8 @@ package com.uneb.labweb.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,17 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uneb.labweb.model.Penalizacao;
 import com.uneb.labweb.service.PenalizacaoService;
 
+@Validated
 @RestController
 @RequestMapping("/api/penalizacoes")
 public class PenalizacaoController {
 
-    @Autowired
-    private PenalizacaoService penalizacaoService;
+    private final PenalizacaoService penalizacaoService;
 
-    @PostMapping
-    public ResponseEntity<Penalizacao> criarPenalizacao(@RequestBody Penalizacao penalizacao) {
-        Penalizacao novaPenalizacao = penalizacaoService.criarPenalizacao(penalizacao);
-        return ResponseEntity.ok(novaPenalizacao);
+    public PenalizacaoController(PenalizacaoService penalizacaoService) {
+        this.penalizacaoService = penalizacaoService;
     }
 
     @GetMapping
@@ -40,6 +38,12 @@ public class PenalizacaoController {
     public ResponseEntity<Penalizacao> buscarPenalizacaoPorId(@PathVariable Long id) {
         Optional<Penalizacao> penalizacao = penalizacaoService.buscarPenalizacaoPorId(id);
         return penalizacao.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    
+    @PostMapping
+    public ResponseEntity<Penalizacao> criarPenalizacao(@RequestBody Penalizacao penalizacao) {
+        Penalizacao novaPenalizacao = penalizacaoService.criarPenalizacao(penalizacao);
+        return ResponseEntity.ok(novaPenalizacao);
     }
 
     @PutMapping("/{id}")

@@ -1,4 +1,4 @@
-package com.uneb.labweb.spring_marcacao_consulta;
+package com.uneb.labweb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

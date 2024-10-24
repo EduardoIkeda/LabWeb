@@ -3,8 +3,8 @@ package com.uneb.labweb.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,17 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uneb.labweb.model.PostoSaude;
 import com.uneb.labweb.service.PostoSaudeService;
 
+@Validated
 @RestController
 @RequestMapping("/api/postos-saude")
 public class PostoSaudeController {
 
-    @Autowired
-    private PostoSaudeService postoSaudeService;
+    private final PostoSaudeService postoSaudeService;
 
-    @PostMapping
-    public ResponseEntity<PostoSaude> criarPostoSaude(@RequestBody PostoSaude postoSaude) {
-        PostoSaude novoPostoSaude = postoSaudeService.criarPostoSaude(postoSaude);
-        return ResponseEntity.ok(novoPostoSaude);
+    public PostoSaudeController(PostoSaudeService postoSaudeService) {
+        this.postoSaudeService = postoSaudeService;
     }
 
     @GetMapping
@@ -40,6 +38,12 @@ public class PostoSaudeController {
     public ResponseEntity<PostoSaude> buscarPostoSaudePorId(@PathVariable Long id) {
         Optional<PostoSaude> postoSaude = postoSaudeService.buscarPostoSaudePorId(id);
         return postoSaude.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<PostoSaude> criarPostoSaude(@RequestBody PostoSaude postoSaude) {
+        PostoSaude novoPostoSaude = postoSaudeService.criarPostoSaude(postoSaude);
+        return ResponseEntity.ok(novoPostoSaude);
     }
 
     @PutMapping("/{id}")

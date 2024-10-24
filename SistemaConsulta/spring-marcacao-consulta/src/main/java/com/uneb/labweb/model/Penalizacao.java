@@ -2,55 +2,42 @@ package com.uneb.labweb.model;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.validator.constraints.Length;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
+//Validações ainda genéricas
+
+@Data
 @Entity
 public class Penalizacao {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank
+    @NotNull
+    @Length(min = 5, max = 100)
+    @Column(length = 100, nullable = false)
     private Long usuarioId;
+
+    @NotBlank
+    @NotNull
+    @Length(min = 5, max = 100)
+    @Column(length = 100, nullable = false)
     private LocalDateTime dataInicioPenalizacao;
+
+    @NotBlank
+    @NotNull
+    @Length(min = 5, max = 100)
+    @Column(length = 100, nullable = false)
     private LocalDateTime dataFimPenalizacao;
-
-    public Penalizacao() {
-    }
-
-    //#region Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public LocalDateTime getDataInicioPenalizacao() {
-        return dataInicioPenalizacao;
-    }
-
-    public void setDataInicioPenalizacao(LocalDateTime dataInicioPenalizacao) {
-        this.dataInicioPenalizacao = dataInicioPenalizacao;
-    }
-
-    public LocalDateTime getDataFimPenalizacao() {
-        return dataFimPenalizacao;
-    }
-
-    public void setDataFimPenalizacao(LocalDateTime dataFimPenalizacao) {
-        this.dataFimPenalizacao = dataFimPenalizacao;
-    }
-
 }
