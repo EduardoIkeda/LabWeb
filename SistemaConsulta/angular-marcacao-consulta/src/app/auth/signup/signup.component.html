@@ -5,165 +5,185 @@
       <img
         src="prefeitura-de-salvador.jpg"
         alt="Logo da Prefeitura de Salvador"
-      />
-    </div>
-    <div class="signupForm">
-      <form [formGroup]="form" class="min-width">
-        <mat-form-field class="fill-width" appearance="outline">
-          <mat-label>Número do Cartão SUS</mat-label>
-          <input
-            matInput
-            required
-            maxlength="15"
-            minlength="15"
-            placeholder="Digite 15 algarismos"
-            formControlName="sus"
-            #sus
-          />
-          <mat-hint align="end">{{ sus.value.length || 0 }}/15</mat-hint>
-          <mat-error *ngIf="form.get('sus')?.invalid">
-            <!-- errorMessage("sus") -->
-            {{
-              formUtils.getErrorMessage(form, "sus")
-            }}
-          </mat-error>
-        </mat-form-field>
+        />
+      </div>
+      <div class="signupForm">
+        <form [formGroup]="form" class="min-width">
+          <mat-form-field class="fill-width" appearance="outline">
+            <mat-label>Número do Cartão SUS</mat-label>
+            <input
+              matInput
+              required
+              maxlength="15"
+              minlength="15"
+              placeholder="Digite 15 algarismos"
+              formControlName="sus"
+              #sus
+              />
+              <mat-hint align="end">{{ sus.value.length || 0 }}/15</mat-hint>
 
-        <mat-form-field class="fill-width" appearance="outline">
-          <mat-label>Nome</mat-label>
-          <input
-            matInput
-            required
-            minlength="5"
-            maxlength="50"
-            placeholder="Digite seu nome"
-            formControlName="name"
-            #name
-          />
-          <mat-hint align="end">{{ name.value.length || 0 }}/50</mat-hint>
-          <mat-error *ngIf="form.get('name')?.invalid">
-            <!-- errorMessage("name") -->
-            {{
-              formUtils.getErrorMessage(form, "name")
-            }}
-          </mat-error>
-        </mat-form-field>
+              @if (form.get('sus')?.invalid) {
+                <mat-error>
+                  <!-- errorMessage("sus") -->
+                  {{
+                    formUtils.getErrorMessage(form, "sus")
+                  }}
+                </mat-error>
+              }
+            </mat-form-field>
 
-        <mat-form-field class="fill-width" appearance="outline">
-          <mat-label>CPF</mat-label>
-          <input
-            matInput
-            required
-            minlength="11"
-            maxlength="11"
-            placeholder="Apenas números"
-            formControlName="cpf"
-            #cpf
-          />
-          <mat-hint align="end">{{ cpf.value.length || 0 }}/11</mat-hint>
-          <mat-error *ngIf="form.get('cpf')?.invalid">
-            <!-- errorMessage("cpf") -->
-            {{
-              formUtils.getErrorMessage(form, "cpf")
-            }}
-          </mat-error>
-        </mat-form-field>
+            <mat-form-field class="fill-width" appearance="outline">
+              <mat-label>Nome</mat-label>
+              <input
+                matInput
+                required
+                minlength="5"
+                maxlength="50"
+                placeholder="Digite seu nome"
+                formControlName="name"
+                #name
+                />
+                <mat-hint align="end">{{ name.value.length || 0 }}/50</mat-hint>
 
-        <mat-form-field class="fill-width" appearance="outline">
-          <mat-label>Telefone</mat-label>
-          <input
-            matInput
-            required
-            minlength="10"
-            maxlength="12"
-            placeholder="(DDD) Apenas números"
-            formControlName="phone"
-            #phone
-          />
-          <mat-hint align="end">{{ phone.value.length || 0 }}/10</mat-hint>
-          <mat-error *ngIf="form.get('phone')?.invalid">
-            <!-- errorMessage("phone") -->
-            {{
-              formUtils.getErrorMessage(form, "phone")
-            }}
-          </mat-error>
-        </mat-form-field>
+                @if (form.get('name')?.invalid) {
+                  <mat-error>
+                    <!-- errorMessage("name") -->
+                    {{
+                      formUtils.getErrorMessage(form, "name")
+                    }}
+                  </mat-error>
+                }
+              </mat-form-field>
 
-        <mat-form-field class="fill-width" appearance="outline">
-          <mat-label>Email</mat-label>
-          <input
-            matInput
-            type="email"
-            required
-            maxlength="100"
-            placeholder="Digite seu email"
-            formControlName="email"
-            #email
-          />
-          <mat-hint align="end">{{ email.value.length || 0 }}/100</mat-hint>
-          <mat-error *ngIf="form.get('email')?.invalid">
-            <!-- errorMessage("email") -->
-            {{
-              formUtils.getErrorMessage(form, "email")
-            }}
-          </mat-error>
-        </mat-form-field>
+              <mat-form-field class="fill-width" appearance="outline">
+                <mat-label>CPF</mat-label>
+                <input
+                  matInput
+                  required
+                  minlength="11"
+                  maxlength="11"
+                  placeholder="Apenas números"
+                  formControlName="cpf"
+                  #cpf
+                  />
+                  <mat-hint align="end">{{ cpf.value.length || 0 }}/11</mat-hint>
 
-        <mat-form-field class="fill-width" appearance="outline">
-          <mat-label>Senha</mat-label>
-          <input
-            matInput
-            required
-            minlength="8"
-            type="password"
-            placeholder="Mínimo 8 caracteres"
-            formControlName="password"
-            #password
-          />
-          <mat-hint align="end">{{ password.value.length || 0 }}/8</mat-hint>
-          <mat-error *ngIf="form.get('password')?.invalid">
-            <!-- errorMessage("password") -->
-            {{
-              formUtils.getErrorMessage(form, "password")
-            }}
-          </mat-error>
-        </mat-form-field>
+                  @if (form.get('cpf')?.invalid) {
+                    <mat-error>
+                      <!-- errorMessage("cpf") -->
+                      {{
+                        formUtils.getErrorMessage(form, "cpf")
+                      }}
+                    </mat-error>
+                  }
+                </mat-form-field>
 
-        <mat-form-field class="fill-width" appearance="outline">
-          <mat-label>Confirmar Senha</mat-label>
-          <input
-            matInput
-            type="password"
-            required
-            placeholder="Repita sua senha"
-            formControlName="confirmPassword"
-            #confirmPassword
-          />
-          <mat-hint align="end"
-            >{{ confirmPassword.value.length || 0 }}/8</mat-hint
-          >
-          <mat-error *ngIf="form.get('confirmPassword')?.invalid">
-            <!-- errorMessage("confirmPassword") -->
-            {{
-              formUtils.getErrorMessage(form, "confirmPassword")
-            }}
-          </mat-error>
-        </mat-form-field>
+                <mat-form-field class="fill-width" appearance="outline">
+                  <mat-label>Telefone</mat-label>
+                  <input
+                    matInput
+                    required
+                    minlength="10"
+                    maxlength="12"
+                    placeholder="(DDD) Apenas números"
+                    formControlName="phone"
+                    #phone
+                    />
+                    <mat-hint align="end">{{ phone.value.length || 0 }}/10</mat-hint>
 
-        <a href="/auth">Já tem uma conta? Faça login</a>
-        <a
-          href="https://www.gov.br/saude/pt-br/acesso-a-informacao/acoes-e-programas/cns"
-          >Não tem cartão do SUS?</a
-        >
-        <button
-          [disabled]="!form.valid"
-          type="submit"
-          mat-flat-button
-          (click)="onSubmit()"
-        >
-          Cadastrar
-        </button>
-      </form>
-    </div>
-  </div>
-</div>
+                    @if (form.get('phone')?.invalid) {
+                      <mat-error>
+                        <!-- errorMessage("phone") -->
+                        {{
+                          formUtils.getErrorMessage(form, "phone")
+                        }}
+                      </mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field class="fill-width" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input
+                      matInput
+                      type="email"
+                      required
+                      maxlength="100"
+                      placeholder="Digite seu email"
+                      formControlName="email"
+                      #email
+                      />
+                      <mat-hint align="end">{{ email.value.length || 0 }}/100</mat-hint>
+
+                      @if (form.get('email')?.invalid) {
+                        <mat-error>
+                          <!-- errorMessage("email") -->
+                          {{
+                            formUtils.getErrorMessage(form, "email")
+                          }}
+                        </mat-error>
+                      }
+                    </mat-form-field>
+
+                    <mat-form-field class="fill-width" appearance="outline">
+                      <mat-label>Senha</mat-label>
+                      <input
+                        matInput
+                        required
+                        minlength="8"
+                        type="password"
+                        placeholder="Mínimo 8 caracteres"
+                        formControlName="password"
+                        #password
+                        />
+                        <mat-hint align="end">{{ password.value.length || 0 }}/8</mat-hint>
+
+                        @if (form.get('password')?.invalid) {
+                          <mat-error>
+                            <!-- errorMessage("password") -->
+                            {{
+                              formUtils.getErrorMessage(form, "password")
+                            }}
+                          </mat-error>
+                        }
+                      </mat-form-field>
+
+                      <mat-form-field class="fill-width" appearance="outline">
+                        <mat-label>Confirmar Senha</mat-label>
+                        <input
+                          matInput
+                          type="password"
+                          required
+                          placeholder="Repita sua senha"
+                          formControlName="confirmPassword"
+                          #confirmPassword
+                          />
+                          <mat-hint align="end">{{ confirmPassword.value.length || 0 }}/8</mat-hint>
+
+                            @if (form.get('confirmPassword')?.invalid) {
+                              <mat-error>
+                                <!-- errorMessage("confirmPassword") -->
+                                {{
+                                  formUtils.getErrorMessage(form, "confirmPassword")
+                                }}
+                              </mat-error>
+                            }
+                          </mat-form-field>
+
+                            <a href="/auth">
+                              Já tem uma conta? Faça login
+                            </a>
+                            <a href="https://www.gov.br/saude/pt-br/acesso-a-informacao/acoes-e-programas/cns">
+                              Não tem cartão do SUS?
+                            </a>
+                            <button
+                              [disabled]="!form.valid"
+                              type="submit"
+                              mat-flat-button
+                              (click)="onSubmit()"
+                              >
+                              Cadastrar
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>

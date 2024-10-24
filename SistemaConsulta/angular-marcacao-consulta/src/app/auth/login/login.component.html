@@ -5,53 +5,59 @@
       <img
         src="prefeitura-de-salvador.jpg"
         alt="Logo da Prefeitura de Salvador"
-      />
-    </div>
-    <div class="loginForm">
-      <form [formGroup]="form" class="min-width">
-        <mat-form-field class="fill-width" appearance="outline">
-          <mat-label>Número do Cartão SUS</mat-label>
-          <input
-            matInput
-            required
-            maxlength="15"
-            minlength="15"
-            placeholder="Digite 15 algarismos"
-            formControlName="sus"
-            #sus
-          />
-          <mat-hint align="end">{{ sus.value.length || 0 }}/15</mat-hint>
-          <mat-error *ngIf="form.get('sus')?.invalid">
-            <!-- errorMessage("sus") -->
-            {{
-              formUtils.getErrorMessage(form, "sus")
-            }}
-          </mat-error>
-        </mat-form-field>
+        />
+      </div>
+      <div class="loginForm">
+        <form [formGroup]="form" class="min-width">
+          <mat-form-field class="fill-width" appearance="outline">
+            <mat-label>Número do Cartão SUS</mat-label>
+            <input
+              matInput
+              required
+              maxlength="15"
+              minlength="15"
+              placeholder="Digite 15 algarismos"
+              formControlName="sus"
+              #sus
+              />
+              <mat-hint align="end">{{ sus.value.length || 0 }}/15</mat-hint>
 
-        <mat-form-field class="fill-width" appearance="outline">
-          <mat-label>Senha</mat-label>
-          <input
-            matInput
-            type="password"
-            required
-            minlength="8"
-            placeholder="Mínimo 8 caracteres"
-            formControlName="password"
-            #password
-          />
-          <mat-hint align="end">{{ password.value.length || 0 }}/8</mat-hint>
-          <mat-error *ngIf="form.get('password')?.invalid">
-            <!-- errorMessage("password") -->
-            {{
-              formUtils.getErrorMessage(form, "password")
-            }}
-          </mat-error>
-        </mat-form-field>
+              @if (form.get('sus')?.invalid) {
+                <mat-error>
+                  <!-- errorMessage("sus") -->
+                  {{
+                    formUtils.getErrorMessage(form, "sus")
+                  }}
+                </mat-error>
+              }
+            </mat-form-field>
 
-        <a href="/auth/signup">Não tem uma conta? Cadastre-se</a>
-        <button [disabled]="!form.valid" type="submit" mat-flat-button (click)="onSubmit()">Entrar</button>
-      </form>
-    </div>
-  </div>
-</div>
+            <mat-form-field class="fill-width" appearance="outline">
+              <mat-label>Senha</mat-label>
+              <input
+                matInput
+                type="password"
+                required
+                minlength="8"
+                placeholder="Mínimo 8 caracteres"
+                formControlName="password"
+                #password
+                />
+                <mat-hint align="end">{{ password.value.length || 0 }}/8</mat-hint>
+
+                @if (form.get('password')?.invalid) {
+                  <mat-error>
+                    <!-- errorMessage("password") -->
+                    {{
+                      formUtils.getErrorMessage(form, "password")
+                    }}
+                  </mat-error>
+                }
+              </mat-form-field>
+
+              <a href="/auth/signup">Não tem uma conta? Cadastre-se</a>
+              <button [disabled]="!form.valid" type="submit" mat-flat-button (click)="onSubmit()">Entrar</button>
+            </form>
+          </div>
+        </div>
+      </div>

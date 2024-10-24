@@ -1,4 +1,4 @@
-import { CommonModule, Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,9 +16,8 @@ import { FormUtilsService } from '../../shared/form/form-utils.service';
     MatButtonModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatSnackBarModule,
-    CommonModule
-  ],
+    MatSnackBarModule
+],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

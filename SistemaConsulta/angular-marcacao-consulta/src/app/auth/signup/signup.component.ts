@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -24,9 +24,8 @@ import { UsersService } from '../services/users.service';
     MatButtonModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatSnackBarModule,
-    CommonModule,
-  ],
+    MatSnackBarModule
+],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
