@@ -9,6 +9,7 @@ import { FilterComponentComponent } from './filter-component/filter-component.co
 import { DataComponent } from './data/data.component';
 import { UserDetailComponentComponent } from './user-detail-component/user-detail-component.component';
 import { ParentComponentComponent } from './parent-component/parent-component.component';
+import { AtividadejuntaComponent } from './atividadejunta/atividadejunta.component';
 
 export const routes: Routes =
   [
@@ -23,6 +24,7 @@ export const routes: Routes =
     { path: 'userdetail', component: UserDetailComponentComponent},
     { path: 'userdetail/:id', component: UserDetailComponentComponent},
     { path: 'parent', component: ParentComponentComponent},
-
+    { path: 'atividadejunta', component: AtividadejuntaComponent},
+    { path: 'atividadejunta/:id', component: AtividadejuntaComponent}
   ];
 
