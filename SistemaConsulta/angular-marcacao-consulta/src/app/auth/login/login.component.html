@@ -17,16 +17,16 @@
               maxlength="15"
               minlength="15"
               placeholder="Digite 15 algarismos"
-              formControlName="sus"
-              #sus
+              formControlName="susCardNumber"
+              #susCardNumber
               />
-              <mat-hint align="end">{{ sus.value.length || 0 }}/15</mat-hint>
+              <mat-hint align="end">{{ susCardNumber.value.length || 0 }}/15</mat-hint>
 
-              @if (form.get('sus')?.invalid) {
+              @if (form.get('susCardNumber')?.invalid) {
                 <mat-error>
-                  <!-- errorMessage("sus") -->
+                  <!-- errorMessage("susCardNumber") -->
                   {{
-                    formUtils.getErrorMessage(form, "sus")
+                    formUtils.getErrorMessage(form, "susCardNumber")
                   }}
                 </mat-error>
               }

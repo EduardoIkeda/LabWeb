@@ -3,9 +3,7 @@ package com.uneb.labweb.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.uneb.labweb.dto.PostoSaudeDTO;
-import com.uneb.labweb.dto.UsuarioDTO;
 import com.uneb.labweb.model.PostoSaude;
-import com.uneb.labweb.model.Usuario;
 
 @Component
 public class PostoSaudeMapper {

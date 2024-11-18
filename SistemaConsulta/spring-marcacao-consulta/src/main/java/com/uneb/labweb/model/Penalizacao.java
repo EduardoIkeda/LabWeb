@@ -27,7 +27,7 @@ public class Penalizacao {
     @NotNull
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
-    private Long usuarioId;
+    private Long userId;
 
     @NotBlank
     @NotNull

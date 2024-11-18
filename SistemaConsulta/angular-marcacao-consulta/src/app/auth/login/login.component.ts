@@ -24,7 +24,7 @@ import { FormUtilsService } from '../../shared/form/form-utils.service';
 export class LoginComponent implements OnInit {
   form: FormGroup;
   constructor(
-    private service: UsersService,
+    private userService: UsersService,
     private formBuilder: NonNullableFormBuilder,
     private snackBar: MatSnackBar,
     private location: Location,
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       id: [''],
-      sus: ['',
+      susCardNumber: ['',
         [Validators.required,
         Validators.minLength(15),
         Validators.maxLength(15),
@@ -47,7 +47,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.onSuccess()
+      this.userService.login(this.form.value).subscribe({
+        next: () => this.onSuccess(),
+        error: () => this.onError()
+      });
     } else {
       this.formUtils.validateAllFormFields(this.form);
     }

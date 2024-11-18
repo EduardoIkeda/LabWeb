@@ -3,7 +3,6 @@ package com.uneb.labweb.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uneb.labweb.model.PostoSaude;
@@ -12,8 +11,11 @@ import com.uneb.labweb.repository.PostoSaudeRepository;
 @Service
 public class PostoSaudeService {
 
-    @Autowired
-    private PostoSaudeRepository postoSaudeRepository;
+    private final PostoSaudeRepository postoSaudeRepository;
+
+    public PostoSaudeService(PostoSaudeRepository postoSaudeRepository) {
+        this.postoSaudeRepository = postoSaudeRepository;
+    }
 
     public PostoSaude criarPostoSaude(PostoSaude postoSaude) {
         return postoSaudeRepository.save(postoSaude);

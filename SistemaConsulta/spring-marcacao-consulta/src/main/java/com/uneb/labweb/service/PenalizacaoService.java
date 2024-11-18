@@ -3,7 +3,6 @@ package com.uneb.labweb.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uneb.labweb.model.Penalizacao;
@@ -12,8 +11,11 @@ import com.uneb.labweb.repository.PenalizacaoRepository;
 @Service
 public class PenalizacaoService {
 
-    @Autowired
-    private PenalizacaoRepository penalizacaoRepository;
+    private final PenalizacaoRepository penalizacaoRepository;
+
+    public PenalizacaoService(PenalizacaoRepository penalizacaoRepository) {
+        this.penalizacaoRepository = penalizacaoRepository;
+    }
 
     public Penalizacao criarPenalizacao(Penalizacao penalizacao) {
         return penalizacaoRepository.save(penalizacao);

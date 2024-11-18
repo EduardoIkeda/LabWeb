@@ -13,7 +13,7 @@ public class ConsultaMapper {
             return null;
         }
 
-        return new ConsultaDTO(consulta.getId(), consulta.getUsuarioId(), consulta.getPostoSaudeId(), consulta.getEspecialidadeId(), consulta.getDataConsulta(), consulta.isCompareceu());
+        return new ConsultaDTO(consulta.getId(), consulta.getUserId(), consulta.getPostoSaudeId(), consulta.getEspecialidadeId(), consulta.getDataConsulta(), consulta.isCompareceu());
     }
     
     //public Consulta toEntity(ConsultaDTO consultaDTO) { }

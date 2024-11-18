@@ -13,7 +13,7 @@ public class PenalizacaoMapper {
             return null;
         }
 
-        return new PenalizacaoDTO(pen.getId(), pen.getUsuarioId(), pen.getDataInicioPenalizacao(), pen.getDataFimPenalizacao());
+        return new PenalizacaoDTO(pen.getId(), pen.getUserId(), pen.getDataInicioPenalizacao(), pen.getDataFimPenalizacao());
     }
 
     //public Penalizacao toEntity(PenalizacaoDTO penDTO) { }
