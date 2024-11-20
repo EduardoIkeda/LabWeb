@@ -3,9 +3,9 @@ package com.uneb.labweb.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.uneb.labweb.model.Consulta;
+import com.uneb.labweb.model.Appointment;
 
 @Repository
-public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
 }

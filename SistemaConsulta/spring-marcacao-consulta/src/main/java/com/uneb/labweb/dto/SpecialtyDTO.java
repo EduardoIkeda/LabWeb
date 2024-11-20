@@ -6,9 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 //Validações ainda genéricas
-public record EspecialidadeDTO(
+public record SpecialtyDTO(
         Long id,
-        @NotBlank @NotNull @Length(min = 5, max = 100) String nome
+        @NotBlank @NotNull @Length(min = 5, max = 100) String name
 ) {
     
 }

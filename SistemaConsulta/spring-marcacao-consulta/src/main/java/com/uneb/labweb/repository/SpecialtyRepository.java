@@ -3,9 +3,9 @@ package com.uneb.labweb.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.uneb.labweb.model.PostoSaude;
+import com.uneb.labweb.model.Specialty;
 
 @Repository
-public interface PostoSaudeRepository extends JpaRepository<PostoSaude, Long> {
+public interface SpecialtyRepository extends JpaRepository<Specialty, Long> {
     
 }

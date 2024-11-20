@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 //Validações ainda genéricas
-public record ConsultaDTO(
+public record AppointmentDTO(
         Long id,
         @NotBlank @NotNull @Length(min = 5, max = 100) Long userId,
         @NotBlank @NotNull @Length(min = 5, max = 100) Long postoSaudeId,

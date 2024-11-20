@@ -2,32 +2,41 @@ package com.uneb.labweb.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.uneb.labweb.dto.AuthRequestDTO;
 import com.uneb.labweb.dto.AuthResponseDTO;
 import com.uneb.labweb.dto.UserDTO;
+import com.uneb.labweb.dto.mapper.UserMapper;
+import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.model.User;
 import com.uneb.labweb.repository.UserRepository;
 import com.uneb.labweb.security.TokenService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
+@Validated
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
-        this.userRepository = userRepository;
+    public UserService(PasswordEncoder passwordEncoder, TokenService tokenService, UserRepository userRepository,
+            UserMapper userMapper) {
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public ResponseEntity login(@Valid @NotNull AuthRequestDTO body) {
@@ -65,19 +74,41 @@ public class UserService {
 
 
 
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> findAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public Optional<User> findUserById(Long id) {
-        return userRepository.findById(id);
+    public UserDTO findUserById(@NotNull @Positive Long id) {   
+        return userRepository.findById(id)
+                .map(userMapper::toDTO)
+                .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    // public UserDTO createUser(@Valid @NotNull UserDTO userDTO) {
+    //     return userMapper.toDTO(userRepository.save(userMapper.toEntity(userDTO)));
+    // }
+
+    public UserDTO updateUser(@NotNull @Positive Long id, @Valid @NotNull UserDTO userDTO) {
+        return userRepository.findById(id)
+                .map(recordFound -> {    
+                    recordFound.setSusCardNumber(userDTO.susCardNumber());
+                    recordFound.setName(userDTO.name());
+                    recordFound.setCpf(userDTO.cpf());
+                    recordFound.setPhone(userDTO.phone());
+                    recordFound.setEmail(userDTO.email());
+                    recordFound.setPassword(passwordEncoder.encode(userDTO.password()));
+                    
+                    return userMapper.toDTO(userRepository.save(recordFound));
+                })
+                .orElseThrow(() -> new RecordNotFoundException(id));
+        
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(@NotNull @Positive Long id) {
+        userRepository.delete(userRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id)));
     }
 }

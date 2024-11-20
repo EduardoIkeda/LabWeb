@@ -2,9 +2,15 @@ package com.uneb.labweb.model;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
+import com.uneb.labweb.enums.Status;
+import com.uneb.labweb.enums.converters.StatusConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,17 +23,13 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Penalizacao {
+@SQLDelete(sql = "UPDATE Penalty SET status = 'Inativo' WHERE id = ?")
+@SQLRestriction("status = 'Ativo'")
+public class Penalty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @NotBlank
-    @NotNull
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private Long userId;
 
     @NotBlank
     @NotNull
@@ -40,4 +42,16 @@ public class Penalizacao {
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private LocalDateTime dataFimPenalizacao;
+
+    // Adicionar relacionamento
+    @NotBlank
+    @NotNull
+    @Length(min = 5, max = 100)
+    @Column(length = 100, nullable = false)
+    private User user;
+
+    @NotNull
+    @Column(length = 10, nullable = false)
+    @Convert(converter = StatusConverter.class)
+    private Status status = Status.ACTIVE;
 }
