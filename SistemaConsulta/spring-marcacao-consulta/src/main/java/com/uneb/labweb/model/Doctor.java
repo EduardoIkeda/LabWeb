@@ -1,5 +1,10 @@
 package com.uneb.labweb.model;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
@@ -9,11 +14,17 @@ import com.uneb.labweb.enums.converters.StatusConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -35,7 +46,26 @@ public class Doctor {
     private String crm;
 
     @NotNull
+    @Column(length = 15, nullable = false)
+    private LocalTime startWork;
+
+    @NotNull
+    @Column(length = 15, nullable = false)
+    private LocalTime endWork;
+
+    @NotEmpty
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.LAZY)
+    private Set<DayOfWeek> workingDays = new HashSet<>();
+
+    @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)
     private Status status = Status.ACTIVE;
+
+    @AssertTrue(message = "O horário de começo do trabalho deve ser anterior ao horário de encerramento do trabalho.")
+    public boolean isStartWorkBeforeEndWork() {
+        return startWork.isBefore(endWork);
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.uneb.labweb.exception.InvalidDateTimeException;
+import com.uneb.labweb.exception.InvalidDayOfWeekException;
 import com.uneb.labweb.exception.RecordNotFoundException;
 
 import jakarta.validation.ConstraintViolationException;
@@ -24,6 +25,12 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(InvalidDateTimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleInvalidDateTimeException(InvalidDateTimeException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(InvalidDayOfWeekException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleInvalidDayOfWeekException(InvalidDayOfWeekException ex) {
         return ex.getMessage();
     }
 

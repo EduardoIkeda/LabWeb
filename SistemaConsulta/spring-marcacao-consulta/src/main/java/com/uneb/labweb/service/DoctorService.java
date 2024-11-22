@@ -48,6 +48,9 @@ public class DoctorService {
         return doctorRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setCrm(doctorDTO.crm());
+                    recordFound.setStartWork(doctorMapper.parseTime(doctorDTO.startWork()));
+                    recordFound.setEndWork(doctorMapper.parseTime(doctorDTO.endWork()));
+                    recordFound.setWorkingDays(doctorMapper.convertToDayOfWeekSet(doctorDTO.workingDays()));
 
                     return doctorMapper.toDTO(doctorRepository.save(recordFound));
                 })
