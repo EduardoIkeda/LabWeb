@@ -50,7 +50,7 @@ public class AppointmentController {
 
     @PutMapping("/{id}")
     public AppointmentDTO updateAppointment(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull AppointmentDTO appointmentDTO) {
-        return appointmentService.updateAppointment(id, appointmentDTO);      
+        return appointmentService.updateAppointment(id, appointmentDTO);     
     }
 
     @DeleteMapping("/{id}")

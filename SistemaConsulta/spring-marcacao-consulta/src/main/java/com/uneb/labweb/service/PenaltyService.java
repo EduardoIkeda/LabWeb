@@ -59,6 +59,5 @@ public class PenaltyService {
     public void deletePenalty(@NotNull @Positive Long id) {
         penaltyRepository.delete(penaltyRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id)));
-
     }
 }
