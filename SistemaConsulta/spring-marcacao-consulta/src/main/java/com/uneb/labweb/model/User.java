@@ -17,6 +17,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -30,39 +31,36 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Pattern(regexp = "^\\d{15}$") // Ex: 012345678901234
     @NotBlank
-    @NotNull
     @Length(min = 15, max = 15)
     @Column(length = 15, nullable = false)
     private String susCardNumber;
 
     @NotBlank
-    @NotNull
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String name;
 
+    @Pattern(regexp = "^\\d{11}$") // Ex: 01234567890
     @NotBlank
-    @NotNull
     @Length(min = 11, max = 11)
     @Column(length = 11, nullable = false)
     private String cpf;
 
+    @Pattern(regexp = "^(55)?\\d{10,11}$") // Ex: 5571982345678, 557136485678, 71982345678, 7136485678
     @NotBlank
-    @NotNull
-    @Length(min = 9, max = 20)
-    @Column(length = 20, nullable = false)
+    @Length(min = 10, max = 13)
+    @Column(length = 13, nullable = false)
     private String phone;
 
     @Email
     @NotBlank
-    @NotNull
     @Length(min = 6, max = 100)
     @Column(length = 100, nullable = false)
     private String email;
 
     @NotBlank
-    @NotNull
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String password;

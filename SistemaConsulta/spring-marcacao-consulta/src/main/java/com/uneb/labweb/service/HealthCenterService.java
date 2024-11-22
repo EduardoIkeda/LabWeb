@@ -49,9 +49,9 @@ public class HealthCenterService {
                 .map(recordFound -> {
                     recordFound.setName(healthCenterDTO.name());
                     recordFound.setAddress(healthCenterDTO.address());
-                    recordFound.setOperatingHours(healthCenterDTO.operatingHours());
-                    recordFound.setSpecialties(healthCenterDTO.specialties());
-
+                    recordFound.setOpeningHour(healthCenterMapper.parseTime(healthCenterDTO.openingHour()));
+                    recordFound.setClosingHour(healthCenterMapper.parseTime(healthCenterDTO.closingHour()));
+                    
                     return healthCenterMapper.toDTO(healthCenterRepository.save(recordFound));
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));

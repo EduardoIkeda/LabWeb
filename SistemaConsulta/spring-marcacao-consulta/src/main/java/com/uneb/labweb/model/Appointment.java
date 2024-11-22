@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.validator.constraints.Length;
 
 import com.uneb.labweb.enums.Status;
 import com.uneb.labweb.enums.converters.StatusConverter;
@@ -15,11 +14,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-//Validações ainda genéricas
 
 @Data
 @Entity
@@ -31,41 +28,28 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @NotBlank
+    @FutureOrPresent
     @NotNull
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private LocalDateTime dataConsulta;
+    @Column(length = 25, nullable = false)
+    private LocalDateTime appointmentDateTime;
 
-    @NotBlank
-    @NotNull
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private LocalDateTime horaConsulta;
-    
-    @NotBlank
-    @NotNull
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private boolean compareceu;
+    @Column(nullable = true)
+    private Boolean attended;
 
-    @NotBlank
-    @NotNull
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private Long userId;
+    // Adicionar relacionamento
+    // @NotNull
+    // @Column
+    // private User user;
     
-    @NotBlank
-    @NotNull
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private Long postoSaudeId;
+    // // Adicionar relacionamento
+    // @NotNull
+    // @Column
+    // private HealthCenter healthCenter;
     
-    @NotBlank
-    @NotNull
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private Long especialidadeId;
+    // // Adicionar relacionamento
+    // @NotNull
+    // @Column
+    // private Specialty specialty;
 
     @NotNull
     @Column(length = 10, nullable = false)

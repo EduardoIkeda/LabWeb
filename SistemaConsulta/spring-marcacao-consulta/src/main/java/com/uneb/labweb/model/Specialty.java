@@ -17,8 +17,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-//Validações ainda genéricas
-
 @Data
 @Entity
 @SQLDelete(sql = "UPDATE Specialty SET status = 'Inativo' WHERE id = ?")
@@ -30,10 +28,14 @@ public class Specialty {
     private Long id;
 
     @NotBlank
-    @NotNull
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String name;
+
+    @NotBlank
+    @Length(min = 5, max = 255)
+    @Column(length = 255, nullable = false)
+    private String description;
 
     @NotNull
     @Column(length = 10, nullable = false)

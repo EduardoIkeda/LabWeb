@@ -1,17 +1,26 @@
 package com.uneb.labweb.dto;
 
-import java.time.LocalDateTime;
-
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
-//Validações ainda genéricas
 public record PenaltyDTO(
         Long id,
-        @NotBlank @NotNull @Length(min = 5, max = 100) LocalDateTime dataInicioPenalizacao,
-        @NotBlank @NotNull @Length(min = 5, max = 100) LocalDateTime dataFimPenalizacao
+
+        @NotBlank
+        @Length(min = 5, max = 100)
+        String penaltyReason,
+
+        @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$") // Ex: dd/MM/yyyy
+        @NotBlank
+        @Length(min = 10, max = 10)
+        String penaltyStartDate,
+
+        @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$") // Ex: dd/MM/yyyy
+        @NotBlank
+        @Length(min = 10, max = 10)
+        String penaltyEndDate
 ) {
-    
+
 }

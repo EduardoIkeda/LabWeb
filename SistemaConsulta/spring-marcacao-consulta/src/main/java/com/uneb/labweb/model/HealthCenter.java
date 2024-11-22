@@ -1,5 +1,7 @@
 package com.uneb.labweb.model;
 
+import java.time.LocalTime;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
@@ -13,9 +15,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -29,34 +31,35 @@ public class HealthCenter {
     private Long id;
 
     @NotBlank
-    @NotNull
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String name;
 
     @NotBlank
-    @NotNull
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String address;
 
-    // Ex: 08:00-18:00
-    @Pattern(regexp = "^\\d{2}:\\d{2}[\\-–—]?\\d{2}:\\d{2}$")
-    @NotBlank
     @NotNull
-    @Length(min = 11, max = 11)
-    @Column(length = 11, nullable = false)
-    private String operatingHours;
+    @Column(length = 15, nullable = false)
+    private LocalTime openingHour;
+
+    @NotNull
+    @Column(length = 15, nullable = false)
+    private LocalTime closingHour;
 
     // Adicionar relacionamento
-    @NotBlank
-    @NotNull
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private String specialties;
+    // @NotNull
+    // @Column
+    // private Specialty specialties;
 
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)
     private Status status = Status.ACTIVE;
+
+    @AssertTrue(message = "O horário de abertura deve ser anterior ao horário de encerramento.")
+    public boolean isOpeningBeforeClosing() {
+        return openingHour.isBefore(closingHour);
+    }
 }

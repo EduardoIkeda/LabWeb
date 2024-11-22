@@ -1,20 +1,19 @@
 package com.uneb.labweb.dto;
 
-import java.time.LocalDateTime;
-
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
-//Validações ainda genéricas
 public record AppointmentDTO(
         Long id,
-        @NotBlank @NotNull @Length(min = 5, max = 100) Long userId,
-        @NotBlank @NotNull @Length(min = 5, max = 100) Long postoSaudeId,
-        @NotBlank @NotNull @Length(min = 5, max = 100) Long especialidadeId,
-        @NotBlank @NotNull @Length(min = 5, max = 100) LocalDateTime dataConsulta,
-        @NotBlank @NotNull @Length(min = 5, max = 100) boolean compareceu
+
+        @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}$") // Ex: dd/MM/yyyy HH:mm
+        @NotBlank
+        @Length(min = 16, max = 16)
+        String appointmentDateTime,
+        
+        Boolean attended
 ) {
-    
+
 }

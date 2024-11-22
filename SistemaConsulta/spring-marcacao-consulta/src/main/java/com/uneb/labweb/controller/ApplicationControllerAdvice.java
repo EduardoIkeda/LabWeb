@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.exception.RecordNotFoundException;
 
 import jakarta.validation.ConstraintViolationException;
@@ -18,7 +19,13 @@ public class ApplicationControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFoundException(RecordNotFoundException ex) {
         return ex.getMessage();
-    }    
+    }   
+    
+    @ExceptionHandler(InvalidDateTimeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleInvalidDateTimeException(InvalidDateTimeException ex) {
+        return ex.getMessage();
+    }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

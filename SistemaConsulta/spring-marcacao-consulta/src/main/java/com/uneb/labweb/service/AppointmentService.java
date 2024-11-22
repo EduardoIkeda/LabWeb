@@ -1,7 +1,6 @@
 package com.uneb.labweb.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -10,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import com.uneb.labweb.dto.AppointmentDTO;
 import com.uneb.labweb.dto.mapper.AppointmentMapper;
 import com.uneb.labweb.exception.RecordNotFoundException;
-import com.uneb.labweb.model.Appointment;
 import com.uneb.labweb.repository.AppointmentRepository;
 
 import jakarta.validation.Valid;
@@ -49,9 +47,8 @@ public class AppointmentService {
     public AppointmentDTO updateAppointment(@NotNull @Positive Long id, @Valid @NotNull AppointmentDTO appointmentDTO) {
         return appointmentRepository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setName(appointmentDTO.name());
-                    
-                    // ...
+                    recordFound.setAppointmentDateTime(appointmentMapper.parseDateTime(appointmentDTO.appointmentDateTime()));
+                    recordFound.setAttended(appointmentDTO.attended());
 
                     return appointmentMapper.toDTO(appointmentRepository.save(recordFound));
                 })

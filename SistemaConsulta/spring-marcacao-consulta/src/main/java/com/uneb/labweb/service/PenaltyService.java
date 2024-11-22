@@ -1,7 +1,6 @@
 package com.uneb.labweb.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -10,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import com.uneb.labweb.dto.PenaltyDTO;
 import com.uneb.labweb.dto.mapper.PenaltyMapper;
 import com.uneb.labweb.exception.RecordNotFoundException;
-import com.uneb.labweb.model.Penalty;
 import com.uneb.labweb.repository.PenaltyRepository;
 
 import jakarta.validation.Valid;
@@ -49,10 +47,10 @@ public class PenaltyService {
     public PenaltyDTO updatePenalty(@NotNull @Positive Long id, @Valid @NotNull PenaltyDTO penaltyDTO) {
         return penaltyRepository.findById(id)
                 .map(recordFound -> {
-                    recordFound.setName(penaltyDTO.name());
+                    recordFound.setPenaltyReason(penaltyDTO.penaltyReason());
+                    recordFound.setPenaltyStartDate(penaltyMapper.parseDate(penaltyDTO.penaltyStartDate()));
+                    recordFound.setPenaltyEndDate(penaltyMapper.parseDate(penaltyDTO.penaltyEndDate()));
 
-                    // ...
-                    
                     return penaltyMapper.toDTO(penaltyRepository.save(recordFound));
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));

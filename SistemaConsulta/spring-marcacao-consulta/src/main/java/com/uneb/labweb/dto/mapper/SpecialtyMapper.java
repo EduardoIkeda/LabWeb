@@ -13,8 +13,22 @@ public class SpecialtyMapper {
             return null;
         }
 
-        return new SpecialtyDTO(specialty.getId(), specialty.getName());
+        return new SpecialtyDTO(specialty.getId(), specialty.getName(), specialty.getDescription());
     }
     
-    //public Specialty toEntity(SpecialtyDTO specialtyDTO) { }
+    public Specialty toEntity(SpecialtyDTO specialtyDTO) { 
+        if (specialtyDTO == null) {
+            return null;
+        }
+
+        Specialty specialty = new Specialty();
+
+        if (specialtyDTO.id() != null) {
+            specialty.setId(specialtyDTO.id());
+        }
+        specialty.setName(specialtyDTO.name());
+        specialty.setDescription(specialtyDTO.description());
+        
+        return specialty;
+    }
 }
