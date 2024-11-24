@@ -48,11 +48,21 @@ public class HealthCenter {
     @Column(length = 15, nullable = false)
     private LocalTime closingHour;
 
-    // Adicionar relacionamento
-    // @NotNull
-    // @Column
-    // private Specialty specialties;
+    // @Valid
+    // @OneToMany(mappedBy = "healthCenter", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private List<Appointment> appointments = new ArrayList<>();
 
+    // @Valid
+    // @ManyToMany(mappedBy = "healthCenters")
+    // private Set<Doctor> doctors = new HashSet<>();
+
+    // @Valid
+    // @ManyToMany
+    // @JoinTable(name = "health_center_specialty",
+    //         joinColumns = @JoinColumn(name = "health_center_id"),
+    //         inverseJoinColumns = @JoinColumn(name = "specialty_id"))
+    // private Set<Specialty> specialties = new HashSet<>();
+    
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)

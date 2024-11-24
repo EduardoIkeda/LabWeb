@@ -34,7 +34,7 @@ import lombok.Data;
 @SQLDelete(sql = "UPDATE Doctor SET status = 'Inativo' WHERE id = ?")
 @SQLRestriction("status = 'Ativo'")
 public class Doctor {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -58,6 +58,27 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<DayOfWeek> workingDays = new HashSet<>();
+
+    // @Valid
+    // @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private List<Appointment> appointments = new ArrayList<>();
+
+    // @Valid
+    // @ManyToMany
+    // @JoinTable(name = "doctor_health_center",
+    //         joinColumns = @JoinColumn(name = "doctor_id"),
+    //         inverseJoinColumns = @JoinColumn(name = "health_center_id"))
+    // private Set<HealthCenter> healthCenters = new HashSet<>();
+
+    // @NotNull
+    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "specialty_id", nullable = false)
+    // private Specialty specialty;
+
+    // @NotNull
+    // @OneToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "user_id", nullable = false)
+    // private User user;
 
     @NotNull
     @Column(length = 10, nullable = false)

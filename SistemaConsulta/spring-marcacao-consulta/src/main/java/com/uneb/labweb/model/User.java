@@ -65,6 +65,17 @@ public class User {
     @Column(length = 100, nullable = false)
     private String password;
 
+    // @Valid
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private List<Appointment> appointments = new ArrayList<>();
+
+    // @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = true)
+    // private Doctor doctor;
+
+    // @Valid
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private List<Penalty> penalties = new ArrayList<>();
+
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)

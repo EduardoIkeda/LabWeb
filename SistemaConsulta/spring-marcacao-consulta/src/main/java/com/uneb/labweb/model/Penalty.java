@@ -46,10 +46,9 @@ public class Penalty {
     @Column(length = 15, nullable = false)
     private LocalDate penaltyEndDate;
 
-    // // Adicionar relacionamento
-    // @NotBlank
-    // @Length(min = 5, max = 100)
-    // @Column(length = 100, nullable = false)
+    // @NotNull
+    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "user_id", nullable = false)
     // private User user;
 
     @NotNull

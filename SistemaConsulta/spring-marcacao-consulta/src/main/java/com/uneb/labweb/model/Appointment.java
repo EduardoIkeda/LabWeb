@@ -36,21 +36,26 @@ public class Appointment {
     @Column(nullable = true)
     private Boolean attended;
 
-    // Adicionar relacionamento
     // @NotNull
-    // @Column
-    // private User user;
-    
-    // // Adicionar relacionamento
+    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "doctor_id", nullable = false)
+    // private Doctor doctor;
+
     // @NotNull
-    // @Column
+    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "health_center_id", nullable = false)
     // private HealthCenter healthCenter;
-    
-    // // Adicionar relacionamento
+
     // @NotNull
-    // @Column
+    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "specialty_id", nullable = false)
     // private Specialty specialty;
 
+    // @NotNull
+    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "user_id", nullable = false)
+    // private User user;
+    
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)
