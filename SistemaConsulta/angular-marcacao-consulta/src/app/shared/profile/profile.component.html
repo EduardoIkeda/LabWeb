@@ -1,0 +1,12 @@
+<mat-card class="card" appearance="outlined">
+  <mat-card-header>
+    <div
+      mat-card-avatar
+      class="custom-avatar"
+      [ngStyle]="{ 'background-image': 'url(' + avatarUrl + ')' }"
+    ></div>
+    <mat-card-title class="margin-auto">Olá, {{ name }}</mat-card-title>
+    <mat-card-subtitle class="thin"> Número SUS: {{ susNumber }}</mat-card-subtitle>
+    <mat-card-subtitle class="thin"> Status: {{ status }}</mat-card-subtitle>
+  </mat-card-header>
+</mat-card>
