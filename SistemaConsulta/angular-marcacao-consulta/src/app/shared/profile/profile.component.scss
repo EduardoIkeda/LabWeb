@@ -1,17 +1,27 @@
+@import '../../../styles.scss';
+
 .card
 {
-  max-width: 400px;
-  padding: 10px;
+  max-width: 300px;
+  background-color: $white-color;
 }
 
 .custom-avatar {
   background-size: cover;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
+}
+
+.name
+{
+  font-size: $font-size-medium;
+  font-weight: $font-semibold;
+  margin-bottom: $spacing-small;
 }
 
 .thin
 {
-  font-weight: 400;
+  font-size: $font-size-small;
+  font-weight: $font-regular;
 }
 
