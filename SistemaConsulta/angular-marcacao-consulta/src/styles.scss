@@ -6,6 +6,7 @@ $white-color: #f9ffff;
 $black-color: #282c2f;
 $gray-color: #777d84;
 $light-gray-color: #eef2fa;
+$transparent: transparent;
 
 $spacing-small: 8px;
 $spacing-medium: 16px;
@@ -25,9 +26,9 @@ $font-size-xlarge: 48px;
 html,
 body {
   height: 100%;
-  width: 90%;
-  max-width: 2000px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {

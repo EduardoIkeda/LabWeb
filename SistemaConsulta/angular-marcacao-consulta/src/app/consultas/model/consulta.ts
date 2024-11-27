@@ -1,9 +1,11 @@
 export class Consulta {
   id: string;
-  paciente: string;
-  medico: string;
-  data: Date;
-  especialidade: string;
+  patientName: string;
+  doctorName: string;
+  date: Date;
+  specialization: string;
+  isTomorrow: boolean = false;
+  isFinalized: boolean = false;
 
   constructor(
     id: string,
@@ -13,21 +15,9 @@ export class Consulta {
     especialidade: string
   ) {
     this.id = id;
-    this.paciente = paciente;
-    this.medico = medico;
-    this.data = data;
-    this.especialidade = especialidade;
-  }
-
-  isTomorrow(): boolean {
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
-    return this.data.getDate() === tomorrow.getDate();
-  }
-
-  isCompleted(): boolean {
-    const now = new Date();
-    return this.data.getTime() < now.getTime();
+    this.patientName = paciente;
+    this.doctorName = medico;
+    this.date = data;
+    this.specialization = especialidade;
   }
 }

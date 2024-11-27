@@ -1,11 +1,11 @@
 <mat-card appearance="outlined" class="card-container">
   <div class="card-content">
     <div class="card-left">
-      <div class="specialty">{{ consulta.especialidade }}</div>
-      <div class="date">{{ consulta.data | date : "short" }}</div>
+      <div class="specialty">{{ consulta.specialization }}</div>
+      <div class="date">{{ consulta.date | date : "short" }}</div>
     </div>
     <div class="card-right">
-      <div *ngIf="consulta.isTomorrow(); else showButtons">
+      <div *ngIf="consulta.isTomorrow; else showButtons">
         <mat-card-actions>
           <p class="title">Amanhã</p>
         </mat-card-actions>
@@ -18,7 +18,7 @@
             type="button"
             class="button button-reschedule"
             (click)="onReschedule($event)"
-            [disabled]="consulta.isCompleted()"
+            [disabled]="consulta.isFinalized"
           >
             <mat-icon>calendar_month</mat-icon>
           </button>
@@ -28,7 +28,7 @@
             type="button"
             class="button button-cancel"
             (click)="onCancel($event)"
-            [disabled]="consulta.isCompleted()"
+            [disabled]="consulta.isFinalized"
           >
             <mat-icon>close</mat-icon>
           </button>

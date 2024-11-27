@@ -1,15 +1,9 @@
 // consultas.component.ts
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import {
-  MatNativeDateModule,
-  provideNativeDateAdapter,
-} from '@angular/material/core';
-import {
-  MatCalendarCellClassFunction,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
 
 import { Consulta } from '../model/consulta';
 import { ConsultaItemComponent } from './consulta-item/consulta-item.component';
@@ -22,18 +16,21 @@ import { ConsultaItemComponent } from './consulta-item/consulta-item.component';
     MatCardModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    CommonModule,
+    CommonModule
   ],
   templateUrl: './consultas.component.html',
   styleUrls: ['./consultas.component.scss'],
 })
-export class ConsultasComponent {
+export class ConsultasComponent implements OnInit {
+
+  dateList: Date[] = [];
+
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
-    // Only highligh dates inside the month view.
     if (view === 'month') {
       const date = cellDate.getDate();
 
-      return date === 1 || date === 25 ? 'example-custom-date-class' : '';
+      return this.dateList.some((d) => d.getDate() === date) ? 'example-custom-date-class' : '';
+      //return date === 1 || date === 25 ? 'example-custom-date-class' : '';
     }
 
     return '';
@@ -64,6 +61,10 @@ export class ConsultasComponent {
   ];
 
   constructor() {}
+
+  ngOnInit() {
+    this.dateList = this.consultas.map((consulta) => consulta.date);
+  }
 
   onReschedule(consulta: Consulta) {
     console.log('Reschedule id:', consulta);

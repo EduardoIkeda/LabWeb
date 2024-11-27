@@ -8,6 +8,7 @@
   min-width: 320px;
   padding: $spacing-small;
   margin-bottom: $spacing-small;
+  border-style: none;
 }
 
 .card-content {
@@ -52,12 +53,22 @@
   @extend .button;
   background-color: $primary-color;
   color: $white-color;
+
+  &:disabled {
+    background-color: $gray-color;
+    color: $white-color;
+  }
 }
 
 .button-cancel {
   @extend .button;
   background-color: $warning-color;
   color: $white-color;
+
+  &:disabled {
+    background-color: $gray-color;
+    color: $white-color;
+  }
 }
 
 .title {

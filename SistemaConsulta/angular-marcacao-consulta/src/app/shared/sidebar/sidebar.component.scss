@@ -1,0 +1,42 @@
+@import "../../../styles.scss";
+
+.sidebar {
+  width: 100%;
+  height: 100vh;
+  background-color: $white-color;
+  border-style: none;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+.logo {
+  height: 120px;
+  margin: auto;
+  margin-top: $spacing-medium;
+  margin-bottom: 20px;
+}
+
+.sidebar-button {
+  width: 80%;
+  margin: auto;
+  margin-top: $spacing-small;
+  margin-bottom: $spacing-small;
+  font-size: $font-size-medium;
+}
+
+::ng-deep .sidebar-button-logout {
+  @extend .sidebar-button;
+
+  margin-top: auto;
+  margin-bottom: $spacing-small;
+  color: $warning-color !important;
+
+  &:hover {
+    background-color: rgba($warning-color, 0.2) !important;
+  }
+}
