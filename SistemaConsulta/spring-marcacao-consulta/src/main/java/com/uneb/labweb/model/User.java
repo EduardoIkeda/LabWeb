@@ -1,10 +1,18 @@
 package com.uneb.labweb.model;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import com.uneb.labweb.enums.Role;
 import com.uneb.labweb.enums.Status;
+import com.uneb.labweb.enums.converters.RoleConverter;
 import com.uneb.labweb.enums.converters.StatusConverter;
 
 import jakarta.persistence.Column;
@@ -25,7 +33,7 @@ import lombok.Data;
 @Entity
 @SQLDelete(sql = "UPDATE users SET status = 'Inativo' WHERE id = ?")
 @SQLRestriction("status = 'Ativo'")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -65,6 +73,11 @@ public class User {
     @Column(length = 100, nullable = false)
     private String password;
 
+    @NotNull
+    @Column(length = 10, nullable = false)
+    @Convert(converter = RoleConverter.class)
+    private Role role;
+
     // @Valid
     // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     // private List<Appointment> appointments = new ArrayList<>();
@@ -80,4 +93,33 @@ public class User {
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)
     private Status status = Status.ACTIVE;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return switch (this.role) {
+            case Role.ADMIN -> List.of(
+                new SimpleGrantedAuthority("ROLE_ADMIN"),
+                new SimpleGrantedAuthority("ROLE_DOCTOR"),
+                new SimpleGrantedAuthority("ROLE_CITIZEN")
+            );
+            case Role.DOCTOR -> List.of(
+                new SimpleGrantedAuthority("ROLE_DOCTOR"),
+                new SimpleGrantedAuthority("ROLE_CITIZEN")
+            );
+            default -> List.of(
+                new SimpleGrantedAuthority("ROLE_CITIZEN")
+            );
+        };
+    }
+
+    @Override
+    public String getUsername() {
+        return susCardNumber;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
 }

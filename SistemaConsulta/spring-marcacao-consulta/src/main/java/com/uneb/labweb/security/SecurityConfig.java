@@ -18,11 +18,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomUserDetailsService userDetailsService;
     private final SecurityFilter securityFilter;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService, SecurityFilter securityFilter) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(SecurityFilter securityFilter) {
         this.securityFilter = securityFilter;
     }
 
@@ -35,8 +33,23 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/h2-console/**").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+
+                        // .requestMatchers("/api/appointments").hasRole("DOCTOR")
+                        // .requestMatchers("/api/doctors").hasRole("ADMIN")
+                        // .requestMatchers("/api/health-centers").hasRole("ADMIN")
+                        // .requestMatchers("/api/penalties").hasRole("ADMIN")
+                        // .requestMatchers("/api/specialties").hasRole("ADMIN")
+
+                        // // User entity permissions
+                        // .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
+                        // .requestMatchers(HttpMethod.GET, "/api/users/{id}").hasRole("ADMIN")
+                        // .requestMatchers(HttpMethod.POST, "/api/users").hasRole("ADMIN")
+                        // .requestMatchers(HttpMethod.PUT, "/api/users/{id}").hasRole("ADMIN")
+                        // .requestMatchers(HttpMethod.DELETE, "/api/users/{id}").hasRole("ADMIN")
+                        
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

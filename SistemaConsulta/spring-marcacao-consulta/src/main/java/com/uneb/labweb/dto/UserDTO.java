@@ -2,6 +2,9 @@ package com.uneb.labweb.dto;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.uneb.labweb.enums.Role;
+import com.uneb.labweb.enums.validation.ValueOfEnum;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -35,7 +38,12 @@ public record UserDTO(
 
         @NotBlank 
         @Length(min = 5, max = 100) 
-        String password
+        String password,
+
+        @NotBlank 
+        @Length(min = 3, max = 10)
+        @ValueOfEnum(enumClass = Role.class)
+        String role
 ) {
     
 }

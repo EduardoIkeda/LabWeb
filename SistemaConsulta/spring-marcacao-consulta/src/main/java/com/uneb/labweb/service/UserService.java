@@ -63,6 +63,7 @@ public class UserService {
             newUser.setPhone(body.phone());
             newUser.setEmail(body.email());
             newUser.setPassword(passwordEncoder.encode(body.password()));
+            newUser.setRole(userMapper.convertRoleValue(body.role()));
             userRepository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
@@ -100,6 +101,7 @@ public class UserService {
                     recordFound.setPhone(userDTO.phone());
                     recordFound.setEmail(userDTO.email());
                     recordFound.setPassword(passwordEncoder.encode(userDTO.password()));
+                    recordFound.setRole(userMapper.convertRoleValue(userDTO.role()));
                     
                     return userMapper.toDTO(userRepository.save(recordFound));
                 })
