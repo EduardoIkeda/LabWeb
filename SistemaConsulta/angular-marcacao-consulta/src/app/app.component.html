@@ -4,7 +4,7 @@
   </mat-drawer>
 
   <div class="sidenav-content">
-    <app-topbar [drawer]="drawer"></app-topbar>
+    <app-topbar [drawer]="drawer" [isRouterAuth]="isRouteAuth()"></app-topbar>
     <router-outlet></router-outlet>
   </div>
 </mat-drawer-container>
