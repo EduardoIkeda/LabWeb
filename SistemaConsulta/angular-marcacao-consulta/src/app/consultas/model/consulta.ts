@@ -9,15 +9,19 @@ export class Consulta {
 
   constructor(
     id: string,
-    paciente: string,
-    medico: string,
-    data: Date,
-    especialidade: string
+    patientName: string,
+    doctorName: string,
+    date: Date,
+    specialization: string,
+    isTomorrow: boolean,
+    isFinalized: boolean
   ) {
     this.id = id;
-    this.patientName = paciente;
-    this.doctorName = medico;
-    this.date = data;
-    this.specialization = especialidade;
+    this.patientName = patientName;
+    this.doctorName = doctorName;
+    this.date = date;
+    this.specialization = specialization;
+    this.isTomorrow = isTomorrow;
+    this.isFinalized = isFinalized;
   }
 }
