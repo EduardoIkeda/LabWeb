@@ -44,7 +44,7 @@ public class UserService {
                 .map(user -> {
                     if(passwordEncoder.matches(body.password(), user.getPassword())) {
                         String token = this.tokenService.generateToken(user);
-                        return ResponseEntity.ok(new AuthResponseDTO(user.getName(), token));
+                        return ResponseEntity.ok(new AuthResponseDTO(user.getName(), user.getRole().getValue(), token));
                     }
                     
                     return ResponseEntity.badRequest().build();
@@ -67,7 +67,7 @@ public class UserService {
             userRepository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new AuthResponseDTO(newUser.getName(), token));
+            return ResponseEntity.ok(new AuthResponseDTO(newUser.getName(), newUser.getRole().getValue(), token));
         }
         return ResponseEntity.badRequest().build();
     }

@@ -9,5 +9,5 @@ export const AUTH_ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: "teste", component: TesteComponent, canActivate: [AuthGuard] }
+  { path: 'teste', component: TesteComponent, canActivate: [AuthGuard], data: { role: 'citizen' } }
 ];
