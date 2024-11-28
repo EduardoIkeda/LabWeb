@@ -1,0 +1,42 @@
+@import '../../../styles.scss';
+
+.card {
+  display: flex;
+  max-width: 300px;
+  background-color: $transparent;
+  border-style: none;
+  box-shadow: none;
+}
+
+.custom-avatar {
+  background-size: cover;
+  width: 80px;
+  height: 80px;
+}
+
+.name {
+  @extend .text;
+
+  font-size: $font-size-medium !important;
+  font-weight: $font-semibold !important;
+  margin-top: auto;
+  margin-bottom: $spacing-small;
+}
+
+.text {
+  font-size: $font-size-small;
+  font-weight: $font-regular;
+  color: $white-color;
+  text-align: left;
+}
+
+.profile-button {
+  cursor: pointer;
+  background: none;
+  height: fit-content;
+
+  &:hover {
+    background-color: rgba($white-color, 0.2);
+    border-radius: 10px;
+  }
+}

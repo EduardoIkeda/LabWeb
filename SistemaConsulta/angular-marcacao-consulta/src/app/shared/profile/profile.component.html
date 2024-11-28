@@ -1,0 +1,14 @@
+<button mat-button class="profile-button">
+  <mat-card class="card" appearance="outlined">
+    <mat-card-header>
+      <div
+        mat-card-avatar
+        class="custom-avatar"
+        [ngStyle]="{ 'background-image': 'url(' + avatarUrl + ')' }"
+      ></div>
+      <mat-card-title class="name">Olá, {{ name }}</mat-card-title>
+      <mat-card-subtitle class="text"> Número SUS: {{ susNumber }}</mat-card-subtitle>
+      <mat-card-subtitle class="text"> Status: {{ status }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</button>

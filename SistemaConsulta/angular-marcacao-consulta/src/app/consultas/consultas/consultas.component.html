@@ -1,0 +1,19 @@
+<mat-card class="card-content">
+  <mat-card-header>
+    <mat-card-title class="card-title">Suas Consultas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <div class="card-left">
+      <div *ngFor="let consulta of consultas">
+        <app-consulta-item
+          [consulta]="consulta"
+          (reschedule)="onReschedule(consulta)"
+          (cancel)="onCancel(consulta)"
+        ></app-consulta-item>
+      </div>
+    </div>
+    <div class="card-right calendar">
+      <mat-calendar [dateClass]="dateClass" ngSkipHydration></mat-calendar>
+    </div>
+  </mat-card-content>
+</mat-card>

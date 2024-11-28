@@ -1,0 +1,29 @@
+@import '../../../styles.scss';
+
+.profile {
+  margin: auto;
+  margin-right: $spacing-small;
+}
+
+.logo-sus {
+  height: 80px;
+  margin: auto;
+  margin-left: $spacing-large;
+}
+
+.top-bar {
+  background-color: $primary-color;
+  display: flex;
+  height: 120px;
+  color: $white-color;
+}
+
+.menu-button {
+  background-color: $white-color;
+  color: $primary-color;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin: auto;
+  margin-left: 0;
+  margin-right: 0;
+}

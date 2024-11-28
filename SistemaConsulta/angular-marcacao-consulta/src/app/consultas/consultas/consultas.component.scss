@@ -1,0 +1,72 @@
+@import '../../../styles.scss';
+
+.card {
+  box-shadow: none;
+  height: 100vh;
+  width: 50%;
+  background-color: $light-gray-color;
+  box-sizing: border-box;
+  padding-right: $spacing-medium;
+  padding-left: $spacing-medium;
+}
+
+.card-title {
+  font-size: $font-size-xlarge;
+  font-weight: $font-bold;
+  margin-bottom: $spacing-large;
+  line-height: 40px;
+  margin-top: $spacing-medium;
+}
+
+.card-content {
+  @extend .card;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  min-width: 320px;
+}
+
+.card-left {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.card-right {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  width: 100%;
+  margin-left: $spacing-medium;
+}
+
+.calendar {
+  background-color: $white-color;
+  height: fit-content;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+::ng-deep .example-custom-date-class {
+  background-color: $primary-color-light !important;
+  border-radius: 100%;
+}
+
+@media (max-width: 960px) {
+  .card-content {
+    flex-direction: column;
+    justify-content: flex-start;
+    min-width: 320px;
+  }
+
+  .card-left,
+  .card-right {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .card-right {
+    margin: auto;
+    margin-top: $spacing-medium;
+  }
+}

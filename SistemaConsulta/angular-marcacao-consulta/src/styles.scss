@@ -1,5 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+$primary-color: #2594fc;
+$primary-color-light: #41c0fd;
+$secondary-color: #5be0ac;
+$warning-color: #d84c4c;
+$white-color: #f9ffff;
+$black-color: #282c2f;
+$gray-color: #777d84;
+$light-gray-color: #eef2fa;
+$transparent: transparent;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$spacing-small: 8px;
+$spacing-medium: 16px;
+$spacing-large: 24px;
+$spacing-xlarge: 32px;
 
+$font-bold: 700;
+$font-semibold: 500;
+$font-regular: 400;
+$font-light: 300;
+
+$font-size-small: 12px;
+$font-size-medium: 16px;
+$font-size-large: 24px;
+$font-size-xlarge: 48px;
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: $light-gray-color;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
