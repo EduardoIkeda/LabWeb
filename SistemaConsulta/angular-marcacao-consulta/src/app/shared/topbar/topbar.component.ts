@@ -1,7 +1,7 @@
-import { User } from './../../auth/model/user';
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+
 import { ProfileComponent } from '../profile/profile.component';
 
 @Component({

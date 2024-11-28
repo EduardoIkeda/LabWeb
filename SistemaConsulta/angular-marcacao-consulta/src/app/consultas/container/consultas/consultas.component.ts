@@ -2,16 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
-import {
-  MatCalendarCellClassFunction,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
 
 import { ConsultaItemComponent } from '../../components/consulta-item/consulta-item.component';
 import { Consulta } from '../../model/consulta';
 import { ConsultasService } from './../../service/consultas.service';
-import { tap } from 'rxjs';
-import { get } from 'http';
 
 @Component({
   selector: 'app-consultas',

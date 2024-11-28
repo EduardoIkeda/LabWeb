@@ -25,20 +25,20 @@ export class ProfileComponent {
   @Output() profileClicked = new EventEmitter<void>();
 
   get name(): string {
-    return this.user.name || 'John Doe';
+    return this.user?.name || 'John Doe';
   }
 
   get susNumber(): string {
-    return this.user.susCardNumber || '1234567890';
+    return this.user?.susCardNumber || '1234567890';
   }
 
   get status(): string {
-    return this.user.status || 'Active';
+    return this.user?.status || 'Active';
   }
 
   get avatarUrl(): string {
     return (
-      this.user.avatarUrl ||
+      this.user?.avatarUrl ||
       'https://material.angular.io/assets/img/examples/shiba1.jpg'
     );
   }
