@@ -1,0 +1,35 @@
+@import "../../../styles.scss";
+
+.card-container {
+  display: flex;
+  background-color: $light-gray-color;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 100%;
+  min-width: 320px;
+  padding: $spacing-small;
+  border-style: none;
+  box-shadow: none;
+}
+
+.card-content {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.card-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 70%;
+  margin-left: $spacing-small;
+}
+
+.card-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+}

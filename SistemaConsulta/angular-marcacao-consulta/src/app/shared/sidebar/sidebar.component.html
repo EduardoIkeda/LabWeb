@@ -5,13 +5,13 @@
       alt="Logo da Prefeitura de Salvador"
       class="logo"
     />
-    <button mat-button class="sidebar-button">
+    <button mat-button class="sidebar-button" (click)="goToPage('/consultas/list')">
       <mat-icon>home</mat-icon> Início
     </button>
     <button mat-button class="sidebar-button">
       <mat-icon>person</mat-icon> Meu perfil
     </button>
-    <button mat-button class="sidebar-button">
+    <button mat-button class="sidebar-button" (click)="goToPage('/consultas/create')">
       <mat-icon>calendar_today</mat-icon> Marcar consulta
     </button>
     <button mat-button class="sidebar-button-logout">
