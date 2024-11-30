@@ -1,13 +1,10 @@
 package com.uneb.labweb.security;
 
-import java.util.ArrayList;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.uneb.labweb.model.User;
 import com.uneb.labweb.repository.UserRepository;
 
 @Component
@@ -21,9 +18,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = this.userRepository.findBySusCardNumber(login)
+        return this.userRepository.findBySusCardNumber(login)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return new org.springframework.security.core.userdetails.User(user.getSusCardNumber(), user.getPassword(), new ArrayList<>());
     }
 }

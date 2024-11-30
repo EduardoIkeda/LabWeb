@@ -9,4 +9,6 @@ export interface User {
   phone: string
   email: string;
   password: string;
+  status: string;
+  avatarUrl: string;
 }

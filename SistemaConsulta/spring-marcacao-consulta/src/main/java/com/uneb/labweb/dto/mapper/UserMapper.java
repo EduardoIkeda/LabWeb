@@ -3,6 +3,7 @@ package com.uneb.labweb.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.uneb.labweb.dto.UserDTO;
+import com.uneb.labweb.enums.Role;
 import com.uneb.labweb.model.User;
 
 @Component
@@ -13,7 +14,7 @@ public class UserMapper {
             return null;
         }
 
-        return new UserDTO(user.getId(), user.getSusCardNumber(), user.getName(), user.getCpf(), user.getPhone(), user.getEmail(), user.getPassword());
+        return new UserDTO(user.getId(), user.getSusCardNumber(), user.getName(), user.getCpf(), user.getPhone(), user.getEmail(), user.getPassword(), user.getRole().getValue());
     }
 
     public User toEntity(UserDTO userDTO) {
@@ -32,7 +33,20 @@ public class UserMapper {
         user.setPhone(userDTO.phone());
         user.setEmail(userDTO.email());
         user.setPassword(userDTO.password());
+        user.setRole(convertRoleValue(userDTO.role()));        
         
         return user;
-    }   
+    }
+    
+    public Role convertRoleValue(String value) {
+        if (value == null) {
+            return null;
+        }
+        return switch (value) {
+            case "admin" -> Role.ADMIN;
+            case "doctor" -> Role.DOCTOR;
+            case "citizen" -> Role.CITIZEN;
+            default -> throw new IllegalArgumentException("Role inválido: " + value);
+        };    
+    }
 }

@@ -44,7 +44,7 @@ public class UserService {
                 .map(user -> {
                     if(passwordEncoder.matches(body.password(), user.getPassword())) {
                         String token = this.tokenService.generateToken(user);
-                        return ResponseEntity.ok(new AuthResponseDTO(user.getName(), token));
+                        return ResponseEntity.ok(new AuthResponseDTO(user.getName(), user.getRole().getValue(), token));
                     }
                     
                     return ResponseEntity.badRequest().build();
@@ -63,10 +63,11 @@ public class UserService {
             newUser.setPhone(body.phone());
             newUser.setEmail(body.email());
             newUser.setPassword(passwordEncoder.encode(body.password()));
+            newUser.setRole(userMapper.convertRoleValue(body.role()));
             userRepository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new AuthResponseDTO(newUser.getName(), token));
+            return ResponseEntity.ok(new AuthResponseDTO(newUser.getName(), newUser.getRole().getValue(), token));
         }
         return ResponseEntity.badRequest().build();
     }
@@ -100,6 +101,7 @@ public class UserService {
                     recordFound.setPhone(userDTO.phone());
                     recordFound.setEmail(userDTO.email());
                     recordFound.setPassword(passwordEncoder.encode(userDTO.password()));
+                    recordFound.setRole(userMapper.convertRoleValue(userDTO.role()));
                     
                     return userMapper.toDTO(userRepository.save(recordFound));
                 })

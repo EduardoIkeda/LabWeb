@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
-import { ProfileComponent } from './shared/profile/profile.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { Router, RouterOutlet } from '@angular/router';
+
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { TopbarComponent } from './shared/topbar/topbar.component';
 
 @Component({
@@ -24,4 +24,11 @@ import { TopbarComponent } from './shared/topbar/topbar.component';
 export class AppComponent {
   title = 'angular-marcacao-consulta';
   showFiller = false;
+
+  constructor(public router: Router) {}
+
+  isRouteAuth() {
+    return this.router.url.includes('auth');
+  }
+
 }
