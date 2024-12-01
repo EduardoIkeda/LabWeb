@@ -40,7 +40,21 @@
   margin-left: $spacing-medium;
 }
 
-@media (max-width: 960px) {
+.form-field {
+  width: 120px;
+  height: 70px;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-left: $spacing-large;
+}
+
+.chart{
+  padding-top: $spacing-small;
+  padding-bottom: $spacing-small;
+}
+
+@media (max-width: 1200px) {
   .card-content {
     flex-direction: column;
     justify-content: flex-start;
