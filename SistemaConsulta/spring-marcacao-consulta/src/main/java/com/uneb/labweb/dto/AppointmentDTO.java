@@ -2,6 +2,9 @@ package com.uneb.labweb.dto;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.uneb.labweb.enums.AppointmentStatus;
+import com.uneb.labweb.enums.validation.ValueOfEnum;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -13,7 +16,10 @@ public record AppointmentDTO(
         @Length(min = 16, max = 16)
         String appointmentDateTime,
         
-        Boolean attended
+        @NotBlank
+        @Length(min = 6, max = 10)
+        @ValueOfEnum(enumClass = AppointmentStatus.class)
+        String appointmentStatus
 ) {
 
 }

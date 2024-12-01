@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.uneb.labweb.enums.AppointmentStatus;
 import com.uneb.labweb.enums.Status;
+import com.uneb.labweb.enums.converters.AppointmentStatusConverter;
 import com.uneb.labweb.enums.converters.StatusConverter;
 
 import jakarta.persistence.Column;
@@ -33,8 +35,10 @@ public class Appointment {
     @Column(length = 25, nullable = false)
     private LocalDateTime appointmentDateTime;
 
-    @Column(nullable = true)
-    private Boolean attended;
+    @NotNull
+    @Column(length = 10, nullable = false)
+    @Convert(converter = AppointmentStatusConverter.class)
+    private AppointmentStatus appointmentStatus;
 
     // @NotNull
     // @ManyToOne(fetch = FetchType.LAZY, optional = false)

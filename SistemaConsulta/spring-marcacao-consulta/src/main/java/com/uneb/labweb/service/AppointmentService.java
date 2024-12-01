@@ -48,7 +48,7 @@ public class AppointmentService {
         return appointmentRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setAppointmentDateTime(appointmentMapper.parseDateTime(appointmentDTO.appointmentDateTime()));
-                    recordFound.setAttended(appointmentDTO.attended());
+                    recordFound.setAppointmentStatus(appointmentMapper.convertAppointmentStatusValue(appointmentDTO.appointmentStatus()));
 
                     return appointmentMapper.toDTO(appointmentRepository.save(recordFound));
                 })
