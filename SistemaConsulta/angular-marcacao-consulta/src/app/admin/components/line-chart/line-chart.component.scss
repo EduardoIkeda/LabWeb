@@ -1,0 +1,32 @@
+@import '../../../../styles.scss';
+
+.title {
+  font-size: $font-size-large;
+  font-weight: $font-semibold;
+}
+
+.content {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.chart {
+  @extend .content;
+  height: 100% !important;
+}
+
+.ngx-charts-outer {
+  @extend .content;
+  height: 400px !important; // Esse valor precisa ser configurado fixo para evitar bugs
+}
+
+@media (max-width: 1200px) {
+  .content {
+    flex-direction: column;
+    justify-content: flex-start;
+    min-width: 320px;
+  }
+}
