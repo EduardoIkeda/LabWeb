@@ -5,6 +5,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import { EspecialidadeItemComponent } from "./especialidade-item/especialidade-item.component";
+import { EspecialidadesService } from './services/especialidades.service';
 
 @Component({
   selector: 'app-especialidades',
@@ -18,31 +19,25 @@ export class EspecialidadesComponent implements OnInit{
   displayedSpeciality!: Especialidade[];
   query!: string;
 
-  especialidades: Especialidade[] = [
-    new Especialidade(
-      '0',
-      'Cardiologista',
-      'Cuida do coração'
-    ),
-    new Especialidade(
-      '1',
-      'Oftamologista',
-      'Cuida dos olhos'
-    ),
-    new Especialidade(
-      '2',
-      'Nutricionista',
-      'Te deixa fit'
-    ),
-    new Especialidade(
-      '3',
-      'Clínico geral',
-      'Cuidado de você'
-    ),
-  ];
+  especialidades: Especialidade[] = [];
+
+  constructor(private readonly especialidadesService: EspecialidadesService) {
+  }
 
   ngOnInit(): void {
+    this.loadEspecialidades();
     this.displayedSpeciality = this.especialidades.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  loadEspecialidades() {
+    this.especialidadesService.list().subscribe({
+      next: (especialidades) => {
+        this.especialidades = especialidades.map((especialidades) => ({
+          ...especialidades
+        }));
+      },
+      error: (error) => console.error('Error:', error),
+    });
   }
 
   onChange(event: any){

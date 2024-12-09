@@ -1,0 +1,22 @@
+[
+  {
+    "id": "0",
+    "name": "Cardiologista",
+    "description": "Cuida do coração"
+  },
+  {
+    "id": "1",
+    "name": "Oftamologista",
+    "description": "Cuida dos olhos"
+  },
+  {
+    "id": "2",
+    "name": "Nutricionista",
+    "description": "Te deixa fit"
+  },
+  {
+    "id": "3",
+    "name": "Clínico geral",
+    "description": "Cuida de você"
+  }
+]
