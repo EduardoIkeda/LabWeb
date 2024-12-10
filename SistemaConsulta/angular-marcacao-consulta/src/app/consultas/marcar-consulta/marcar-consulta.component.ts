@@ -5,11 +5,12 @@ import { Especialidade } from '../model/especialidade';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { PostosComponent } from './postos/postos.component';
 
 @Component({
   selector: 'app-marcar-consulta',
   standalone: true,
-  imports: [EspecialidadesComponent, MatIconModule, MatButtonModule, MatCardModule],
+  imports: [EspecialidadesComponent, MatIconModule, MatButtonModule, MatCardModule, PostosComponent],
   templateUrl: './marcar-consulta.component.html',
   styleUrl: './marcar-consulta.component.scss'
 })

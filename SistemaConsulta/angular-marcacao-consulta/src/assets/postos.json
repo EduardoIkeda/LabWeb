@@ -1,0 +1,20 @@
+[
+  {
+    "id": "0",
+    "name": "Pituba",
+    "address": "Av. Num sei das quantas",
+    "appointments": 10
+  },
+  {
+    "id": "1",
+    "name": "Itinga",
+    "address": "Av. ABCD",
+    "appointments": 5
+  },
+  {
+    "id": "2",
+    "name": "Stella Maris",
+    "address": "Av. ECV Colossal",
+    "appointments": 20
+  }
+]
