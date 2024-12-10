@@ -5,6 +5,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import { EspecialidadeItemComponent } from "./especialidade-item/especialidade-item.component";
+import { EspecialidadesService } from './services/especialidades.service';
 
 @Component({
   selector: 'app-especialidades',
@@ -15,34 +16,26 @@ import { EspecialidadeItemComponent } from "./especialidade-item/especialidade-i
 })
 export class EspecialidadesComponent implements OnInit{
   @Output() selectSpeciality = new EventEmitter<Especialidade>();
-  displayedSpeciality!: Especialidade[];
+  displayedSpeciality: Especialidade[] = [];
   query!: string;
+  especialidades: Especialidade[] = [];
 
-  especialidades: Especialidade[] = [
-    new Especialidade(
-      '0',
-      'Cardiologista',
-      'Cuida do coração'
-    ),
-    new Especialidade(
-      '1',
-      'Oftamologista',
-      'Cuida dos olhos'
-    ),
-    new Especialidade(
-      '2',
-      'Nutricionista',
-      'Te deixa fit'
-    ),
-    new Especialidade(
-      '3',
-      'Clínico geral',
-      'Cuidado de você'
-    ),
-  ];
+  constructor(private readonly especialidadesService: EspecialidadesService) {
+  }
 
   ngOnInit(): void {
-    this.displayedSpeciality = this.especialidades.sort((a, b) => a.name.localeCompare(b.name));
+    this.loadEspecialidades();
+  }
+
+  loadEspecialidades() {
+    this.especialidadesService.list().subscribe({
+      next: (especialidades) => {
+        this.especialidades = especialidades.map((especialidade) => ({ ...especialidade }));
+        // Após carregar as especialidades, ordene e atribua a displayedSpeciality
+        this.displayedSpeciality = this.especialidades.sort((a, b) => a.name.localeCompare(b.name));
+      },
+      error: (error) => console.error('Error:', error),
+    });
   }
 
   onChange(event: any){
