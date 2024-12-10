@@ -16,9 +16,8 @@ import { EspecialidadesService } from './services/especialidades.service';
 })
 export class EspecialidadesComponent implements OnInit{
   @Output() selectSpeciality = new EventEmitter<Especialidade>();
-  displayedSpeciality!: Especialidade[];
+  displayedSpeciality: Especialidade[] = [];
   query!: string;
-
   especialidades: Especialidade[] = [];
 
   constructor(private readonly especialidadesService: EspecialidadesService) {
@@ -26,15 +25,14 @@ export class EspecialidadesComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadEspecialidades();
-    this.displayedSpeciality = this.especialidades.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   loadEspecialidades() {
     this.especialidadesService.list().subscribe({
       next: (especialidades) => {
-        this.especialidades = especialidades.map((especialidades) => ({
-          ...especialidades
-        }));
+        this.especialidades = especialidades.map((especialidade) => ({ ...especialidade }));
+        // Após carregar as especialidades, ordene e atribua a displayedSpeciality
+        this.displayedSpeciality = this.especialidades.sort((a, b) => a.name.localeCompare(b.name));
       },
       error: (error) => console.error('Error:', error),
     });
