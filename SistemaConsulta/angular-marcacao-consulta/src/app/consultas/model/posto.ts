@@ -1,14 +1,16 @@
+import { Consulta } from "./consulta";
+
 export class Posto {
   id: string;
   name: string;
   address: string;
-  appointments: number;
+  appointments: Consulta[];
 
   constructor(
     id: string,
     name: string,
     address: string,
-    appointments: number
+    appointments: Consulta[]
   ) {
     this.id = id;
     this.name = name;

@@ -5,17 +5,19 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import { PostosService } from './services/postos.service';
+import { PostoItemComponent } from './posto-item/posto-item.component';
 
 @Component({
   selector: 'app-postos',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatIconModule],
+  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatIconModule, PostoItemComponent],
   templateUrl: './postos.component.html',
   styleUrl: './postos.component.scss'
 })
 export class PostosComponent implements OnInit{
+  @Output() selectPosto = new EventEmitter<Posto>();
   postos: Posto[] = [];
-  displayedPostos!: Posto[];
+  displayedPostos: Posto[] = [];
   query!: string;
 
   constructor(private readonly postosService: PostosService) {
@@ -23,15 +25,14 @@ export class PostosComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadPostos();
-    this.displayedPostos = this.postos.sort((a, b) => b.appointments - a.appointments);
   }
 
   loadPostos() {
     this.postosService.list().subscribe({
       next: (postos) => {
-        this.postos = postos.map((postos) => ({
-          ...postos
-        }));
+        this.postos = postos.map((posto) => ({ ...posto }));
+        // Após carregar os postos, ordene e atribua a displayedPostos
+        this.displayedPostos = this.postos.sort((a, b) => b.appointments.length - a.appointments.length);
       },
       error: (error) => console.error('Error:', error),
     });
@@ -48,7 +49,11 @@ export class PostosComponent implements OnInit{
         }
       }
     }else{
-      this.displayedPostos = this.postos.sort((a, b) => a.appointments - b.appointments);
+      this.displayedPostos = this.postos.sort((a, b) => b.appointments.length - a.appointments.length);
     }
+  }
+
+  onSelectPosto(posto: Posto){
+    this.selectPosto.emit(posto);
   }
 }

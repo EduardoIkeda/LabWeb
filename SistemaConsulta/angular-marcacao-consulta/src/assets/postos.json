@@ -3,18 +3,57 @@
     "id": "0",
     "name": "Pituba",
     "address": "Av. Num sei das quantas",
-    "appointments": 10
+    "appointments": [
+      {
+        "id": "1",
+        "patientName": "João",
+        "doctorName": "Dr. Carlos",
+        "date": "2021-12-25T10:30:00",
+        "specialization": "Cardiologia",
+        "isTomorrow": false,
+        "isFinalized": true
+      }
+    ]
   },
   {
     "id": "1",
     "name": "Itinga",
     "address": "Av. ABCD",
-    "appointments": 5
+    "appointments": [
+      {
+        "id": "2",
+        "patientName": "Maria",
+        "doctorName": "Dr. Ana",
+        "date": "2024-12-01T20:00:00",
+        "specialization": "Oftalmologia",
+        "isTomorrow": false,
+        "isFinalized": false
+      }
+    ]
   },
   {
     "id": "2",
     "name": "Stella Maris",
     "address": "Av. ECV Colossal",
-    "appointments": 20
+    "appointments": [
+      {
+        "id": "3",
+        "patientName": "José",
+        "doctorName": "Dr. Pedro",
+        "date": "2024-12-26T08:00:00",
+        "specialization": "Pediatria",
+        "isTomorrow": false,
+        "isFinalized": false
+      },
+      {
+        "id": "2",
+        "patientName": "Maria",
+        "doctorName": "Dr. Ana",
+        "date": "2024-12-01T20:00:00",
+        "specialization": "Oftalmologia",
+        "isTomorrow": false,
+        "isFinalized": false
+      }
+    ]
   }
 ]

@@ -9,12 +9,9 @@
   <p *ngIf="displayedPostos.length == 0">Nenhum posto correspondente</p>
 
   <div *ngFor="let posto of displayedPostos">
-    <!-- <app-posto-item
+    <app-posto-item
       [posto]="posto"
       (select)="onSelectPosto(posto)"
-    ></app-posto-item> -->
-    <p>{{posto.name}}</p>
-    <p>{{posto.address}}</p>
-    <p>{{posto.appointments}}</p>
+    ></app-posto-item>
   </div>
 </div>
