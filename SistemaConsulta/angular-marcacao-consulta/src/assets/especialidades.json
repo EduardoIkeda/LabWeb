@@ -1,22 +1,18 @@
 [
   {
     "id": "0",
-    "name": "Cardiologista",
-    "description": "Cuida do coração"
+    "name": "Cardiologista"
   },
   {
     "id": "1",
-    "name": "Oftamologista",
-    "description": "Cuida dos olhos"
+    "name": "Oftamologista"
   },
   {
     "id": "2",
-    "name": "Nutricionista",
-    "description": "Te deixa fit"
+    "name": "Nutricionista"
   },
   {
     "id": "3",
-    "name": "Clínico geral",
-    "description": "Cuida de você"
+    "name": "Clínico geral"
   }
 ]
