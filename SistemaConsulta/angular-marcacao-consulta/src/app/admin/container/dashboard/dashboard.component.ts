@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { AdvancePieChartComponent } from '../../components/advance-pie-chart/advance-pie-chart.component';
 import { LineChartComponent } from '../../components/line-chart/line-chart.component';
 import { ConsultasReportService } from '../../service/consultas-report.service';
-import { AnosComConsultas } from './../../model/anos-com-consulta';
+import { AnosComConsultas } from '../../model/consultas-report';
 
 @Component({
   selector: 'app-dashboard',

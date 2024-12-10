@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConsultasReport } from '../model/consultas-report';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { Month } from '../../shared/enum/month-enum';
-import { AnosComConsultas } from '../model/anos-com-consulta';
+import { AnosComConsultas, ConsultasReport } from '../model/consultas-report';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +43,11 @@ export class ConsultasReportService {
     return this.http
       .get<any>(this.API)
       .pipe(map((data) => data['AnosComConsultas']));
+  }
+
+  getEspecialidadesMaisConsultadas(): Observable<any[]> {
+    return this.http
+      .get<any>(this.API)
+      .pipe(map((data) => data['EspecialidadesMaisConsultadas']));
   }
 }
