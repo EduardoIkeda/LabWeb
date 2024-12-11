@@ -17,8 +17,7 @@ export class SidebarComponent {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    localStorage.getItem('role');
-    this.isAdmin = localStorage.getItem('role') === 'admin';
+    // this.isAdmin = localStorage.getItem('role') === 'admin';
     this.isAdmin = true; // TODO Remover isso depois
   }
 
