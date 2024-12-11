@@ -1,0 +1,55 @@
+@import '../../../../styles.scss';
+
+.title{
+  font-size: $font-size-xlarge;
+  font-weight: $font-semibold;
+  padding-bottom: $spacing-large;
+}
+
+.card{
+  border-radius: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: $light-gray-color;
+}
+
+.card-form {
+  box-shadow: none;
+  height: fit-content;
+  width: 1200px;
+  box-sizing: border-box;
+  background: $white-color;
+  padding: $spacing-medium;
+  margin: 20px auto; /* This will center the card horizontally */
+}
+
+.form-row {
+  display: flex;
+  gap: $spacing-medium;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-flex {
+  flex: 1;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: $spacing-medium;
+}
+
+@media (max-width: 1200px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .card-form {
+    width: 100%;
+  }
+}
