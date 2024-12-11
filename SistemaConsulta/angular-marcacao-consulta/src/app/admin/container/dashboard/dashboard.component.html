@@ -8,7 +8,9 @@
         [(value)]="selectedYear"
         (selectionChange)="loadConsultasData(selectedYear)"
       >
-        <mat-option *ngFor="let year of getYears()" [value]="year">{{ year }}</mat-option>
+        <mat-option *ngFor="let year of getYears()" [value]="year">{{
+          year
+        }}</mat-option>
       </mat-select>
     </mat-form-field>
   </mat-card-header>
@@ -33,6 +35,13 @@
         ></app-line-chart>
       </div>
     </div>
-    <div class="card-right"></div>
+    <div class="card-right">
+      <div class="chart">
+        <app-ranking-chart
+        [rankingItems]="rankingData"
+        [title]="rankingTitle"
+        ></app-ranking-chart>
+      </div>
+    </div>
   </mat-card-content>
 </mat-card>

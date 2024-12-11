@@ -36,7 +36,6 @@
     }
   ],
 
-
   "ConsultasMarcadasPorMes": [
     {
       "name": "Comparecido",
@@ -51,19 +50,31 @@
       "value": 36745
     }
   ],
-  "AnosComConsultas":
-  [
+  "AnosComConsultas": [
     {
       "year": 2023,
-      "month": [1,2,3,4,5,6,7,8,9,10,11,12]
+      "month": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     },
     {
       "year": 2024,
-      "month": [1,2,3,4,5,6,7,8,9,10,11,12]
+      "month": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     }
   ],
-  "ConsultaEspecialidade":
-  [
+  "NomesPostosDeSaude": [
+    "Posto de Saúde 1",
+    "Posto de Saúde 2",
+    "Posto de Saúde 3",
+    "Posto de Saúde 4"
+  ],
+  "EspecialidadesMaisConsultadasPorPosto": [
+    { "name": "Cardiologia", "value": 1234 },
+    { "name": "Dermatologia", "value": 2345 },
+    { "name": "Ginecologia", "value": 3456 },
+    { "name": "Ortopedia", "value": 4567 },
+    { "name": "Pediatria", "value": 5678 },
+    { "name": "Psiquiatria", "value": 6789 }
+  ],
+  "EspecialidadesMaisConsultadas": [
     {
       "name": "Cardiologia",
       "value": 40632

@@ -1,10 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Month } from '../../shared/enum/month-enum';
-import { AnosComConsultas, ConsultasReport } from '../model/consultas-report';
+import {
+  AnosComConsultas,
+  ConsultasReport,
+  EspecialidadeReport,
+} from '../model/consultas-report';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +19,6 @@ export class ConsultasReportService {
   constructor(private readonly http: HttpClient) {}
 
   // TODO Fazer a requisição selecionando ano pro backend
-
   getConsultasCanceladasNoAno(ano: number): Observable<ConsultasReport[]> {
     return this.http.get<any>(this.API).pipe(
       map((data) => {
@@ -45,9 +48,28 @@ export class ConsultasReportService {
       .pipe(map((data) => data['AnosComConsultas']));
   }
 
-  getEspecialidadesMaisConsultadas(): Observable<any[]> {
-    return this.http
-      .get<any>(this.API)
-      .pipe(map((data) => data['EspecialidadesMaisConsultadas']));
+  getEspecialidadesMaisConsultadas(): Observable<EspecialidadeReport[]> {
+    return this.http.get<any>(this.API).pipe(
+      map((data) =>
+        data['EspecialidadesMaisConsultadas'].map((especialidade: any) => ({
+          nome: especialidade.name,
+          quantidade: especialidade.value,
+        }))
+      )
+    );
+  }
+  getEspecialidadesMaisConsultadasPorPosto(): Observable<
+    EspecialidadeReport[]
+  > {
+    return this.http.get<any>(this.API).pipe(
+      map((data) =>
+        data['EspecialidadesMaisConsultadasPorPosto'].map(
+          (especialidade: any) => ({
+            nome: especialidade.name,
+            quantidade: especialidade.value,
+          })
+        )
+      )
+    );
   }
 }

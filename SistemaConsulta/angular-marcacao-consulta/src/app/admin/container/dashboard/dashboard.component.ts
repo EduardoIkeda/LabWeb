@@ -1,3 +1,4 @@
+import { Especialidade } from './../../../consultas/model/especialidade';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +11,7 @@ import { AdvancePieChartComponent } from '../../components/advance-pie-chart/adv
 import { LineChartComponent } from '../../components/line-chart/line-chart.component';
 import { ConsultasReportService } from '../../service/consultas-report.service';
 import { AnosComConsultas } from '../../model/consultas-report';
+import { RankingChartComponent } from '../../components/ranking-chart/ranking-chart.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +26,7 @@ import { AnosComConsultas } from '../../model/consultas-report';
     MatFormFieldModule,
     MatSelectModule,
     AdvancePieChartComponent,
+    RankingChartComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -43,6 +46,9 @@ export class DashboardComponent implements OnInit {
 
   pieChartTitle = 'Consultas no mês';
   pieChartData: any[] = [];
+
+  rankingTitle: string = 'Especialidades mais consultadas';
+  rankingData: any[] = [];
 
   constructor(private readonly consultasService: ConsultasReportService) {}
 
@@ -69,6 +75,12 @@ export class DashboardComponent implements OnInit {
         this.pieChartData = data;
       });
     this.months = this.getAvailableMonths(year);
+
+    this.consultasService
+      .getEspecialidadesMaisConsultadas()
+      .subscribe((data) => {
+        this.rankingData = data;
+      });
   }
 
   onYearChange(year: number): void {

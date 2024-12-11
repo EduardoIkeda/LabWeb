@@ -9,7 +9,6 @@ export interface Report {
 }
 
 export interface EspecialidadeReport {
-  id: number;
   nome: string;
   quantidade: number;
 }
