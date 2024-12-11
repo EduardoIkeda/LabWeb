@@ -1,0 +1,48 @@
+@import '../../../../styles.scss';
+
+.title {
+  font-size: $font-size-large;
+  font-weight: $font-semibold;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  height: 100%; // Ajuste para ocupar todo o espaço disponível
+}
+
+.column-container {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1; // Permite que o container cresça para ocupar o espaço disponível
+}
+
+.column {
+  flex: 1;
+  margin: 0 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-list {
+  flex-grow: 1; // Permite que a lista cresça para ocupar o espaço disponível na coluna
+}
+
+.item-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.item-name {
+  flex: 1;
+}
+
+.item-score {
+  flex: 1;
+  text-align: right;
+}

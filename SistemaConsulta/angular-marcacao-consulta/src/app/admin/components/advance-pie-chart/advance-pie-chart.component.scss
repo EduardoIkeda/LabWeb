@@ -1,0 +1,79 @@
+@import '../../../../styles.scss';
+
+.header {
+  display: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-large;
+}
+
+.title {
+  font-size: $font-size-large;
+  font-weight: $font-semibold;
+  margin-bottom: $spacing-small;
+}
+
+.form-field {
+  width: 120px;
+  height: 70px;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-left: $spacing-large;
+}
+
+.content {
+  display: flex-start;
+  margin: auto;
+  width: 100%;
+  height: 250px;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.chart {
+  @extend .content;
+  height: 100% !important;
+}
+
+.ngx-charts {
+  @extend .content;
+  height: 250px !important; // Esse valor precisa ser configurado fixo para evitar bugs
+}
+
+.pie {
+  justify-content: center;
+  box-sizing: border-box;
+  margin: auto;
+  max-width: calc(100% - 20px); // Adjust width to account for padding
+  max-height: calc(100% - 20px); // Adjust height to account for padding
+}
+
+::ng-deep .advanced-pie{
+  @extend .pie;
+}
+
+::ng-deep .advanced-pie-legend {
+  @extend .pie;
+  align-items: center;
+}
+
+::ng-deep .legend-items-container {
+  @extend .pie;
+}
+
+::ng-deep .advanced-pie-legend-wrapper {
+  @extend .pie;
+}
+
+::ng-deep .legend-items {
+  @extend .pie;
+
+  box-sizing: border-box;
+  margin-top: 20px;
+  padding: 10px 0 0 0; // Add padding to the top to prevent the font from being cut off
+}
+
+@media (max-width: 1200px) {
+
+}
