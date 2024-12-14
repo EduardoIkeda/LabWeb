@@ -1,7 +1,6 @@
 package com.uneb.labweb.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ public class AppointmentService {
         return appointmentRepository.findAll()
                 .stream()
                 .map(appointmentMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public AppointmentDTO findAppointmentById(@NotNull @Positive Long id) {

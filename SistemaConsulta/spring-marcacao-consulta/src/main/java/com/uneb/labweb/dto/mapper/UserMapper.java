@@ -1,5 +1,6 @@
 package com.uneb.labweb.dto.mapper;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.uneb.labweb.dto.UserDTO;
@@ -8,6 +9,12 @@ import com.uneb.labweb.model.User;
 
 @Component
 public class UserMapper {
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserMapper(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public UserDTO toDTO(User user) {
         if (user == null) {
@@ -32,7 +39,7 @@ public class UserMapper {
         user.setCpf(userDTO.cpf());
         user.setPhone(userDTO.phone());
         user.setEmail(userDTO.email());
-        user.setPassword(userDTO.password());
+        user.setPassword(passwordEncoder.encode(userDTO.password()));
         user.setRole(convertRoleValue(userDTO.role()));        
         
         return user;
