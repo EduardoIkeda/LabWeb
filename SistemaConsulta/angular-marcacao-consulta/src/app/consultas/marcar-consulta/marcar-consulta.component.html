@@ -1,12 +1,19 @@
+<button class="back" mat-flat-button (click)="onBack()" [disabled]="page.includes('especialidade')">Voltar</button>
 <mat-card class="card-container">
   <div class="card-content">
     <div class="card-left">
       <app-especialidades
+      *ngIf="page.includes('especialidade')"
       (selectSpeciality)="onSelectSpeciality($event)"
       ></app-especialidades>
       <app-postos
       (selectPosto)="onSelectPosto($event)"
+      *ngIf="page.includes('posto')"
       ></app-postos>
+      <app-consultas
+      (selectConsulta)="onSelectConsulta($event)"
+      *ngIf="page.includes('consulta')"
+      ></app-consultas>
     </div>
     <div class="card-right">
       <mat-card appearance="outlined" class="resumo-container">
@@ -36,12 +43,13 @@
 
           <div *ngIf="consulta">
             <p><span class="subtitle">Profissional:</span> {{ consulta.doctorName }}</p>
-            <p><span class="subtitle">Data da Consulta:</span> {{ consulta.date }}</p>
+            <p><span class="subtitle">Data e hora da Consulta:</span> {{ consulta.date }}</p>
           </div>
         </div>
         <button mat-flat-button [disabled]="!speciality || !posto || !consulta" (click)="onMarcarConsulta()">Marcar consulta</button>
-        <!-- <button mat-flat-button [disabled]="!speciality || !posto " (click)="onMarcarConsulta()">Marcar consulta</button> -->
       </mat-card>
     </div>
   </div>
 </mat-card>
+
+
