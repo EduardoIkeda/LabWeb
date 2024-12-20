@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Posto } from '../../../model/posto';
+import { Posto } from '../../../../shared/model/posto';
 import { tap } from 'rxjs';
 
 @Injectable({

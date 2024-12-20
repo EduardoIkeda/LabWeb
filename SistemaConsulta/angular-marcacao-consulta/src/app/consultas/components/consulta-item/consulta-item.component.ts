@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-import { Consulta } from '../../model/consulta';
+import { Consulta } from '../../../shared/model/consulta';
 
 @Component({
   selector: 'app-consulta-item',
