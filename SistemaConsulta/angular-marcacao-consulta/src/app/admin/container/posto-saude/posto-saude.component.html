@@ -1,0 +1,13 @@
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title class ="title">Postos de saúde cadastrados</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <app-posto-saude-list
+      [postosSaude]="postos"
+      (add)="onAdd()"
+      (edit)="onEdit($event)"
+      (remove)="onRemove($event)"
+    ></app-posto-saude-list>
+  </mat-card-content>
+</mat-card>
