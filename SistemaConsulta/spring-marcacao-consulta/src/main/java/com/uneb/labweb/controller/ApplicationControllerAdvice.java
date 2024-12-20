@@ -9,7 +9,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.exception.InvalidDayOfWeekException;
+import com.uneb.labweb.exception.RecordAlreadyExistsException;
 import com.uneb.labweb.exception.RecordNotFoundException;
+import com.uneb.labweb.exception.WrongPasswordException;
 
 import jakarta.validation.ConstraintViolationException;
 
@@ -20,8 +22,20 @@ public class ApplicationControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFoundException(RecordNotFoundException ex) {
         return ex.getMessage();
-    }   
+    } 
     
+    @ExceptionHandler(RecordAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleAlreadyExistsException(RecordAlreadyExistsException ex) {
+        return ex.getMessage();
+    }
+    
+    @ExceptionHandler(WrongPasswordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleWrongPasswordException(WrongPasswordException ex) {
+        return ex.getMessage();
+    }
+
     @ExceptionHandler(InvalidDateTimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleInvalidDateTimeException(InvalidDateTimeException ex) {
@@ -55,11 +69,16 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
-        if (ex != null && ex.getRequiredType() != null) {
-            String type = ex.getRequiredType().getName();
-            String[] typeParts = type.split("\\.");
-            String typeName = typeParts[typeParts.length - 1];
-            return ex.getName() + " should be of type " + typeName;
+        if (ex != null) {
+            Class<?> requiredType = ex.getRequiredType();
+
+            if (requiredType != null) {
+                // String typeName = requiredType.getSimpleName();
+                String type = requiredType.getName();
+                String[] typeParts = type.split("\\.");
+                String typeName = typeParts[typeParts.length - 1];
+                return ex.getName() + " should be of type " + typeName;
+            }
         }
         return "Argument type not valid";
     }

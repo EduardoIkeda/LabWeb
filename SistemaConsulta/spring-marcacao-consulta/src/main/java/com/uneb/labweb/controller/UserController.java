@@ -3,7 +3,6 @@ package com.uneb.labweb.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uneb.labweb.dto.AuthRequestDTO;
+import com.uneb.labweb.dto.AuthResponseDTO;
+import com.uneb.labweb.dto.LoginDTO;
+import com.uneb.labweb.dto.RegisterDTO;
 import com.uneb.labweb.dto.TesteDTO;
 import com.uneb.labweb.dto.UserDTO;
 import com.uneb.labweb.service.UserService;
@@ -40,16 +41,16 @@ public class UserController {
         return new TesteDTO("Usuário autenticado!");
     }
 
+    
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid @NotNull AuthRequestDTO authDTO) {
-        return userService.login(authDTO);
+    public AuthResponseDTO login(@RequestBody @Valid @NotNull LoginDTO loginDTO) {
+        return userService.login(loginDTO);
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid @NotNull UserDTO userDTO) {
-        return userService.register(userDTO);
+    public AuthResponseDTO register(@RequestBody @Valid @NotNull RegisterDTO registerDTO) {
+        return userService.register(registerDTO);
     }
-
 
 
     @GetMapping
@@ -62,11 +63,11 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    // @PostMapping
-    // @ResponseStatus(code = HttpStatus.CREATED)
-    // public UserDTO createUser(@RequestBody @Valid @NotNull UserDTO userDTO) {
-    //     return userService.createUser(userDTO);
-    // }
+    @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public UserDTO createUser(@RequestBody @Valid @NotNull UserDTO userDTO) {
+        return userService.createUser(userDTO);
+    }
 
     @PutMapping("/{id}")
     public UserDTO updateUser(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull UserDTO userDTO) {

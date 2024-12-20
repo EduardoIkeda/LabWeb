@@ -1,7 +1,6 @@
 package com.uneb.labweb.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ public class SpecialtyService {
         return specialtyRepository.findAll()
                 .stream()
                 .map(specialtyMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public SpecialtyDTO findSpecialtyById(@NotNull @Positive Long id) {

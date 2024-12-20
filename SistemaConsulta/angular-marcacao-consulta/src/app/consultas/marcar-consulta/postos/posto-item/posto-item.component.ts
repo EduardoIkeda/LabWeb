@@ -1,4 +1,4 @@
-import { Posto } from './../../../model/posto';
+import { Posto } from './../../../../shared/model/posto';
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';

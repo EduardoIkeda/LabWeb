@@ -2,18 +2,20 @@ package com.uneb.labweb.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.uneb.labweb.dto.AuthRequestDTO;
 import com.uneb.labweb.dto.AuthResponseDTO;
+import com.uneb.labweb.dto.LoginDTO;
+import com.uneb.labweb.dto.RegisterDTO;
 import com.uneb.labweb.dto.UserDTO;
 import com.uneb.labweb.dto.mapper.UserMapper;
+import com.uneb.labweb.enums.Role;
+import com.uneb.labweb.exception.RecordAlreadyExistsException;
 import com.uneb.labweb.exception.RecordNotFoundException;
+import com.uneb.labweb.exception.WrongPasswordException;
 import com.uneb.labweb.model.User;
 import com.uneb.labweb.repository.UserRepository;
 import com.uneb.labweb.security.TokenService;
@@ -39,47 +41,46 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public ResponseEntity login(@Valid @NotNull AuthRequestDTO body) {
-        return userRepository.findBySusCardNumber(body.susCardNumber())
+    public AuthResponseDTO login(@Valid @NotNull LoginDTO loginDTO) {
+        return userRepository.findBySusCardNumber(loginDTO.susCardNumber())
                 .map(user -> {
-                    if(passwordEncoder.matches(body.password(), user.getPassword())) {
+                    if(passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
                         String token = this.tokenService.generateToken(user);
-                        return ResponseEntity.ok(new AuthResponseDTO(user.getName(), user.getRole().getValue(), token));
+                        return new AuthResponseDTO(user.getName(), user.getRole().getValue(), token);
                     }
                     
-                    return ResponseEntity.badRequest().build();
+                    throw new WrongPasswordException();
                 })
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(RecordNotFoundException::new);
     }
 
-    public ResponseEntity register(@Valid @NotNull UserDTO body) {
-        Optional<User> user = userRepository.findBySusCardNumber(body.susCardNumber());
+    public AuthResponseDTO register(@Valid @NotNull RegisterDTO registerDTO) {
+        Optional<User> user = userRepository.findBySusCardNumber(registerDTO.susCardNumber());
 
         if(user.isEmpty()) {
             User newUser = new User();
-            newUser.setSusCardNumber(body.susCardNumber());
-            newUser.setName(body.name());
-            newUser.setCpf(body.cpf());            
-            newUser.setPhone(body.phone());
-            newUser.setEmail(body.email());
-            newUser.setPassword(passwordEncoder.encode(body.password()));
-            newUser.setRole(userMapper.convertRoleValue(body.role()));
+            newUser.setSusCardNumber(registerDTO.susCardNumber());
+            newUser.setName(registerDTO.name());
+            newUser.setCpf(registerDTO.cpf());            
+            newUser.setPhone(registerDTO.phone());
+            newUser.setEmail(registerDTO.email());
+            newUser.setPassword(passwordEncoder.encode(registerDTO.password()));
+            newUser.setRole(Role.CITIZEN);
             userRepository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new AuthResponseDTO(newUser.getName(), newUser.getRole().getValue(), token));
+            return new AuthResponseDTO(newUser.getName(), newUser.getRole().getValue(), token);
         }
-        return ResponseEntity.badRequest().build();
+
+        throw new RecordAlreadyExistsException(user.get().getId());
     }
-
-
 
 
     public List<UserDTO> findAllUsers() {
         return userRepository.findAll()
                 .stream()
                 .map(userMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public UserDTO findUserById(@NotNull @Positive Long id) {   
@@ -88,9 +89,15 @@ public class UserService {
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    // public UserDTO createUser(@Valid @NotNull UserDTO userDTO) {
-    //     return userMapper.toDTO(userRepository.save(userMapper.toEntity(userDTO)));
-    // }
+    public UserDTO createUser(@Valid @NotNull UserDTO userDTO) {
+        Optional<User> user = userRepository.findBySusCardNumber(userDTO.susCardNumber());
+        
+        if(user.isEmpty()) {
+            return userMapper.toDTO(userRepository.save(userMapper.toEntity(userDTO)));
+        } 
+        
+        throw new RecordAlreadyExistsException(user.get().getId());
+    }
 
     public UserDTO updateUser(@NotNull @Positive Long id, @Valid @NotNull UserDTO userDTO) {
         return userRepository.findById(id)
