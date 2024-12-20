@@ -21,7 +21,7 @@
         mat-mini-fab
         color="accent"
         aria-label="Adicionar um posto de saúde"
-        class="action-column-header"
+        class="button"
         (click)="onAdd()"
       >
         <mat-icon>add</mat-icon>
@@ -33,6 +33,7 @@
         mat-mini-fab
         color="primary"
         aria-label="Editar posto de saúde"
+        class="button"
         (click)="onEdit(posto)"
       >
         <mat-icon>edit</mat-icon>
@@ -42,10 +43,18 @@
         mat-mini-fab
         color="warn"
         aria-label="Remover posto de saúde"
+        class="button-delete"
         (click)="onRemove(posto)"
       >
         <mat-icon>delete</mat-icon>
       </button>
+
+      <button mat-mini-fab
+        class="button"
+        (click)="onEditDoctor(posto)"
+      >
+          <mat-icon>person</mat-icon>
+        </button>
     </mat-cell>
   </ng-container>
 

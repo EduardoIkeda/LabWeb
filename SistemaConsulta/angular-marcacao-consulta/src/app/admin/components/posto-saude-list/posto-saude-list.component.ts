@@ -28,6 +28,7 @@ export class PostoSaudeListComponent {
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
+  @Output() editDoctor: EventEmitter<PostoSaude> = new EventEmitter<PostoSaude>();
 
   readonly displayedColumns: string[] = ['nome', 'horarioAbertura', 'horarioFechamento', 'actions'];
 
@@ -45,5 +46,9 @@ export class PostoSaudeListComponent {
 
   onRemove(postoSaude: PostoSaude) {
     this.remove.emit(postoSaude);
+  }
+
+  onEditDoctor(postoSaude: PostoSaude) {
+    this.editDoctor.emit(postoSaude);
   }
 }

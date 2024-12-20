@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  ResolveFn,
+  Resolve,
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { PostoSaude } from '../../shared/model/posto-saude';
-import { PostoSaudeService } from '../service/posto-saude.service';
+import { PostoSaudeService } from '../../shared/service/posto-saude.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PostoSaudeResolver {
+export class PostoSaudeResolver implements Resolve<PostoSaude> {
   constructor(private readonly service: PostoSaudeService) {}
 
   resolve(
@@ -21,10 +21,13 @@ export class PostoSaudeResolver {
     if (route.params && route.params['id']) {
       return this.service.loadById(route.params['id']);
     }
-    return of({ id: '', nome: '', endereco: '', especialidades: [], horarioAbertura: '', horarioFechamento: '' });
+    return of({
+      id: '',
+      nome: '',
+      endereco: '',
+      especialidades: [],
+      horarioAbertura: '',
+      horarioFechamento: '',
+    });
   }
 }
-
-export const postoSaudeResolver: ResolveFn<boolean> = (route, state) => {
-  return true;
-};

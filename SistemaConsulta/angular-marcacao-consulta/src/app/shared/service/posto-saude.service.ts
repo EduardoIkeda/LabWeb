@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first } from 'rxjs';
-import { PostoSaude } from '../../shared/model/posto-saude';
+import { first, Observable, of } from 'rxjs';
+import { PostoSaude } from '../model/posto-saude';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +19,18 @@ export class PostoSaudeService {
     );
   }
 
-  loadById(id: string) {
-    return this.httpClient.get<PostoSaude>(`${this.API}/${id}`);
+  loadById(id: string): Observable<PostoSaude> {
+    return of({
+      id: id,
+      nome: 'Fake Posto Saude',
+      endereco: 'Fake Address',
+      telefone: '123456789',
+      horarioAbertura: '08:00',
+      horarioFechamento: '18:00',
+      especialidades: ['Clinica Geral', 'Pediatria']
+    }).pipe(first());
+    //TODO Substitua isso depois que implementar a base de dados
+    this.httpClient.get<PostoSaude>(`${this.API}/${id}`);
   }
 
   save(record: Partial<PostoSaude>) {

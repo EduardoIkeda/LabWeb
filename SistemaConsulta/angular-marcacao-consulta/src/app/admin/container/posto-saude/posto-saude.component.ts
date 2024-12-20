@@ -99,4 +99,8 @@ export class PostoSaudeComponent {
       }
     });
   }
+
+  onEditDoctor(postoSaude: PostoSaude) {
+    this.router.navigate(['editmedico', postoSaude.id], { relativeTo: this.route });
+  }
 }

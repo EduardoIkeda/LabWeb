@@ -1,5 +1,5 @@
 import { horarios } from './../../../../assets/horarios';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,9 +12,9 @@ import {
 } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { PostoSaude } from '../../../../app/shared/model/posto-saude';
 
 @Component({
   selector: 'app-posto-saude-form',
@@ -31,7 +31,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './posto-saude-form.component.html',
   styleUrl: './posto-saude-form.component.scss',
 })
-export class PostoSaudeFormComponent {
+export class PostoSaudeFormComponent implements OnInit {
   nome: string = '';
   endereco: string = '';
   horarioAbertura: string = '';
@@ -48,7 +48,8 @@ export class PostoSaudeFormComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly location: Location,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly route: ActivatedRoute
   ) {
     this.postoSaudeForm = this.fb.group(
       {
@@ -76,6 +77,14 @@ export class PostoSaudeFormComponent {
         validators: this.horarioValidator,
       }
     );
+  }
+
+  ngOnInit(): void {
+    this.route.data.subscribe((data: any) => {
+      if (data.postoSaude) {
+        this.postoSaudeForm.patchValue(data.postoSaude);
+      }
+    });
   }
 
   horarioValidator(formGroup: FormGroup) {
