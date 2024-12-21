@@ -5,29 +5,29 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { PostoSaude } from '../../shared/model/posto-saude';
-import { PostoSaudeService } from '../../shared/service/posto-saude.service';
+import { HealthCenter } from '../../shared/model/health-center';
+import { HealthCenterService } from '../../shared/service/health-center.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PostoSaudeResolver implements Resolve<PostoSaude> {
-  constructor(private readonly service: PostoSaudeService) {}
+export class PostoSaudeResolver implements Resolve<HealthCenter> {
+  constructor(private readonly service: HealthCenterService) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<PostoSaude> {
+  ): Observable<HealthCenter> {
     if (route.params && route.params['id']) {
       return this.service.loadById(route.params['id']);
     }
     return of({
       id: '',
-      nome: '',
-      endereco: '',
-      especialidades: [],
-      horarioAbertura: '',
-      horarioFechamento: '',
+      name: '',
+      address: '',
+      // especialidades: [],
+      openingHour: '',
+      closingHour: '',
     });
   }
 }

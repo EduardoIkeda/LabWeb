@@ -1,12 +1,15 @@
-import { CommonModule } from '@angular/common';
-import { PostoSaude } from './../../../shared/model/posto-saude';
-import { Component } from '@angular/core';
-import { Medico } from '../../../shared/model/medico';
+import { DoctorService } from './../../../shared/service/doctor.service';
+import { HealthCenterService } from './../../../shared/service/health-center.service';
+import { CommonModule, Location } from '@angular/common';
+import { HealthCenter } from '../../../shared/model/health-center';
+import { Component, OnInit } from '@angular/core';
+import { Doctor } from '../../../shared/model/doctor';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-medico-form',
@@ -22,91 +25,101 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './medico-form.component.html',
   styleUrl: './medico-form.component.scss',
 })
-export class MedicoFormComponent {
-  postoSaude: PostoSaude = {
-    id: '1',
-    nome: 'Posto de Saúde 1',
-    endereco: 'Rua 1, 123',
-    horarioAbertura: '08:00',
-    horarioFechamento: '17:00',
-    especialidades: ['Cardiologia', 'Dermatologia', 'Pediatria', 'Ortopedia'],
+export class MedicoFormComponent implements OnInit{
+  healthCenter: HealthCenter = {
+    id: '',
+    name: '',
+    address: '',
+    openingHour: '',
+    closingHour: ''
   };
 
-  medicos: Medico[] = [
-    {
-      id: '1',
-      name: 'João',
-      crm: '123456',
-      appointments: [],
-    },
-    {
-      id: '2',
-      name: 'Maria',
-      crm: '654321',
-      appointments: [],
-    },
-  ];
+  allocatedDoctorSearchTerm: string = '';
+  allocatedDoctorsFiltered: Doctor[] = [];
+  allocatedDoctors: Doctor[] = [];
 
-  medicosAlocados: Medico[] = [];
-  medicosCadastrados: Medico[] = [...this.medicos]; // Use spread operator to create a new array
+  registeredDoctorSearchTerm: string = '';
+  registeredDoctorsFiltered: Doctor[] = [];
+  registeredDoctors: Doctor[] = [];
 
-  searchTermAlocado: string = '';
-  searchTermCadastrado: string = '';
-  filteredMedicosCadastrados: Medico[] = [];
-  filteredMedicosAlocados: Medico[] = [];
-
-  constructor() {
-    this.filteredMedicosCadastrados = [...this.medicosCadastrados];
+  constructor(
+    private readonly postoSaudeService: HealthCenterService,
+    private readonly route: ActivatedRoute,
+    private readonly location: Location,
+    private readonly doctorService: DoctorService
+  ) {
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        this.postoSaudeService.loadById(id).subscribe((healthCenter) => {
+          this.healthCenter = healthCenter;
+        });
+      }
+    });
   }
 
-  onRemove(medico: Medico) {
+  ngOnInit(): void {
+    this.doctorService.list().subscribe((doctors) => {
+      this.registeredDoctors = doctors;
+      this.registeredDoctorsFiltered = [...this.registeredDoctors];
+    });
+
+    this.allocatedDoctors = [];
+  }
+
+  onRemove(medico: Doctor) {
     this.updateLists(medico, 'remove');
   }
 
-  onAdd(medico: Medico) {
+  onAdd(medico: Doctor) {
     this.updateLists(medico, 'add');
   }
 
-  private updateLists(medico: Medico, action: 'add' | 'remove') {
+  private updateLists(medico: Doctor, action: 'add' | 'remove') {
     if (action === 'add') {
-      this.medicosAlocados.push(medico);
-      this.medicosCadastrados = this.medicosCadastrados.filter(
+      this.allocatedDoctors.push(medico);
+      this.registeredDoctors = this.registeredDoctors.filter(
         (m) => m.id !== medico.id
       );
-      this.filteredMedicosCadastrados = [...this.medicosCadastrados];
+      this.registeredDoctorsFiltered = this.registeredDoctors;
+      this.allocatedDoctorsFiltered = this.allocatedDoctors;
     } else if (action === 'remove') {
-      this.medicosCadastrados.push(medico);
-      this.medicosAlocados = this.medicosAlocados.filter(
+      this.registeredDoctors.push(medico);
+      this.allocatedDoctors = this.allocatedDoctors.filter(
         (m) => m.id !== medico.id
       );
-      this.filteredMedicosCadastrados = [...this.medicosCadastrados];
+      this.registeredDoctorsFiltered = this.registeredDoctors;
+      this.allocatedDoctorsFiltered = this.allocatedDoctors;
     }
   }
 
   filterMedicosCadastrados() {
-    const term = this.searchTermCadastrado.toLowerCase();
+    const term = this.registeredDoctorSearchTerm.toLowerCase();
     if (!term) {
-      this.filteredMedicosCadastrados = [...this.medicosCadastrados];
+      this.registeredDoctorsFiltered = [...this.registeredDoctors];
       return;
     }
 
-    this.filteredMedicosCadastrados = this.filterMedicos(this.medicosCadastrados, term);
-  }
-
-  filterMedicosAlocados() {
-    const term = this.searchTermAlocado.toLowerCase();
-    if (!term) {
-      this.filteredMedicosAlocados = [...this.medicosAlocados];
-      return;
-    }
-
-    this.filteredMedicosAlocados = this.filterMedicos(
-      this.medicosAlocados,
+    this.registeredDoctorsFiltered = this.filterMedicos(
+      this.registeredDoctors,
       term
     );
   }
 
-  private filterMedicos(medicos: Medico[], term: string) {
+  filterMedicosAlocados() {
+    const term = this.allocatedDoctorSearchTerm.toLowerCase();
+    if (!term) {
+      this.allocatedDoctorsFiltered = [...this.allocatedDoctors];
+      return;
+    }
+
+    this.allocatedDoctorsFiltered = this.filterMedicos(
+      this.allocatedDoctors,
+      term
+    );
+  }
+
+  private filterMedicos(medicos: Doctor[], term: string) {
     return medicos.filter((medico) => {
       return (
         medico.name.toLowerCase().includes(term) || medico.crm.includes(term)
@@ -114,12 +127,11 @@ export class MedicoFormComponent {
     });
   }
 
-
   onSave() {
     console.log('Save');
   }
 
   onCancel() {
-    console.log('Cancel');
+    this.location.back();
   }
 }

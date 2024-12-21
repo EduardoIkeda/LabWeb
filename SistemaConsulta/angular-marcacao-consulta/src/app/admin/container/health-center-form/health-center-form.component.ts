@@ -1,4 +1,5 @@
-import { horarios } from './../../../../assets/horarios';
+import { HealthCenterService } from '../../../shared/service/health-center.service';
+import { horarios } from '../../../../assets/horarios';
 import { Component, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,10 +15,9 @@ import { CommonModule, Location } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { PostoSaude } from '../../../../app/shared/model/posto-saude';
 
 @Component({
-  selector: 'app-posto-saude-form',
+  selector: 'app-health-center-form',
   standalone: true,
   imports: [
     MatInputModule,
@@ -28,15 +28,16 @@ import { PostoSaude } from '../../../../app/shared/model/posto-saude';
     MatSelectModule,
     ReactiveFormsModule,
   ],
-  templateUrl: './posto-saude-form.component.html',
-  styleUrl: './posto-saude-form.component.scss',
+  templateUrl: './health-center-form.component.html',
+  styleUrl: './health-center-form.component.scss',
 })
-export class PostoSaudeFormComponent implements OnInit {
-  nome: string = '';
-  endereco: string = '';
-  horarioAbertura: string = '';
-  horarioFechamento: string = '';
-  especialidades: string[] = [
+export class HealthCenterFormComponent implements OnInit {
+  id: string = '';
+  name: string = '';
+  address: string = '';
+  openingHour: string = '';
+  closingHour: string = '';
+  specialities: string[] = [
     'Cardiologia',
     'Dermatologia',
     'Pediatria',
@@ -49,11 +50,13 @@ export class PostoSaudeFormComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly location: Location,
     private readonly snackBar: MatSnackBar,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly postoSaudeService: HealthCenterService
   ) {
     this.postoSaudeForm = this.fb.group(
       {
-        nome: [
+        id: [''],
+        name: [
           '',
           [
             Validators.required,
@@ -61,7 +64,7 @@ export class PostoSaudeFormComponent implements OnInit {
             Validators.maxLength(100),
           ],
         ],
-        endereco: [
+        address: [
           '',
           [
             Validators.required,
@@ -69,12 +72,12 @@ export class PostoSaudeFormComponent implements OnInit {
             Validators.maxLength(100),
           ],
         ],
-        horarioAbertura: ['', Validators.required],
-        horarioFechamento: ['', Validators.required],
-        especialidades: [[], Validators.required],
+        openingHour: ['', Validators.required],
+        closingHour: ['', Validators.required],
+        specialities: [[], Validators.required],
       },
       {
-        validators: this.horarioValidator,
+        validators: this.hourRangeValidator,
       }
     );
   }
@@ -87,21 +90,19 @@ export class PostoSaudeFormComponent implements OnInit {
     });
   }
 
-  horarioValidator(formGroup: FormGroup) {
-    const horarioAbertura = formGroup.get('horarioAbertura')?.value;
-    const horarioFechamento = formGroup.get('horarioFechamento')?.value;
+  hourRangeValidator(formGroup: FormGroup) {
+    const openingHour = formGroup.get('openingHour')?.value;
+    const closingHour = formGroup.get('closingHour')?.value;
 
-    return horarioAbertura &&
-      horarioFechamento &&
-      horarioAbertura < horarioFechamento
+    return openingHour && closingHour && openingHour < closingHour
       ? null
-      : { horarioInvalido: true };
+      : { invalidHours: true };
   }
 
   onSubmit() {
     if (this.postoSaudeForm.valid) {
-      console.log(this.postoSaudeForm.value);
-    } else if (this.postoSaudeForm.errors?.['horarioInvalido']) {
+      this.postoSaudeService.save(this.postoSaudeForm.value);
+    } else if (this.postoSaudeForm.errors?.['invalidHours']) {
       this.invalidMessage(
         'Horário de abertura deve ser menor que o horário de fechamento'
       );

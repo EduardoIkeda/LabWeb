@@ -3,12 +3,12 @@
     <mat-card-title class ="title">Postos de saúde cadastrados</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <app-posto-saude-list
-      [postosSaude]="postos"
+    <app-health-center-list
+      [healthCenterData]="healthCenters"
       (add)="onAdd()"
       (edit)="onEdit($event)"
       (remove)="onRemove($event)"
       (editDoctor)="onEditDoctor($event)"
-    ></app-posto-saude-list>
+    ></app-health-center-list>
   </mat-card-content>
 </mat-card>

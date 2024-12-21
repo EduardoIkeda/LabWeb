@@ -4,12 +4,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { PostoSaude } from '../../../shared/model/posto-saude';
+import { HealthCenter } from '../../../shared/model/health-center';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-posto-saude-list',
+  selector: 'app-health-center-list',
   standalone: true,
   imports: [
     MatTableModule,
@@ -20,17 +20,23 @@ import { MatIconModule } from '@angular/material/icon';
     MatCardModule,
     MatIconModule,
   ],
-  templateUrl: './posto-saude-list.component.html',
-  styleUrl: './posto-saude-list.component.scss',
+  templateUrl: './health-center-list.component.html',
+  styleUrl: './health-center-list.component.scss',
 })
-export class PostoSaudeListComponent {
-  @Input() postosSaude: PostoSaude[] = [];
+export class HealthCenterListComponent {
+  @Input() healthCenterData: HealthCenter[] = [];
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
-  @Output() editDoctor: EventEmitter<PostoSaude> = new EventEmitter<PostoSaude>();
+  @Output() editDoctor: EventEmitter<HealthCenter> =
+    new EventEmitter<HealthCenter>();
 
-  readonly displayedColumns: string[] = ['nome', 'horarioAbertura', 'horarioFechamento', 'actions'];
+  readonly displayedColumns: string[] = [
+    'nome',
+    'horarioAbertura',
+    'horarioFechamento',
+    'actions',
+  ];
 
   constructor() {}
 
@@ -40,15 +46,15 @@ export class PostoSaudeListComponent {
     this.add.emit(true);
   }
 
-  onEdit(postoSaude: PostoSaude) {
+  onEdit(postoSaude: HealthCenter) {
     this.edit.emit(postoSaude);
   }
 
-  onRemove(postoSaude: PostoSaude) {
+  onRemove(postoSaude: HealthCenter) {
     this.remove.emit(postoSaude);
   }
 
-  onEditDoctor(postoSaude: PostoSaude) {
+  onEditDoctor(postoSaude: HealthCenter) {
     this.editDoctor.emit(postoSaude);
   }
 }
