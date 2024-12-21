@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Consulta } from '../model/consulta';
+import { Consulta } from '../../shared/model/consulta';
 import { tap } from 'rxjs';
 
 @Injectable({

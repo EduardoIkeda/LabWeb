@@ -1,0 +1,17 @@
+@import '../../../../styles.scss';
+
+.title {
+  margin-bottom: $spacing-large;
+  font-size: $font-size-large;
+  font-weight: $font-semibold;
+}
+
+.card {
+  margin: 0 auto;
+  margin-top: $spacing-medium;
+  height: 100vh;
+  width: 80%;
+  min-width: 700px;
+  padding: $spacing-medium;
+  background-color: $white-color;
+}

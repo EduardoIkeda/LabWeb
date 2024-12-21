@@ -5,7 +5,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
 
 import { ConsultaItemComponent } from '../../components/consulta-item/consulta-item.component';
-import { Consulta } from '../../model/consulta';
+import { Consulta } from '../../../shared/model/consulta';
 import { ConsultasService } from './../../service/consultas.service';
 
 @Component({

@@ -1,0 +1,63 @@
+<mat-table [dataSource]="postosSaude">
+  <ng-container matColumnDef="nome">
+    <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+    <mat-cell *matCellDef="let posto"> {{ posto.nome }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="horarioAbertura">
+    <mat-header-cell *matHeaderCellDef> Horário abertura </mat-header-cell>
+    <mat-cell *matCellDef="let posto"> {{ posto.horarioAbertura }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="horarioFechamento">
+    <mat-header-cell *matHeaderCellDef> Horário fechamento </mat-header-cell>
+    <mat-cell *matCellDef="let posto"> {{ posto.horarioFechamento }} </mat-cell>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef class="action-column">
+      <button
+        mat-mini-fab
+        color="accent"
+        aria-label="Adicionar um posto de saúde"
+        class="button"
+        (click)="onAdd()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-header-cell>
+
+    <mat-cell *matCellDef="let posto" class="action-column">
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Editar posto de saúde"
+        class="button"
+        (click)="onEdit(posto)"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button
+        mat-mini-fab
+        color="warn"
+        aria-label="Remover posto de saúde"
+        class="button-delete"
+        (click)="onRemove(posto)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button mat-mini-fab
+        class="button"
+        (click)="onEditDoctor(posto)"
+      >
+          <mat-icon>person</mat-icon>
+        </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>

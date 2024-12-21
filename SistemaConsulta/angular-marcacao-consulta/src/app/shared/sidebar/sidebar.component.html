@@ -14,8 +14,20 @@
     <button mat-button class="sidebar-button" (click)="goToPage('/consultas/create')">
       <mat-icon>calendar_today</mat-icon> Marcar consulta
     </button>
+
+    <!-- Botões personalizados para admin -->
+    <button mat-button class="sidebar-button" *ngIf="isAdmin" (click)="goToPage('/admin/dashboard')">
+      <mat-icon>dashboard</mat-icon> Dashboard Admin
+    </button>
+    <button mat-button class="sidebar-button" *ngIf="isAdmin" (click)="goToPage('/admin/posto-saude')">
+      <mat-icon> local_hospital </mat-icon> Postos de saúde
+    </button>
+
+
     <button mat-button class="sidebar-button-logout">
       <mat-icon>home</mat-icon> Sair
     </button>
+
+
   </nav>
 </div>

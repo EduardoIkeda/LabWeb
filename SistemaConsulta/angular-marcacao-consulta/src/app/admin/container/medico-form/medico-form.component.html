@@ -1,0 +1,55 @@
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title><h2>Informações do Posto de Saúde</h2></mat-card-title>
+    <mat-card-subtitle>
+      <p>Nome: {{ postoSaude.nome }}</p>
+      <p>Endereço: {{ postoSaude.endereco }}</p>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="container">
+      <mat-card class="column">
+        <h3>Médicos Cadastrados</h3>
+        <!-- Adicione o campo de busca aqui -->
+        <input class="search"
+          type="text"
+          [(ngModel)]="searchTermCadastrado"
+          placeholder="Buscar médico por nome ou CRM"
+          (input)="filterMedicosCadastrados()"
+        />
+        <mat-list>
+          <mat-list-item
+            *ngFor="let medico of filteredMedicosCadastrados"
+            (click)="onAdd(medico)"
+            class="item"
+          >
+            {{ medico.name }} - CRM: {{ medico.crm }}
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+
+      <mat-card class="column">
+        <h3>Médicos Alocados</h3>
+        <input class="search"
+          type="text"
+          [(ngModel)]="searchTermAlocado"
+          placeholder="Buscar médico por nome ou CRM"
+          (input)="filterMedicosAlocados()"
+        />
+        <mat-list>
+          <mat-list-item
+            *ngFor="let medico of medicosAlocados"
+            (click)="onRemove(medico)"
+            class="item"
+          >
+            {{ medico.name }} - CRM: {{ medico.crm }}
+          </mat-list-item>
+        </mat-list>
+      </mat-card>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="actions">
+    <button mat-raised-button color="primary" (click)="onSave()">Salvar</button>
+    <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
+  </mat-card-actions>
+</mat-card>

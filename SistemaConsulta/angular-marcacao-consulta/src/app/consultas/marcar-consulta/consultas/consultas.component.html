@@ -1,0 +1,18 @@
+<div class="consultas-container">
+  <h1 class="title">Selecione a data e hora da consulta</h1>
+
+  <p *ngIf="listaPorData.length == 0">Nenhuma consulta disponível para essa data</p>
+
+  <div *ngFor="let data of listaPorData" class="dataContainer">
+    <p class="data">{{ data.date }}</p>
+
+    <div class="medico" *ngFor="let medico of data.doctors">
+      <mat-card appearance="outlined" class="card-container">
+        <p class="medico">{{ medico.name }}</p>
+        <div class="card-content">
+          <button *ngFor="let consulta of medico.appointments" mat-stroked-button (click)="onSelect($event, consulta)">{{ consulta.date }}</button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

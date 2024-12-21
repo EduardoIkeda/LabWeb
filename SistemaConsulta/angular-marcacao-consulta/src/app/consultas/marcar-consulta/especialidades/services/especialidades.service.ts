@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Especialidade } from '../../../model/especialidade';
+import { Especialidade } from '../../../../shared/model/especialidade';
 import { tap } from 'rxjs';
 
 @Injectable({

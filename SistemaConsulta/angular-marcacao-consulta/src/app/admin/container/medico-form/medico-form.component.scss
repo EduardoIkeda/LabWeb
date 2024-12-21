@@ -1,0 +1,48 @@
+@import "../../../../styles.scss";
+
+.card {
+  margin: 0 auto;
+  margin-top: $spacing-medium;
+  padding: 0 !important;
+  height: 100vh;
+  width: 80%;
+  min-width: 700px;
+  background-color: $white-color;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  padding: $spacing-medium;
+  width: 49%;
+  background-color: $light-gray-color;
+}
+
+.item {
+  cursor: pointer !important;
+  background-color: $white-color;
+  margin-bottom: $spacing-small;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: $gray-color;
+  }
+}
+
+.search {
+  padding: $spacing-medium;
+  background-color: $white-color;
+  border-radius: 12px;
+  border-style: none;
+  font-size: $font-size-medium;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
