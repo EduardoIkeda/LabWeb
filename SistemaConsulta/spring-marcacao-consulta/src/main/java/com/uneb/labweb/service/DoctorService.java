@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.uneb.labweb.dto.DoctorDTO;
 import com.uneb.labweb.dto.mapper.DoctorMapper;
+import com.uneb.labweb.dto.request.DoctorDTO;
 import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.repository.DoctorRepository;
 

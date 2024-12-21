@@ -1,9 +1,13 @@
 package com.uneb.labweb.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uneb.labweb.enums.Status;
 import com.uneb.labweb.enums.converters.StatusConverter;
 
@@ -13,6 +17,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -32,22 +39,20 @@ public class Specialty {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @NotBlank
-    @Length(min = 5, max = 255)
-    @Column(length = 255, nullable = false)
-    private String description;
+    @Valid
+    @JsonManagedReference
+    @OneToMany(mappedBy = "specialty")
+    private List<Appointment> appointments = new ArrayList<>();
 
-    // @Valid
-    // @OneToMany(mappedBy = "specialty", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<Appointment> appointments = new ArrayList<>();
+    @Valid
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "specialties")
+    private List<Doctor> doctors = new ArrayList<>();
 
-    // @Valid
-    // @OneToMany(mappedBy = "specialty", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private Set<Doctor> doctors = new HashSet<>();
-
-    // @Valid
-    // @ManyToMany(mappedBy = "specialties")
-    // private Set<HealthCenter> healthCenters = new HashSet<>();
+    @Valid
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "specialties")
+    private List<HealthCenter> healthCenters = new ArrayList<>();
 
     @NotNull
     @Column(length = 10, nullable = false)

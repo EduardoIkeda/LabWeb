@@ -1,4 +1,4 @@
-package com.uneb.labweb.dto;
+package com.uneb.labweb.dto.request;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -24,7 +24,13 @@ public record HealthCenterDTO(
         @Pattern(regexp = "^\\d{2}:\\d{2}$") // Ex: 18:00
         @NotBlank
         @Length(min = 5, max = 5)
-        String closingHour
+        String closingHour//,
+
+        // @NotEmpty
+        // List<Long> doctorIds,
+
+        // @NotEmpty
+        // List<Long> specialtyIds
 ) {
 
 }

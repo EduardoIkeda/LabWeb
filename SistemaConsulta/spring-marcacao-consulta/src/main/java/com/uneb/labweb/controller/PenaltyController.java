@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uneb.labweb.dto.PenaltyDTO;
+import com.uneb.labweb.dto.request.PenaltyDTO;
 import com.uneb.labweb.service.PenaltyService;
 
 import jakarta.validation.Valid;

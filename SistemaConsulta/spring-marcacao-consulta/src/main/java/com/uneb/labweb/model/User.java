@@ -1,5 +1,6 @@
 package com.uneb.labweb.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uneb.labweb.enums.Role;
 import com.uneb.labweb.enums.Status;
 import com.uneb.labweb.enums.converters.RoleConverter;
@@ -18,10 +20,14 @@ import com.uneb.labweb.enums.converters.StatusConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -78,16 +84,19 @@ public class User implements UserDetails {
     @Convert(converter = RoleConverter.class)
     private Role role;
 
-    // @Valid
-    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<Appointment> appointments = new ArrayList<>();
+    @Valid
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    private List<Appointment> appointments = new ArrayList<>();
 
-    // @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = true)
-    // private Doctor doctor;
+    @JsonManagedReference
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = true)
+    private Doctor doctor;
 
-    // @Valid
-    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<Penalty> penalties = new ArrayList<>();
+    @Valid
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    private List<Penalty> penalties = new ArrayList<>();
 
     @NotNull
     @Column(length = 10, nullable = false)

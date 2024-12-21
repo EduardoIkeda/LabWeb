@@ -1,4 +1,4 @@
-package com.uneb.labweb.dto;
+package com.uneb.labweb.dto.request;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -9,11 +9,13 @@ public record SpecialtyDTO(
 
         @NotBlank
         @Length(min = 5, max = 100) 
-        String name,
+        String name//,
 
-        @NotBlank 
-        @Length(min = 5, max = 255)
-        String description
+        // @NotEmpty
+        // List<Long> doctorIds,
+
+        // @NotEmpty
+        // List<Long> healthCenterIds
 ) {
     
 }

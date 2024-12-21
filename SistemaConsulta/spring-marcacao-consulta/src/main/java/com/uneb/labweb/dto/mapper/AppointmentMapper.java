@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 
 import org.springframework.stereotype.Component;
 
-import com.uneb.labweb.dto.AppointmentDTO;
+import com.uneb.labweb.dto.request.AppointmentDTO;
 import com.uneb.labweb.enums.AppointmentStatus;
 import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.model.Appointment;
@@ -22,7 +22,7 @@ public class AppointmentMapper {
         }
 
         String dateTime = appointment.getAppointmentDateTime().format(FORMATTER_BR);
-        return new AppointmentDTO(appointment.getId(), dateTime, appointment.getAppointmentStatus().getValue());
+        return new AppointmentDTO(appointment.getId(), dateTime, appointment.getAppointmentStatus().getValue()); 
     }
     
     public Appointment toEntity(AppointmentDTO appointmentDTO) {

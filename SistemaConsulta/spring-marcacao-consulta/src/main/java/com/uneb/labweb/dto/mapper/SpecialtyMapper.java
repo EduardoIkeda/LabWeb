@@ -2,7 +2,7 @@ package com.uneb.labweb.dto.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.uneb.labweb.dto.SpecialtyDTO;
+import com.uneb.labweb.dto.request.SpecialtyDTO;
 import com.uneb.labweb.model.Specialty;
 
 @Component
@@ -13,7 +13,7 @@ public class SpecialtyMapper {
             return null;
         }
 
-        return new SpecialtyDTO(specialty.getId(), specialty.getName(), specialty.getDescription());
+        return new SpecialtyDTO(specialty.getId(), specialty.getName());
     }
     
     public Specialty toEntity(SpecialtyDTO specialtyDTO) { 
@@ -27,7 +27,6 @@ public class SpecialtyMapper {
             specialty.setId(specialtyDTO.id());
         }
         specialty.setName(specialtyDTO.name());
-        specialty.setDescription(specialtyDTO.description());
         
         return specialty;
     }

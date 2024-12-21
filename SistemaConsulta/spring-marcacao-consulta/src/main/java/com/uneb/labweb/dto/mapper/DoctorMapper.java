@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.uneb.labweb.dto.DoctorDTO;
+import com.uneb.labweb.dto.request.DoctorDTO;
 import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.exception.InvalidDayOfWeekException;
 import com.uneb.labweb.model.Doctor;
