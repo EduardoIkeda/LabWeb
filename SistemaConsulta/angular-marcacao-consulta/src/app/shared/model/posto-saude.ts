@@ -1,8 +1,8 @@
-export interface PostoSaude {
+export interface HealthCenter {
   id: string | null;
-  nome: string;
-  endereco: string;
-  horarioAbertura: string;
-  horarioFechamento: string;
-  especialidades: string[];
+  name: string;
+  address: string;
+  openingHour: string;
+  closingHour: string;
+  // especialidades: string[];
 }

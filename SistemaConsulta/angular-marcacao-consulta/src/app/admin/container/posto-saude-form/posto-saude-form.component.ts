@@ -1,3 +1,4 @@
+import { PostoSaudeService } from './../../../shared/service/posto-saude.service';
 import { horarios } from './../../../../assets/horarios';
 import { Component, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
@@ -14,7 +15,7 @@ import { CommonModule, Location } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { PostoSaude } from '../../../../app/shared/model/posto-saude';
+import { HealthCenter } from '../../../../app/shared/model/posto-saude';
 
 @Component({
   selector: 'app-posto-saude-form',
@@ -32,11 +33,11 @@ import { PostoSaude } from '../../../../app/shared/model/posto-saude';
   styleUrl: './posto-saude-form.component.scss',
 })
 export class PostoSaudeFormComponent implements OnInit {
-  nome: string = '';
-  endereco: string = '';
-  horarioAbertura: string = '';
-  horarioFechamento: string = '';
-  especialidades: string[] = [
+  name: string = '';
+  address: string = '';
+  openingHour: string = '';
+  closingHour: string = '';
+  specialities: string[] = [
     'Cardiologia',
     'Dermatologia',
     'Pediatria',
@@ -49,11 +50,12 @@ export class PostoSaudeFormComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly location: Location,
     private readonly snackBar: MatSnackBar,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly postoSaudeService: PostoSaudeService
   ) {
     this.postoSaudeForm = this.fb.group(
       {
-        nome: [
+        name: [
           '',
           [
             Validators.required,
@@ -61,7 +63,7 @@ export class PostoSaudeFormComponent implements OnInit {
             Validators.maxLength(100),
           ],
         ],
-        endereco: [
+        address: [
           '',
           [
             Validators.required,
@@ -69,12 +71,12 @@ export class PostoSaudeFormComponent implements OnInit {
             Validators.maxLength(100),
           ],
         ],
-        horarioAbertura: ['', Validators.required],
-        horarioFechamento: ['', Validators.required],
-        especialidades: [[], Validators.required],
+        openingHour: ['', Validators.required],
+        closingHour: ['', Validators.required],
+        specialities: [[], Validators.required],
       },
       {
-        validators: this.horarioValidator,
+        validators: this.hourRangeValidator,
       }
     );
   }
@@ -87,21 +89,21 @@ export class PostoSaudeFormComponent implements OnInit {
     });
   }
 
-  horarioValidator(formGroup: FormGroup) {
-    const horarioAbertura = formGroup.get('horarioAbertura')?.value;
-    const horarioFechamento = formGroup.get('horarioFechamento')?.value;
+  hourRangeValidator(formGroup: FormGroup) {
+    const openingHour = formGroup.get('openingHour')?.value;
+    const closingHour = formGroup.get('closingHour')?.value;
 
-    return horarioAbertura &&
-      horarioFechamento &&
-      horarioAbertura < horarioFechamento
+    return openingHour &&
+      closingHour &&
+      openingHour < closingHour
       ? null
-      : { horarioInvalido: true };
+      : { invalidHours: true };
   }
 
   onSubmit() {
     if (this.postoSaudeForm.valid) {
-      console.log(this.postoSaudeForm.value);
-    } else if (this.postoSaudeForm.errors?.['horarioInvalido']) {
+      this.postoSaudeService.save(this.postoSaudeForm.value);
+    } else if (this.postoSaudeForm.errors?.['invalidHours']) {
       this.invalidMessage(
         'Horário de abertura deve ser menor que o horário de fechamento'
       );

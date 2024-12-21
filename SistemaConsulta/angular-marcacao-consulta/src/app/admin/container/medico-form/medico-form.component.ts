@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { PostoSaude } from './../../../shared/model/posto-saude';
+import { HealthCenter } from './../../../shared/model/posto-saude';
 import { Component } from '@angular/core';
 import { Medico } from '../../../shared/model/medico';
 import { MatCardModule } from '@angular/material/card';
@@ -23,13 +23,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrl: './medico-form.component.scss',
 })
 export class MedicoFormComponent {
-  postoSaude: PostoSaude = {
+  postoSaude: HealthCenter = {
     id: '1',
-    nome: 'Posto de Saúde 1',
-    endereco: 'Rua 1, 123',
-    horarioAbertura: '08:00',
-    horarioFechamento: '17:00',
-    especialidades: ['Cardiologia', 'Dermatologia', 'Pediatria', 'Ortopedia'],
+    name: 'Posto de Saúde 1',
+    address: 'Rua 1, 123',
+    openingHour: '08:00',
+    closingHour: '17:00',
+    // especialidades: ['Cardiologia', 'Dermatologia', 'Pediatria', 'Ortopedia'],
   };
 
   medicos: Medico[] = [

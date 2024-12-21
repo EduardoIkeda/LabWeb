@@ -11,7 +11,7 @@
               <mat-label>Nome</mat-label>
               <input
               matInput
-              formControlName="nome"
+              formControlName="name"
               placeholder="Nome"
               required
               />
@@ -22,7 +22,7 @@
               <mat-label>Endereço</mat-label>
               <input
               matInput
-              formControlName="endereco"
+              formControlName="address"
               placeholder="Endereço"
               required
               />
@@ -34,7 +34,7 @@
             <div class="form-row">
               <mat-form-field appearance="fill" class="form-flex">
                 <mat-label>Horário de Abertura</mat-label>
-                <mat-select formControlName="horarioAbertura" required>
+                <mat-select formControlName="openingHour" required>
                   <mat-option
                     *ngFor="let horario of horarios"
                     [value]="horario"
@@ -45,7 +45,7 @@
 
               <mat-form-field appearance="fill" class="form-flex">
                 <mat-label>Horário de Fechamento</mat-label>
-                <mat-select formControlName="horarioFechamento" required>
+                <mat-select formControlName="closingHour" required>
                   <mat-option
                     *ngFor="let horario of horarios"
                     [value]="horario"
@@ -57,9 +57,9 @@
 
             <mat-form-field appearance="fill">
               <mat-label>Especialidades</mat-label>
-              <mat-select formControlName="especialidades" multiple required>
+              <mat-select formControlName="specialities" multiple required>
                 <mat-option
-                  *ngFor="let especialidade of especialidades"
+                  *ngFor="let especialidade of specialities"
                   [value]="especialidade"
                   >{{ especialidade }}</mat-option
                 >

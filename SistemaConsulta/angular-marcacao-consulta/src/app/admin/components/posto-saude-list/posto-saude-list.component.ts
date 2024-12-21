@@ -4,7 +4,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { PostoSaude } from '../../../shared/model/posto-saude';
+import { HealthCenter } from '../../../shared/model/posto-saude';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -24,11 +24,11 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './posto-saude-list.component.scss',
 })
 export class PostoSaudeListComponent {
-  @Input() postosSaude: PostoSaude[] = [];
+  @Input() postosSaude: HealthCenter[] = [];
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
-  @Output() editDoctor: EventEmitter<PostoSaude> = new EventEmitter<PostoSaude>();
+  @Output() editDoctor: EventEmitter<HealthCenter> = new EventEmitter<HealthCenter>();
 
   readonly displayedColumns: string[] = ['nome', 'horarioAbertura', 'horarioFechamento', 'actions'];
 
@@ -40,15 +40,15 @@ export class PostoSaudeListComponent {
     this.add.emit(true);
   }
 
-  onEdit(postoSaude: PostoSaude) {
+  onEdit(postoSaude: HealthCenter) {
     this.edit.emit(postoSaude);
   }
 
-  onRemove(postoSaude: PostoSaude) {
+  onRemove(postoSaude: HealthCenter) {
     this.remove.emit(postoSaude);
   }
 
-  onEditDoctor(postoSaude: PostoSaude) {
+  onEditDoctor(postoSaude: HealthCenter) {
     this.editDoctor.emit(postoSaude);
   }
 }
