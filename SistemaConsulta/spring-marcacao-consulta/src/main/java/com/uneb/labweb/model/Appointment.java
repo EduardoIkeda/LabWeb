@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.uneb.labweb.enums.AppointmentStatus;
 import com.uneb.labweb.enums.Status;
 import com.uneb.labweb.enums.converters.AppointmentStatusConverter;
@@ -44,21 +45,25 @@ public class Appointment {
     private AppointmentStatus appointmentStatus;
 
     @NotNull
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
     @NotNull
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "health_center_id", nullable = false)
     private HealthCenter healthCenter;
 
     @NotNull
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "specialty_id", nullable = false)
     private Specialty specialty;
 
     @NotNull
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

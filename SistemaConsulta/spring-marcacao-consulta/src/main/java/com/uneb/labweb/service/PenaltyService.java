@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.uneb.labweb.dto.PenaltyDTO;
 import com.uneb.labweb.dto.mapper.PenaltyMapper;
+import com.uneb.labweb.dto.request.PenaltyDTO;
 import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.repository.PenaltyRepository;
 

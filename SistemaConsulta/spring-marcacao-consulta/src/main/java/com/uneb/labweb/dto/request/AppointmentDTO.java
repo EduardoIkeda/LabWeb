@@ -1,4 +1,4 @@
-package com.uneb.labweb.dto;
+package com.uneb.labweb.dto.request;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -19,7 +19,19 @@ public record AppointmentDTO(
         @NotBlank
         @Length(min = 6, max = 10)
         @ValueOfEnum(enumClass = AppointmentStatus.class)
-        String appointmentStatus
+        String appointmentStatus//,
+
+        // @NotNull
+        // Long doctorId,
+
+        // @NotNull
+        // Long healthCenterId,
+
+        // @NotNull
+        // Long specialtyId,
+
+        // @NotNull
+        // Long userId
 ) {
 
 }

@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 
 import org.springframework.stereotype.Component;
 
-import com.uneb.labweb.dto.HealthCenterDTO;
+import com.uneb.labweb.dto.request.HealthCenterDTO;
 import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.model.HealthCenter;
 

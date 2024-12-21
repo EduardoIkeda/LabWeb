@@ -7,11 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.uneb.labweb.dto.AuthResponseDTO;
-import com.uneb.labweb.dto.LoginDTO;
-import com.uneb.labweb.dto.RegisterDTO;
-import com.uneb.labweb.dto.UserDTO;
 import com.uneb.labweb.dto.mapper.UserMapper;
+import com.uneb.labweb.dto.request.LoginDTO;
+import com.uneb.labweb.dto.request.RegisterDTO;
+import com.uneb.labweb.dto.request.UserDTO;
+import com.uneb.labweb.dto.response.AuthResponseDTO;
 import com.uneb.labweb.enums.Role;
 import com.uneb.labweb.exception.RecordAlreadyExistsException;
 import com.uneb.labweb.exception.RecordNotFoundException;

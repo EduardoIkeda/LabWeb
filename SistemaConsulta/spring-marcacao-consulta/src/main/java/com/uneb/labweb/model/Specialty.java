@@ -7,6 +7,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uneb.labweb.enums.Status;
 import com.uneb.labweb.enums.converters.StatusConverter;
 
@@ -16,8 +17,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.Valid;
@@ -41,18 +40,18 @@ public class Specialty {
     private String name;
 
     @Valid
+    @JsonManagedReference
     @OneToMany(mappedBy = "specialty")
     private List<Appointment> appointments = new ArrayList<>();
 
     @Valid
+    @JsonManagedReference
     @ManyToMany(mappedBy = "specialties")
     private List<Doctor> doctors = new ArrayList<>();
 
     @Valid
-    @ManyToMany
-    @JoinTable(name = "health_center_specialty",
-            joinColumns = @JoinColumn(name = "specialty_id"),
-            inverseJoinColumns = @JoinColumn(name = "health_center_id"))
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "specialties")
     private List<HealthCenter> healthCenters = new ArrayList<>();
 
     @NotNull

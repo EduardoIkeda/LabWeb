@@ -11,6 +11,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uneb.labweb.enums.Status;
 import com.uneb.labweb.enums.converters.StatusConverter;
 
@@ -68,10 +70,12 @@ public class Doctor {
     private Set<DayOfWeek> workingDays = new HashSet<>();
  
     @Valid
+    @JsonManagedReference
     @OneToMany(mappedBy = "doctor")
     private List<Appointment> appointments = new ArrayList<>();
 
     @Valid
+    @JsonBackReference
     @ManyToMany
     @JoinTable(name = "doctor_health_center",
             joinColumns = @JoinColumn(name = "doctor_id"),
@@ -79,6 +83,7 @@ public class Doctor {
     private List<HealthCenter> healthCenters = new ArrayList<>();
 
     @Valid
+    @JsonBackReference
     @ManyToMany
     @JoinTable(name = "doctor_specialty",
             joinColumns = @JoinColumn(name = "doctor_id"),
@@ -86,6 +91,7 @@ public class Doctor {
     private List<Specialty> specialties = new ArrayList<>();
 
     @NotNull
+    @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

@@ -1,4 +1,4 @@
-package com.uneb.labweb.dto;
+package com.uneb.labweb.dto.request;
 
 import org.hibernate.validator.constraints.Length;
 

@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uneb.labweb.enums.Role;
 import com.uneb.labweb.enums.Status;
 import com.uneb.labweb.enums.converters.RoleConverter;
@@ -84,13 +85,16 @@ public class User implements UserDetails {
     private Role role;
 
     @Valid
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Appointment> appointments = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = true)
     private Doctor doctor;
 
     @Valid
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Penalty> penalties = new ArrayList<>();
 

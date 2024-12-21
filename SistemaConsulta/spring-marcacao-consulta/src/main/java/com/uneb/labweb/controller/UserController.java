@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uneb.labweb.dto.AuthResponseDTO;
-import com.uneb.labweb.dto.LoginDTO;
-import com.uneb.labweb.dto.RegisterDTO;
-import com.uneb.labweb.dto.TesteDTO;
-import com.uneb.labweb.dto.UserDTO;
+import com.uneb.labweb.dto.request.LoginDTO;
+import com.uneb.labweb.dto.request.RegisterDTO;
+import com.uneb.labweb.dto.request.TesteDTO;
+import com.uneb.labweb.dto.request.UserDTO;
+import com.uneb.labweb.dto.response.AuthResponseDTO;
 import com.uneb.labweb.service.UserService;
 
 import jakarta.validation.Valid;

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uneb.labweb.dto.AppointmentDTO;
+import com.uneb.labweb.dto.request.AppointmentDTO;
 import com.uneb.labweb.service.AppointmentService;
 
 import jakarta.validation.Valid;

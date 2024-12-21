@@ -2,7 +2,7 @@ package com.uneb.labweb.dto.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.uneb.labweb.dto.SpecialtyDTO;
+import com.uneb.labweb.dto.request.SpecialtyDTO;
 import com.uneb.labweb.model.Specialty;
 
 @Component

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.uneb.labweb.dto.AppointmentDTO;
 import com.uneb.labweb.dto.mapper.AppointmentMapper;
+import com.uneb.labweb.dto.request.AppointmentDTO;
 import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.repository.AppointmentRepository;
 
