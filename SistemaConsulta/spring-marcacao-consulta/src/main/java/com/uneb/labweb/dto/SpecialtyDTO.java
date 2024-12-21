@@ -9,11 +9,7 @@ public record SpecialtyDTO(
 
         @NotBlank
         @Length(min = 5, max = 100) 
-        String name,
-
-        @NotBlank 
-        @Length(min = 5, max = 255)
-        String description
+        String name
 ) {
     
 }

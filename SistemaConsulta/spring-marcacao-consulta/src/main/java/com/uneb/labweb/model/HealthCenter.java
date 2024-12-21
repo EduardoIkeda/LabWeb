@@ -1,6 +1,8 @@
 package com.uneb.labweb.model;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -15,6 +17,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -48,20 +53,17 @@ public class HealthCenter {
     @Column(length = 15, nullable = false)
     private LocalTime closingHour;
 
-    // @Valid
-    // @OneToMany(mappedBy = "healthCenter", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<Appointment> appointments = new ArrayList<>();
+    @Valid
+    @OneToMany(mappedBy = "healthCenter")
+    private List<Appointment> appointments = new ArrayList<>();
 
-    // @Valid
-    // @ManyToMany(mappedBy = "healthCenters")
-    // private Set<Doctor> doctors = new HashSet<>();
+    @Valid
+    @ManyToMany(mappedBy = "healthCenters")
+    private List<Doctor> doctors = new ArrayList<>();
 
-    // @Valid
-    // @ManyToMany
-    // @JoinTable(name = "health_center_specialty",
-    //         joinColumns = @JoinColumn(name = "health_center_id"),
-    //         inverseJoinColumns = @JoinColumn(name = "specialty_id"))
-    // private Set<Specialty> specialties = new HashSet<>();
+    @Valid
+    @ManyToMany(mappedBy = "healthCenters")
+    private List<Specialty> specialties = new ArrayList<>();
     
     @NotNull
     @Column(length = 10, nullable = false)

@@ -47,7 +47,6 @@ public class SpecialtyService {
         return specialtyRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setName(specialtyDTO.name());
-                    recordFound.setDescription(specialtyDTO.description());
 
                     // ...
                     

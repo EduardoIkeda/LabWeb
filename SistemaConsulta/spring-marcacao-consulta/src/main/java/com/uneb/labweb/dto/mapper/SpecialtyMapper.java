@@ -13,7 +13,7 @@ public class SpecialtyMapper {
             return null;
         }
 
-        return new SpecialtyDTO(specialty.getId(), specialty.getName(), specialty.getDescription());
+        return new SpecialtyDTO(specialty.getId(), specialty.getName());
     }
     
     public Specialty toEntity(SpecialtyDTO specialtyDTO) { 
@@ -27,7 +27,6 @@ public class SpecialtyMapper {
             specialty.setId(specialtyDTO.id());
         }
         specialty.setName(specialtyDTO.name());
-        specialty.setDescription(specialtyDTO.description());
         
         return specialty;
     }

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.validator.constraints.Length;
 
 import com.uneb.labweb.enums.Status;
 import com.uneb.labweb.enums.converters.StatusConverter;
@@ -12,12 +11,14 @@ import com.uneb.labweb.enums.converters.StatusConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -31,11 +32,6 @@ public class Penalty {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private String penaltyReason;
-
     @FutureOrPresent
     @NotNull
     @Column(length = 15, nullable = false)
@@ -46,10 +42,10 @@ public class Penalty {
     @Column(length = 15, nullable = false)
     private LocalDate penaltyEndDate;
 
-    // @NotNull
-    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    // @JoinColumn(name = "user_id", nullable = false)
-    // private User user;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @NotNull
     @Column(length = 10, nullable = false)

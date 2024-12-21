@@ -2,7 +2,9 @@ package com.uneb.labweb.model;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.annotations.SQLDelete;
@@ -22,6 +24,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -58,27 +66,29 @@ public class Doctor {
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.LAZY)
     private Set<DayOfWeek> workingDays = new HashSet<>();
+ 
+    @Valid
+    @OneToMany(mappedBy = "doctor")
+    private List<Appointment> appointments = new ArrayList<>();
 
-    // @Valid
-    // @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<Appointment> appointments = new ArrayList<>();
+    @Valid
+    @ManyToMany
+    @JoinTable(name = "doctor_health_center",
+            joinColumns = @JoinColumn(name = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "health_center_id"))
+    private List<HealthCenter> healthCenters = new ArrayList<>();
 
-    // @Valid
-    // @ManyToMany
-    // @JoinTable(name = "doctor_health_center",
-    //         joinColumns = @JoinColumn(name = "doctor_id"),
-    //         inverseJoinColumns = @JoinColumn(name = "health_center_id"))
-    // private Set<HealthCenter> healthCenters = new HashSet<>();
+    @Valid
+    @ManyToMany
+    @JoinTable(name = "doctor_specialty",
+            joinColumns = @JoinColumn(name = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "specialty_id"))
+    private List<Specialty> specialties = new ArrayList<>();
 
-    // @NotNull
-    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    // @JoinColumn(name = "specialty_id", nullable = false)
-    // private Specialty specialty;
-
-    // @NotNull
-    // @OneToOne(fetch = FetchType.LAZY, optional = false)
-    // @JoinColumn(name = "user_id", nullable = false)
-    // private User user;
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @NotNull
     @Column(length = 10, nullable = false)
