@@ -1,12 +1,12 @@
-import { Medico } from "../../shared/model/medico";
+import { Doctor } from "../../shared/model/doctor";
 
 export class ConsultaPorData {
   date: string;
-  doctors: Medico[];
+  doctors: Doctor[];
 
   constructor(
     date: string,
-    doctors: Medico[]
+    doctors: Doctor[]
   ) {
     this.date = date;
     this.doctors = doctors;

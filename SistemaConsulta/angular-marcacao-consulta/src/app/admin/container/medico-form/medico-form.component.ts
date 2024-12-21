@@ -2,7 +2,7 @@ import { HealthCenterService } from './../../../shared/service/health-center.ser
 import { CommonModule, Location } from '@angular/common';
 import { HealthCenter } from '../../../shared/model/health-center';
 import { Component } from '@angular/core';
-import { Medico } from '../../../shared/model/medico';
+import { Doctor } from '../../../shared/model/doctor';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -33,7 +33,7 @@ export class MedicoFormComponent {
     closingHour: ''
   };
 
-  medicos: Medico[] = [
+  medicos: Doctor[] = [
     {
       id: '1',
       name: 'João',
@@ -48,13 +48,13 @@ export class MedicoFormComponent {
     },
   ];
 
-  medicosAlocados: Medico[] = [];
-  medicosCadastrados: Medico[] = [...this.medicos];
+  medicosAlocados: Doctor[] = [];
+  medicosCadastrados: Doctor[] = [...this.medicos];
 
   searchTermAlocado: string = '';
   searchTermCadastrado: string = '';
-  filteredMedicosCadastrados: Medico[] = [];
-  filteredMedicosAlocados: Medico[] = [];
+  filteredMedicosCadastrados: Doctor[] = [];
+  filteredMedicosAlocados: Doctor[] = [];
 
   constructor(
     private readonly postoSaudeService: HealthCenterService,
@@ -72,15 +72,15 @@ export class MedicoFormComponent {
     });
   }
 
-  onRemove(medico: Medico) {
+  onRemove(medico: Doctor) {
     this.updateLists(medico, 'remove');
   }
 
-  onAdd(medico: Medico) {
+  onAdd(medico: Doctor) {
     this.updateLists(medico, 'add');
   }
 
-  private updateLists(medico: Medico, action: 'add' | 'remove') {
+  private updateLists(medico: Doctor, action: 'add' | 'remove') {
     if (action === 'add') {
       this.medicosAlocados.push(medico);
       this.medicosCadastrados = this.medicosCadastrados.filter(
@@ -122,7 +122,7 @@ export class MedicoFormComponent {
     );
   }
 
-  private filterMedicos(medicos: Medico[], term: string) {
+  private filterMedicos(medicos: Doctor[], term: string) {
     return medicos.filter((medico) => {
       return (
         medico.name.toLowerCase().includes(term) || medico.crm.includes(term)
