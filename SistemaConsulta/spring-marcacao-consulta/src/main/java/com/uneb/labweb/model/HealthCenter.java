@@ -18,11 +18,12 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 
 @Data
 @Entity
-@SQLDelete(sql = "UPDATE HealthCenter SET status = 'Inativo' WHERE id = ?")
+@SQLDelete(sql = "UPDATE HEALTH_CENTER SET status = 'Inativo' WHERE id = ?")
 @SQLRestriction("status = 'Ativo'")
 public class HealthCenter {
 

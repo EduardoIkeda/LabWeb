@@ -180,7 +180,7 @@ public class SpringMarcacaoConsultaApplication {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         Appointment appointment1 = new Appointment();
-        appointment1.setAppointmentDateTime(LocalDateTime.parse("27/12/2024 14:30", formatter));
+        appointment1.setAppointmentDateTime(LocalDateTime.parse("27/12/2025 14:30", formatter));
         appointment1.setAppointmentStatus(AppointmentStatus.SCHEDULED);
         // appointment1.setDoctor(doctor);
         // appointment1.setHealthCenter(healthCenter);
@@ -189,7 +189,7 @@ public class SpringMarcacaoConsultaApplication {
         appointmentRepository.save(appointment1);
 
         Appointment appointment2 = new Appointment();
-        appointment2.setAppointmentDateTime(LocalDateTime.parse("16/12/2024 09:30", formatter));
+        appointment2.setAppointmentDateTime(LocalDateTime.parse("16/12/2025 09:30", formatter));
         appointment2.setAppointmentStatus(AppointmentStatus.ATTENDED);
         // appointment2.setDoctor(doctor);
         // appointment2.setHealthCenter(healthCenter);
@@ -198,7 +198,7 @@ public class SpringMarcacaoConsultaApplication {
         appointmentRepository.save(appointment2);
 
         Appointment appointment3 = new Appointment();
-        appointment3.setAppointmentDateTime(LocalDateTime.parse("18/12/2024 17:00", formatter));
+        appointment3.setAppointmentDateTime(LocalDateTime.parse("18/12/2025 17:00", formatter));
         appointment3.setAppointmentStatus(AppointmentStatus.MISSED);
         // appointment3.setDoctor(doctor);
         // appointment3.setHealthCenter(healthCenter);
@@ -214,15 +214,15 @@ public class SpringMarcacaoConsultaApplication {
 
         Penalty penalty1 = new Penalty();
         penalty1.setPenaltyReason("Razão genérica 1");
-        penalty1.setPenaltyStartDate(LocalDate.parse("14/12/2024", formatter));
-        penalty1.setPenaltyEndDate(LocalDate.parse("21/12/2024", formatter));
+        penalty1.setPenaltyStartDate(LocalDate.parse("14/12/2025", formatter));
+        penalty1.setPenaltyEndDate(LocalDate.parse("21/12/2025", formatter));
         // penalty1.setUser(user);
         penaltyRepository.save(penalty1);
 
         Penalty penalty2 = new Penalty();
         penalty2.setPenaltyReason("Razão genérica 2");
-        penalty2.setPenaltyStartDate(LocalDate.parse("16/12/2024", formatter));
-        penalty2.setPenaltyEndDate(LocalDate.parse("23/12/2024", formatter));
+        penalty2.setPenaltyStartDate(LocalDate.parse("16/12/2025", formatter));
+        penalty2.setPenaltyEndDate(LocalDate.parse("23/12/2025", formatter));
         // penalty2.setUser(user);
         penaltyRepository.save(penalty2);
     }
