@@ -13,17 +13,17 @@
         <!-- Adicione o campo de busca aqui -->
         <input class="search"
           type="text"
-          [(ngModel)]="searchTermCadastrado"
+          [(ngModel)]="registeredDoctorSearchTerm"
           placeholder="Buscar médico por nome ou CRM"
           (input)="filterMedicosCadastrados()"
         />
         <mat-list>
           <mat-list-item
-            *ngFor="let medico of filteredMedicosCadastrados"
-            (click)="onAdd(medico)"
+            *ngFor="let doctor of registeredDoctorsFiltered"
+            (click)="onAdd(doctor)"
             class="item"
           >
-            {{ medico.name }} - CRM: {{ medico.crm }}
+            {{ doctor.name }} - CRM: {{ doctor.crm }}
           </mat-list-item>
         </mat-list>
       </mat-card>
@@ -32,17 +32,17 @@
         <h3>Médicos Alocados</h3>
         <input class="search"
           type="text"
-          [(ngModel)]="searchTermAlocado"
+          [(ngModel)]="allocatedDoctorSearchTerm"
           placeholder="Buscar médico por nome ou CRM"
           (input)="filterMedicosAlocados()"
         />
         <mat-list>
           <mat-list-item
-            *ngFor="let medico of medicosAlocados"
-            (click)="onRemove(medico)"
+            *ngFor="let doctor of allocatedDoctorsFiltered"
+            (click)="onRemove(doctor)"
             class="item"
           >
-            {{ medico.name }} - CRM: {{ medico.crm }}
+            {{ doctor.name }} - CRM: {{ doctor.crm }}
           </mat-list-item>
         </mat-list>
       </mat-card>

@@ -1,7 +1,8 @@
+import { DoctorService } from './../../../shared/service/doctor.service';
 import { HealthCenterService } from './../../../shared/service/health-center.service';
 import { CommonModule, Location } from '@angular/common';
 import { HealthCenter } from '../../../shared/model/health-center';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Doctor } from '../../../shared/model/doctor';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,7 +25,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './medico-form.component.html',
   styleUrl: './medico-form.component.scss',
 })
-export class MedicoFormComponent {
+export class MedicoFormComponent implements OnInit{
   healthCenter: HealthCenter = {
     id: '',
     name: '',
@@ -33,35 +34,20 @@ export class MedicoFormComponent {
     closingHour: ''
   };
 
-  medicos: Doctor[] = [
-    {
-      id: '1',
-      name: 'João',
-      crm: '123456',
-      appointments: [],
-    },
-    {
-      id: '2',
-      name: 'Maria',
-      crm: '654321',
-      appointments: [],
-    },
-  ];
+  allocatedDoctorSearchTerm: string = '';
+  allocatedDoctorsFiltered: Doctor[] = [];
+  allocatedDoctors: Doctor[] = [];
 
-  medicosAlocados: Doctor[] = [];
-  medicosCadastrados: Doctor[] = [...this.medicos];
-
-  searchTermAlocado: string = '';
-  searchTermCadastrado: string = '';
-  filteredMedicosCadastrados: Doctor[] = [];
-  filteredMedicosAlocados: Doctor[] = [];
+  registeredDoctorSearchTerm: string = '';
+  registeredDoctorsFiltered: Doctor[] = [];
+  registeredDoctors: Doctor[] = [];
 
   constructor(
     private readonly postoSaudeService: HealthCenterService,
     private readonly route: ActivatedRoute,
-    private readonly location: Location
+    private readonly location: Location,
+    private readonly doctorService: DoctorService
   ) {
-    this.filteredMedicosCadastrados = [...this.medicosCadastrados];
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
@@ -70,6 +56,15 @@ export class MedicoFormComponent {
         });
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.doctorService.list().subscribe((doctors) => {
+      this.registeredDoctors = doctors;
+      this.registeredDoctorsFiltered = [...this.registeredDoctors];
+    });
+
+    this.allocatedDoctors = [];
   }
 
   onRemove(medico: Doctor) {
@@ -82,42 +77,44 @@ export class MedicoFormComponent {
 
   private updateLists(medico: Doctor, action: 'add' | 'remove') {
     if (action === 'add') {
-      this.medicosAlocados.push(medico);
-      this.medicosCadastrados = this.medicosCadastrados.filter(
+      this.allocatedDoctors.push(medico);
+      this.registeredDoctors = this.registeredDoctors.filter(
         (m) => m.id !== medico.id
       );
-      this.filteredMedicosCadastrados = [...this.medicosCadastrados];
+      this.registeredDoctorsFiltered = this.registeredDoctors;
+      this.allocatedDoctorsFiltered = this.allocatedDoctors;
     } else if (action === 'remove') {
-      this.medicosCadastrados.push(medico);
-      this.medicosAlocados = this.medicosAlocados.filter(
+      this.registeredDoctors.push(medico);
+      this.allocatedDoctors = this.allocatedDoctors.filter(
         (m) => m.id !== medico.id
       );
-      this.filteredMedicosCadastrados = [...this.medicosCadastrados];
+      this.registeredDoctorsFiltered = this.registeredDoctors;
+      this.allocatedDoctorsFiltered = this.allocatedDoctors;
     }
   }
 
   filterMedicosCadastrados() {
-    const term = this.searchTermCadastrado.toLowerCase();
+    const term = this.registeredDoctorSearchTerm.toLowerCase();
     if (!term) {
-      this.filteredMedicosCadastrados = [...this.medicosCadastrados];
+      this.registeredDoctorsFiltered = [...this.registeredDoctors];
       return;
     }
 
-    this.filteredMedicosCadastrados = this.filterMedicos(
-      this.medicosCadastrados,
+    this.registeredDoctorsFiltered = this.filterMedicos(
+      this.registeredDoctors,
       term
     );
   }
 
   filterMedicosAlocados() {
-    const term = this.searchTermAlocado.toLowerCase();
+    const term = this.allocatedDoctorSearchTerm.toLowerCase();
     if (!term) {
-      this.filteredMedicosAlocados = [...this.medicosAlocados];
+      this.allocatedDoctorsFiltered = [...this.allocatedDoctors];
       return;
     }
 
-    this.filteredMedicosAlocados = this.filterMedicos(
-      this.medicosAlocados,
+    this.allocatedDoctorsFiltered = this.filterMedicos(
+      this.allocatedDoctors,
       term
     );
   }
