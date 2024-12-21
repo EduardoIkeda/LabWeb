@@ -31,7 +31,25 @@ export class HealthCenterService {
 
   save(record: Partial<HealthCenter>) {
     if (record.id) {
-      return this.update(record);
+      return this.update(record).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.snackBar.open(
+            'Posto de saúde atualizado com sucesso!',
+            'Close',
+            {
+              duration: 3000,
+            }
+          );
+          this.location.back();
+        },
+        error: (err) => {
+          console.error(err);
+          this.snackBar.open('Falha ao atualizar o posto de saude.', 'Close', {
+            duration: 3000,
+          });
+        },
+      });
     } else {
       return this.create(record).subscribe({
         next: (response) => {

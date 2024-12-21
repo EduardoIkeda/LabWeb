@@ -32,6 +32,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './health-center-form.component.scss',
 })
 export class HealthCenterFormComponent implements OnInit {
+  id: string = '';
   name: string = '';
   address: string = '';
   openingHour: string = '';
@@ -54,6 +55,7 @@ export class HealthCenterFormComponent implements OnInit {
   ) {
     this.postoSaudeForm = this.fb.group(
       {
+        id: [''],
         name: [
           '',
           [
