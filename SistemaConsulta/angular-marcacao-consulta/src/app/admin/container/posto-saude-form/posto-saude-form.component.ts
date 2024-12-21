@@ -1,4 +1,4 @@
-import { PostoSaudeService } from './../../../shared/service/posto-saude.service';
+import { PostoSaudeService } from '../../../shared/service/health-center.service';
 import { horarios } from './../../../../assets/horarios';
 import { Component, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
@@ -15,7 +15,6 @@ import { CommonModule, Location } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { HealthCenter } from '../../../../app/shared/model/posto-saude';
 
 @Component({
   selector: 'app-posto-saude-form',

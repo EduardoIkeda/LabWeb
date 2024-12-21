@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HealthCenter } from './../../../shared/model/posto-saude';
+import { HealthCenter } from '../../../shared/model/health-center';
 import { Component } from '@angular/core';
 import { Medico } from '../../../shared/model/medico';
 import { MatCardModule } from '@angular/material/card';

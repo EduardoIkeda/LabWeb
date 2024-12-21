@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, inject } from '@angular/core/testing';
-import { PostoSaudeService } from './posto-saude.service';
+import { PostoSaudeService } from './health-center.service';
 
 describe('Service: PostoSaude', () => {
   beforeEach(() => {

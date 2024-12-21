@@ -5,8 +5,8 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { HealthCenter } from '../../shared/model/posto-saude';
-import { PostoSaudeService } from '../../shared/service/posto-saude.service';
+import { HealthCenter } from '../../shared/model/health-center';
+import { PostoSaudeService } from '../../shared/service/health-center.service';
 
 @Injectable({
   providedIn: 'root',

@@ -4,7 +4,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { HealthCenter } from '../../../shared/model/posto-saude';
+import { HealthCenter } from '../../../shared/model/health-center';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -24,13 +24,19 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './posto-saude-list.component.scss',
 })
 export class PostoSaudeListComponent {
-  @Input() postosSaude: HealthCenter[] = [];
+  @Input() healthCenterData: HealthCenter[] = [];
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
-  @Output() editDoctor: EventEmitter<HealthCenter> = new EventEmitter<HealthCenter>();
+  @Output() editDoctor: EventEmitter<HealthCenter> =
+    new EventEmitter<HealthCenter>();
 
-  readonly displayedColumns: string[] = ['nome', 'horarioAbertura', 'horarioFechamento', 'actions'];
+  readonly displayedColumns: string[] = [
+    'nome',
+    'horarioAbertura',
+    'horarioFechamento',
+    'actions',
+  ];
 
   constructor() {}
 

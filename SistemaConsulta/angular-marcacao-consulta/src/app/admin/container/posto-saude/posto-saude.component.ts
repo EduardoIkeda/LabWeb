@@ -1,8 +1,8 @@
-import { PostoSaudeService } from './../../../shared/service/posto-saude.service';
+import { PostoSaudeService } from '../../../shared/service/health-center.service';
 import { ConfirmationDialogComponent } from './../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Component } from '@angular/core';
 import { PostoSaudeListComponent } from "../../components/posto-saude-list/posto-saude-list.component";
-import { HealthCenter } from '../../../shared/model/posto-saude';
+import { HealthCenter } from '../../../shared/model/health-center';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,21 +17,21 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './posto-saude.component.scss',
 })
 export class PostoSaudeComponent {
-  postos: HealthCenter[] = [];
+  healthCenters: HealthCenter[] = [];
 
   constructor(
     public readonly dialog: MatDialog,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar,
-    private readonly postoSaudeService: PostoSaudeService
+    private readonly healthCenterService: PostoSaudeService
   ) {
     this.refresh();
   }
 
   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }) {
-    this.postoSaudeService.list().subscribe((postos: HealthCenter[]) => {
-      this.postos = postos;
+    this.healthCenterService.list().subscribe((healthCentersList: HealthCenter[]) => {
+      this.healthCenters = healthCentersList;
     });
   }
 
@@ -39,18 +39,18 @@ export class PostoSaudeComponent {
     this.router.navigate(['new'], { relativeTo: this.route });
   }
 
-  onEdit(postoSaude: HealthCenter) {
-    this.router.navigate(['edit', postoSaude.id], { relativeTo: this.route });
+  onEdit(healthCenter: HealthCenter) {
+    this.router.navigate(['edit', healthCenter.id], { relativeTo: this.route });
   }
 
-  onRemove(postoSaude: HealthCenter) {
+  onRemove(healthCenter: HealthCenter) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'Deseja realmente excluir o curso ' + postoSaude.name + '?',
+      data: 'Deseja realmente excluir o curso ' + healthCenter.name + '?',
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.postoSaudeService.remove(postoSaude.id).subscribe({
+        this.healthCenterService.remove(healthCenter.id).subscribe({
           next: () => {
             this.refresh();
             this.snackBar.open('Curso removido com sucesso', 'X', {
@@ -64,7 +64,7 @@ export class PostoSaudeComponent {
     });
   }
 
-  onEditDoctor(postoSaude: HealthCenter) {
-    this.router.navigate(['editmedico', postoSaude.id], { relativeTo: this.route });
+  onEditDoctor(healthCenter: HealthCenter) {
+    this.router.navigate(['editmedico', healthCenter.id], { relativeTo: this.route });
   }
 }

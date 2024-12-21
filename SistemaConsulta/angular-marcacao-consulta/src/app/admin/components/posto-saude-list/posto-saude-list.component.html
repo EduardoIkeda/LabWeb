@@ -1,17 +1,17 @@
-<mat-table [dataSource]="postosSaude">
+<mat-table [dataSource]="healthCenterData">
   <ng-container matColumnDef="nome">
     <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
-    <mat-cell *matCellDef="let posto"> {{ posto.name }} </mat-cell>
+    <mat-cell *matCellDef="let healthCenter"> {{ healthCenter.name }} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="horarioAbertura">
     <mat-header-cell *matHeaderCellDef> Horário abertura </mat-header-cell>
-    <mat-cell *matCellDef="let posto"> {{ posto.openingHour }} </mat-cell>
+    <mat-cell *matCellDef="let healthCenter"> {{ healthCenter.openingHour }} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="horarioFechamento">
     <mat-header-cell *matHeaderCellDef> Horário fechamento </mat-header-cell>
-    <mat-cell *matCellDef="let posto"> {{ posto.closingHour }} </mat-cell>
+    <mat-cell *matCellDef="let healthCenter"> {{ healthCenter.closingHour }} </mat-cell>
   </ng-container>
 
   <!-- Actions Column -->
