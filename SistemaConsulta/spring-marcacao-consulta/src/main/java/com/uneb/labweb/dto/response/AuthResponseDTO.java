@@ -1,4 +1,4 @@
-package com.uneb.labweb.dto;
+package com.uneb.labweb.dto.response;
 
 import jakarta.validation.constraints.NotBlank;
 

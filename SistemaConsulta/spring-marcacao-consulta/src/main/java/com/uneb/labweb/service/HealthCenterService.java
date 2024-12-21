@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.uneb.labweb.dto.HealthCenterDTO;
 import com.uneb.labweb.dto.mapper.HealthCenterMapper;
+import com.uneb.labweb.dto.request.HealthCenterDTO;
 import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.repository.HealthCenterRepository;
 

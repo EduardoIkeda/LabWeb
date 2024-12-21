@@ -3,7 +3,7 @@ package com.uneb.labweb.dto.mapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.uneb.labweb.dto.UserDTO;
+import com.uneb.labweb.dto.request.UserDTO;
 import com.uneb.labweb.enums.Role;
 import com.uneb.labweb.model.User;
 

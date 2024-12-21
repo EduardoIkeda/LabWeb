@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.uneb.labweb.dto.DoctorDTO;
+import com.uneb.labweb.dto.request.DoctorDTO;
 import com.uneb.labweb.service.DoctorService;
 
 import jakarta.validation.Valid;

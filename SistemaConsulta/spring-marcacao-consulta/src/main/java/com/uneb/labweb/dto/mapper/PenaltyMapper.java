@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException;
 
 import org.springframework.stereotype.Component;
 
-import com.uneb.labweb.dto.PenaltyDTO;
+import com.uneb.labweb.dto.request.PenaltyDTO;
 import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.model.Penalty;
 
@@ -22,7 +22,7 @@ public class PenaltyMapper {
 
         String startDate = penalty.getPenaltyStartDate().format(FORMATTER_BR);
         String endDate = penalty.getPenaltyEndDate().format(FORMATTER_BR);
-        return new PenaltyDTO(penalty.getId(), penalty.getPenaltyReason(), startDate, endDate);
+        return new PenaltyDTO(penalty.getId(), startDate, endDate);
     }
 
     public Penalty toEntity(PenaltyDTO penaltyDTO) { 
@@ -35,7 +35,6 @@ public class PenaltyMapper {
         if (penaltyDTO.id() != null) {
             penalty.setId(penaltyDTO.id());
         }
-        penalty.setPenaltyReason(penaltyDTO.penaltyReason());
         penalty.setPenaltyStartDate(parseDate(penaltyDTO.penaltyStartDate()));
         penalty.setPenaltyEndDate(parseDate(penaltyDTO.penaltyEndDate()));
 

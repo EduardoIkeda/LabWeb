@@ -6,14 +6,17 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.uneb.labweb.enums.AppointmentStatus;
 import com.uneb.labweb.enums.Role;
@@ -30,85 +33,59 @@ import com.uneb.labweb.repository.PenaltyRepository;
 import com.uneb.labweb.repository.SpecialtyRepository;
 import com.uneb.labweb.repository.UserRepository;
 
+@Transactional
 @SpringBootApplication
 public class SpringMarcacaoConsultaApplication {
+
+    private SpringMarcacaoConsultaApplication self;
+    private AppointmentRepository appointmentRepository;
+    private DoctorRepository doctorRepository;
+    private HealthCenterRepository healthCenterRepository;
+    private PenaltyRepository penaltyRepository;
+    private SpecialtyRepository specialtyRepository;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
+
+    @Value("${api.database.password}")
+    private String password;
 
     public static void main(String[] args) {
         SpringApplication.run(SpringMarcacaoConsultaApplication.class, args);
     }
-
+    
     @Bean
     @Profile("test")
-    @SuppressWarnings({"unused", "java:S125"})
     CommandLineRunner initDatabase(
+            SpringMarcacaoConsultaApplication self,
             AppointmentRepository appointmentRepository,
-            DoctorRepository doctorRepository,
+            DoctorRepository doctorRepository, 
             HealthCenterRepository healthCenterRepository,
-            PenaltyRepository penaltyRepository,
-            SpecialtyRepository specialtyRepository,
+            PenaltyRepository penaltyRepository, 
+            SpecialtyRepository specialtyRepository, 
             UserRepository userRepository,
             PasswordEncoder passwordEncoder
     ) {
         return args -> {
-            this.initHealthCenters(healthCenterRepository);
-            this.initSpecialties(specialtyRepository);
-            this.initUsers(userRepository, passwordEncoder);
-            this.initDoctors(doctorRepository);
-            this.initAppointments(appointmentRepository);
-            this.initPenalties(penaltyRepository);          
+            this.self = self;
+            this.appointmentRepository = appointmentRepository;
+            this.doctorRepository = doctorRepository;
+            this.healthCenterRepository = healthCenterRepository;
+            this.penaltyRepository = penaltyRepository;
+            this.specialtyRepository = specialtyRepository;
+            this.userRepository = userRepository;
+            this.passwordEncoder = passwordEncoder;
+
+            User user = this.self.initUsers();
+            HealthCenter healthCenter = this.self.initHealthCenters();
+            Specialty specialty = this.self.initSpecialties();
+            Doctor doctor = this.self.initDoctors();
+            this.self.initPenalties();
+            this.self.initAppointments(doctor, healthCenter, specialty, user);
         };
     }
 
-    @SuppressWarnings("java:S125")
-    public void initHealthCenters(HealthCenterRepository healthCenterRepository) {
-        healthCenterRepository.deleteAll();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-
-        HealthCenter healthCenter1 = new HealthCenter();
-        healthCenter1.setName("Posto SUS 1");
-        healthCenter1.setAddress("Endereço genérico 1");
-        healthCenter1.setOpeningHour(LocalTime.parse("08:00", formatter));
-        healthCenter1.setClosingHour(LocalTime.parse("18:00", formatter));
-        // healthCenter1.getAppointments().add(appointment);
-        // healthCenter1.getDoctors().add(doctor);
-        // healthCenter1.getSpecialties().add(specialty);
-        healthCenterRepository.save(healthCenter1);
-
-        HealthCenter healthCenter2 = new HealthCenter();
-        healthCenter2.setName("Posto SUS 2");
-        healthCenter2.setAddress("Endereço genérico 2");
-        healthCenter2.setOpeningHour(LocalTime.parse("10:00", formatter));
-        healthCenter2.setClosingHour(LocalTime.parse("20:00", formatter));
-        // healthCenter2.getAppointments().add(appointment);
-        // healthCenter2.getDoctors().add(doctor);
-        // healthCenter2.getSpecialties().add(specialty);
-        healthCenterRepository.save(healthCenter2);
-    }
-
-    @SuppressWarnings("java:S125")
-    public void initSpecialties(SpecialtyRepository specialtyRepository) {
-        specialtyRepository.deleteAll();
-
-        Specialty specialty1 = new Specialty();
-        specialty1.setName("Cardiologia");
-        specialty1.setDescription("Descrição genérica 1");
-        // specialty1.getAppointments().add(appointment);
-        // specialty1.getDoctors().add(doctor);
-        // specialty1.getHealthCenters().add(healthCenter);
-        specialtyRepository.save(specialty1);
-
-        Specialty specialty2 = new Specialty();
-        specialty2.setName("Psiquiatria");
-        specialty2.setDescription("Descrição genérica 2");
-        // specialty2.getAppointments().add(appointment);
-        // specialty2.getDoctors().add(doctor);
-        // specialty2.getHealthCenters().add(healthCenter);
-        specialtyRepository.save(specialty2);
-    }
-
-    @SuppressWarnings("java:S125")
-    public void initUsers(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        userRepository.deleteAll();
+    public User initUsers() {
+        this.userRepository.deleteAll();
 
         User user1 = new User();
         user1.setSusCardNumber("012345678901234");
@@ -116,12 +93,9 @@ public class SpringMarcacaoConsultaApplication {
         user1.setCpf("01234567890");
         user1.setPhone("5571982345678");
         user1.setEmail("email1@gmail.com");
-        user1.setPassword(passwordEncoder.encode("12345"));
+        user1.setPassword(this.passwordEncoder.encode(this.password));
         user1.setRole(Role.ADMIN);
-        // user1.getAppointments().add(appointment);
-        // user1.setDoctor(doctor);
-        // user1.getPenalties().add(penalty);
-        userRepository.save(user1);
+        this.userRepository.save(user1);
 
         User user2 = new User();
         user2.setSusCardNumber("012345678901235");
@@ -129,18 +103,60 @@ public class SpringMarcacaoConsultaApplication {
         user2.setCpf("01234567891");
         user2.setPhone("5571982345679");
         user2.setEmail("email2@gmail.com");
-        user2.setPassword(passwordEncoder.encode("12346"));
+        user2.setPassword(this.passwordEncoder.encode(this.password));
         user2.setRole(Role.ADMIN);
-        // user2.getAppointments().add(appointment);
-        // user2.setDoctor(doctor);
-        // user2.getPenalties().add(penalty);
-        userRepository.save(user2);
+        this.userRepository.save(user2);
+
+        return user2;
     }
 
-    @SuppressWarnings("java:S125")
-    public void initDoctors(DoctorRepository doctorRepository) {
-        doctorRepository.deleteAll();
+    public HealthCenter initHealthCenters() {
+        this.healthCenterRepository.deleteAll();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        HealthCenter healthCenter1 = new HealthCenter();
+        healthCenter1.setName("Posto SUS 1");
+        healthCenter1.setAddress("Endereço genérico 1");
+        healthCenter1.setOpeningHour(LocalTime.parse("08:00", formatter));
+        healthCenter1.setClosingHour(LocalTime.parse("18:00", formatter));
+        this.healthCenterRepository.save(healthCenter1);
+
+        HealthCenter healthCenter2 = new HealthCenter();
+        healthCenter2.setName("Posto SUS 2");
+        healthCenter2.setAddress("Endereço genérico 2");
+        healthCenter2.setOpeningHour(LocalTime.parse("10:00", formatter));
+        healthCenter2.setClosingHour(LocalTime.parse("20:00", formatter));
+        this.healthCenterRepository.save(healthCenter2);
+
+        return healthCenter1;
+    }
+ 
+    public Specialty initSpecialties() {
+
+        this.specialtyRepository.deleteAll();
+
+        List<HealthCenter> healthCenters = healthCenterRepository.findAll();
+
+        Specialty specialty1 = new Specialty();
+        specialty1.setName("Cardiologia");
+        specialty1.getHealthCenters().add(healthCenters.get(0));
+        this.specialtyRepository.save(specialty1);
+
+        Specialty specialty2 = new Specialty();
+        specialty2.setName("Psiquiatria"); 
+        specialty2.getHealthCenters().add(healthCenters.get(1));
+        this.specialtyRepository.save(specialty2);
+
+        return specialty1;
+    }
+
+    public Doctor initDoctors() {
+        this.doctorRepository.deleteAll();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        List<HealthCenter> healthCenters = healthCenterRepository.findAll();
+        List<Specialty> specialties = specialtyRepository.findAll();
+        List<User> users = userRepository.findAll();
 
         Doctor doctor1 = new Doctor();
         doctor1.setCrm("12345-BA");
@@ -152,11 +168,10 @@ public class SpringMarcacaoConsultaApplication {
                 DayOfWeek.THURSDAY,
                 DayOfWeek.FRIDAY
         )));
-        // doctor1.getAppointments().add(appointment);
-        // doctor1.getHealthCenters().add(healthCenter);
-        // doctor1.setSpecialty(specialty);
-        // doctor1.setUser(user);
-        doctorRepository.save(doctor1);
+        doctor1.getHealthCenters().add(healthCenters.get(0));
+        doctor1.getSpecialties().add(specialties.get(0));
+        doctor1.setUser(users.get(0));
+        this.doctorRepository.save(doctor1);
 
         Doctor doctor2 = new Doctor();
         doctor2.setCrm("12345-SP");
@@ -167,63 +182,62 @@ public class SpringMarcacaoConsultaApplication {
                 DayOfWeek.WEDNESDAY,
                 DayOfWeek.FRIDAY
         )));
-        // doctor2.getAppointments().add(appointment);
-        // doctor2.getHealthCenters().add(healthCenter);
-        // doctor2.setSpecialty(specialty);
-        // doctor2.setUser(user);
-        doctorRepository.save(doctor2);
+        doctor2.getHealthCenters().add(healthCenters.get(1));
+        doctor2.getSpecialties().add(specialties.get(1));
+        doctor2.setUser(users.get(1));
+        this.doctorRepository.save(doctor2);
+
+        return doctor1;
     }
 
-    @SuppressWarnings("java:S125")
-    public void initAppointments(AppointmentRepository appointmentRepository) {
-        appointmentRepository.deleteAll();
+    public void initPenalties() {
+        this.penaltyRepository.deleteAll();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        List<User> users = userRepository.findAll();
+
+        Penalty penalty1 = new Penalty();
+        penalty1.setPenaltyStartDate(LocalDate.parse("14/12/2025", formatter));
+        penalty1.setPenaltyEndDate(LocalDate.parse("21/12/2025", formatter));
+        penalty1.setUser(users.get(0));
+        this.penaltyRepository.save(penalty1);
+
+        Penalty penalty2 = new Penalty();
+        penalty2.setPenaltyStartDate(LocalDate.parse("16/12/2025", formatter));
+        penalty2.setPenaltyEndDate(LocalDate.parse("23/12/2025", formatter));
+        penalty2.setUser(users.get(1));
+        this.penaltyRepository.save(penalty2);
+    }
+
+    public void initAppointments(Doctor doctor, HealthCenter healthCenter, Specialty specialty, User user) {
+        this.appointmentRepository.deleteAll();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         Appointment appointment1 = new Appointment();
-        appointment1.setAppointmentDateTime(LocalDateTime.parse("27/12/2024 14:30", formatter));
+        appointment1.setAppointmentDateTime(LocalDateTime.parse("27/12/2025 14:30", formatter));
         appointment1.setAppointmentStatus(AppointmentStatus.SCHEDULED);
-        // appointment1.setDoctor(doctor);
-        // appointment1.setHealthCenter(healthCenter);
-        // appointment1.setSpecialty(specialty);
-        // appointment1.setUser(user);
-        appointmentRepository.save(appointment1);
+        appointment1.setDoctor(doctor);
+        appointment1.setHealthCenter(healthCenter);
+        appointment1.setSpecialty(specialty);
+        appointment1.setUser(user);
+        this.appointmentRepository.save(appointment1);
 
         Appointment appointment2 = new Appointment();
-        appointment2.setAppointmentDateTime(LocalDateTime.parse("16/12/2024 09:30", formatter));
+        appointment2.setAppointmentDateTime(LocalDateTime.parse("16/12/2025 09:30", formatter));
         appointment2.setAppointmentStatus(AppointmentStatus.ATTENDED);
-        // appointment2.setDoctor(doctor);
-        // appointment2.setHealthCenter(healthCenter);
-        // appointment2.setSpecialty(specialty);
-        // appointment2.setUser(user);
-        appointmentRepository.save(appointment2);
+        appointment2.setDoctor(doctor);
+        appointment2.setHealthCenter(healthCenter);
+        appointment2.setSpecialty(specialty);
+        appointment2.setUser(user);
+        this.appointmentRepository.save(appointment2);
 
         Appointment appointment3 = new Appointment();
-        appointment3.setAppointmentDateTime(LocalDateTime.parse("18/12/2024 17:00", formatter));
+        appointment3.setAppointmentDateTime(LocalDateTime.parse("18/12/2025 17:00", formatter));
         appointment3.setAppointmentStatus(AppointmentStatus.MISSED);
-        // appointment3.setDoctor(doctor);
-        // appointment3.setHealthCenter(healthCenter);
-        // appointment3.setSpecialty(specialty);
-        // appointment3.setUser(user);
-        appointmentRepository.save(appointment3);
-    }
-
-    @SuppressWarnings("java:S125")
-    public void initPenalties(PenaltyRepository penaltyRepository) {
-        penaltyRepository.deleteAll();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        Penalty penalty1 = new Penalty();
-        penalty1.setPenaltyReason("Razão genérica 1");
-        penalty1.setPenaltyStartDate(LocalDate.parse("14/12/2024", formatter));
-        penalty1.setPenaltyEndDate(LocalDate.parse("21/12/2024", formatter));
-        // penalty1.setUser(user);
-        penaltyRepository.save(penalty1);
-
-        Penalty penalty2 = new Penalty();
-        penalty2.setPenaltyReason("Razão genérica 2");
-        penalty2.setPenaltyStartDate(LocalDate.parse("16/12/2024", formatter));
-        penalty2.setPenaltyEndDate(LocalDate.parse("23/12/2024", formatter));
-        // penalty2.setUser(user);
-        penaltyRepository.save(penalty2);
+        appointment3.setDoctor(doctor);
+        appointment3.setHealthCenter(healthCenter);
+        appointment3.setSpecialty(specialty);
+        appointment3.setUser(user);
+        this.appointmentRepository.save(appointment3);
     }
 }
