@@ -1,5 +1,5 @@
-import { PostoSaudeService } from '../../../shared/service/health-center.service';
-import { horarios } from './../../../../assets/horarios';
+import { HealthCenterService } from '../../../shared/service/health-center.service';
+import { horarios } from '../../../../assets/horarios';
 import { Component, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-posto-saude-form',
+  selector: 'app-health-center-form',
   standalone: true,
   imports: [
     MatInputModule,
@@ -28,10 +28,10 @@ import { ActivatedRoute } from '@angular/router';
     MatSelectModule,
     ReactiveFormsModule,
   ],
-  templateUrl: './posto-saude-form.component.html',
-  styleUrl: './posto-saude-form.component.scss',
+  templateUrl: './health-center-form.component.html',
+  styleUrl: './health-center-form.component.scss',
 })
-export class PostoSaudeFormComponent implements OnInit {
+export class HealthCenterFormComponent implements OnInit {
   name: string = '';
   address: string = '';
   openingHour: string = '';
@@ -50,7 +50,7 @@ export class PostoSaudeFormComponent implements OnInit {
     private readonly location: Location,
     private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
-    private readonly postoSaudeService: PostoSaudeService
+    private readonly postoSaudeService: HealthCenterService
   ) {
     this.postoSaudeForm = this.fb.group(
       {
@@ -92,9 +92,7 @@ export class PostoSaudeFormComponent implements OnInit {
     const openingHour = formGroup.get('openingHour')?.value;
     const closingHour = formGroup.get('closingHour')?.value;
 
-    return openingHour &&
-      closingHour &&
-      openingHour < closingHour
+    return openingHour && closingHour && openingHour < closingHour
       ? null
       : { invalidHours: true };
   }

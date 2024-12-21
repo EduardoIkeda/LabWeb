@@ -1,20 +1,20 @@
-import { PostoSaudeService } from '../../../shared/service/health-center.service';
-import { ConfirmationDialogComponent } from './../../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { HealthCenterService } from '../../../shared/service/health-center.service';
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Component } from '@angular/core';
-import { PostoSaudeListComponent } from "../../components/posto-saude-list/posto-saude-list.component";
 import { HealthCenter } from '../../../shared/model/health-center';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
+import { HealthCenterListComponent } from '../../components/health-center-list/health-center-list.component';
 
 @Component({
-  selector: 'app-posto-saude',
+  selector: 'app-health-center',
   standalone: true,
-  imports: [PostoSaudeListComponent, MatCardModule],
-  templateUrl: './posto-saude.component.html',
-  styleUrl: './posto-saude.component.scss',
+  imports: [HealthCenterListComponent, MatCardModule],
+  templateUrl: './health-center.component.html',
+  styleUrl: './health-center.component.scss',
 })
 export class PostoSaudeComponent {
   healthCenters: HealthCenter[] = [];
@@ -24,15 +24,17 @@ export class PostoSaudeComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar,
-    private readonly healthCenterService: PostoSaudeService
+    private readonly healthCenterService: HealthCenterService
   ) {
     this.refresh();
   }
 
   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }) {
-    this.healthCenterService.list().subscribe((healthCentersList: HealthCenter[]) => {
-      this.healthCenters = healthCentersList;
-    });
+    this.healthCenterService
+      .list()
+      .subscribe((healthCentersList: HealthCenter[]) => {
+        this.healthCenters = healthCentersList;
+      });
   }
 
   onAdd() {
@@ -58,13 +60,15 @@ export class PostoSaudeComponent {
               verticalPosition: 'top',
               horizontalPosition: 'center',
             });
-          }
+          },
         });
       }
     });
   }
 
   onEditDoctor(healthCenter: HealthCenter) {
-    this.router.navigate(['editmedico', healthCenter.id], { relativeTo: this.route });
+    this.router.navigate(['editmedico', healthCenter.id], {
+      relativeTo: this.route,
+    });
   }
 }

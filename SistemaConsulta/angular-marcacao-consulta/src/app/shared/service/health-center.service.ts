@@ -8,7 +8,7 @@ import { Location } from '@angular/common';
 @Injectable({
   providedIn: 'root',
 })
-export class PostoSaudeService {
+export class HealthCenterService {
   private readonly API = '/api/health-centers';
 
   constructor(

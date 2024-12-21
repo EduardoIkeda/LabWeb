@@ -1,4 +1,5 @@
-import { CommonModule } from '@angular/common';
+import { HealthCenterService } from './../../../shared/service/health-center.service';
+import { CommonModule, Location } from '@angular/common';
 import { HealthCenter } from '../../../shared/model/health-center';
 import { Component } from '@angular/core';
 import { Medico } from '../../../shared/model/medico';
@@ -7,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-medico-form',
@@ -23,13 +25,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   styleUrl: './medico-form.component.scss',
 })
 export class MedicoFormComponent {
-  postoSaude: HealthCenter = {
-    id: '1',
-    name: 'Posto de Saúde 1',
-    address: 'Rua 1, 123',
-    openingHour: '08:00',
-    closingHour: '17:00',
-    // especialidades: ['Cardiologia', 'Dermatologia', 'Pediatria', 'Ortopedia'],
+  healthCenter: HealthCenter = {
+    id: '',
+    name: '',
+    address: '',
+    openingHour: '',
+    closingHour: ''
   };
 
   medicos: Medico[] = [
@@ -48,15 +49,27 @@ export class MedicoFormComponent {
   ];
 
   medicosAlocados: Medico[] = [];
-  medicosCadastrados: Medico[] = [...this.medicos]; // Use spread operator to create a new array
+  medicosCadastrados: Medico[] = [...this.medicos];
 
   searchTermAlocado: string = '';
   searchTermCadastrado: string = '';
   filteredMedicosCadastrados: Medico[] = [];
   filteredMedicosAlocados: Medico[] = [];
 
-  constructor() {
+  constructor(
+    private readonly postoSaudeService: HealthCenterService,
+    private readonly route: ActivatedRoute,
+    private readonly location: Location
+  ) {
     this.filteredMedicosCadastrados = [...this.medicosCadastrados];
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        this.postoSaudeService.loadById(id).subscribe((healthCenter) => {
+          this.healthCenter = healthCenter;
+        });
+      }
+    });
   }
 
   onRemove(medico: Medico) {
@@ -90,7 +103,10 @@ export class MedicoFormComponent {
       return;
     }
 
-    this.filteredMedicosCadastrados = this.filterMedicos(this.medicosCadastrados, term);
+    this.filteredMedicosCadastrados = this.filterMedicos(
+      this.medicosCadastrados,
+      term
+    );
   }
 
   filterMedicosAlocados() {
@@ -114,12 +130,11 @@ export class MedicoFormComponent {
     });
   }
 
-
   onSave() {
     console.log('Save');
   }
 
   onCancel() {
-    console.log('Cancel');
+    this.location.back();
   }
 }

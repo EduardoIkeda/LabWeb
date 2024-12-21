@@ -6,13 +6,13 @@ import {
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { HealthCenter } from '../../shared/model/health-center';
-import { PostoSaudeService } from '../../shared/service/health-center.service';
+import { HealthCenterService } from '../../shared/service/health-center.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostoSaudeResolver implements Resolve<HealthCenter> {
-  constructor(private readonly service: PostoSaudeService) {}
+  constructor(private readonly service: HealthCenterService) {}
 
   resolve(
     route: ActivatedRouteSnapshot,

@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-posto-saude-list',
+  selector: 'app-health-center-list',
   standalone: true,
   imports: [
     MatTableModule,
@@ -20,10 +20,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatCardModule,
     MatIconModule,
   ],
-  templateUrl: './posto-saude-list.component.html',
-  styleUrl: './posto-saude-list.component.scss',
+  templateUrl: './health-center-list.component.html',
+  styleUrl: './health-center-list.component.scss',
 })
-export class PostoSaudeListComponent {
+export class HealthCenterListComponent {
   @Input() healthCenterData: HealthCenter[] = [];
   @Output() add = new EventEmitter(false);
   @Output() edit = new EventEmitter(false);
