@@ -36,6 +36,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+                        
+                        // Para teste
+                        // .requestMatchers(HttpMethod.POST, "/api/appointments").permitAll()
 
                         // .requestMatchers("/api/appointments").hasRole("DOCTOR")
                         // .requestMatchers("/api/doctors").hasRole("ADMIN")

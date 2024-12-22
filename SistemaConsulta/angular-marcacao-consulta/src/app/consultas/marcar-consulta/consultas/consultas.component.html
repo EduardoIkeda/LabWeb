@@ -10,7 +10,7 @@
       <mat-card appearance="outlined" class="card-container">
         <p class="medico">{{ medico.name }}</p>
         <div class="card-content">
-          <button *ngFor="let consulta of medico.appointments" mat-stroked-button (click)="onSelect($event, consulta)">{{ consulta.date }}</button>
+          <button *ngFor="let consulta of medico.appointments" mat-stroked-button (click)="onSelect($event, consulta)">{{ consulta.appointmentDateTime }}</button>
         </div>
       </mat-card>
     </div>

@@ -11,38 +11,41 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { ConsultasComponent } from './consultas/consultas.component';
+import { ConsultasService } from '../service/consultas.service';
+import { MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-marcar-consulta',
   standalone: true,
-  imports: [EspecialidadesComponent, MatIconModule, MatButtonModule, MatCardModule, PostosComponent, CommonModule, ConsultasComponent],
+  imports: [EspecialidadesComponent, MatIconModule, MatButtonModule, MatCardModule, PostosComponent, CommonModule, ConsultasComponent, MatSnackBarModule],
   templateUrl: './marcar-consulta.component.html',
   styleUrl: './marcar-consulta.component.scss'
 })
-export class MarcarConsultaComponent implements OnInit, OnDestroy{
+export class MarcarConsultaComponent implements OnInit, OnDestroy {
   consulta!: Consulta | null;
   speciality!: Especialidade | null;
   posto!: Posto | null;
   page: string = "especialidade";
 
   constructor(
-    public dialog: MatDialog
-  ) {
-  }
+    public dialog: MatDialog,
+    private readonly snackBar: MatSnackBar,
+    private readonly consultaService: ConsultasService
+  ) { }
 
-  onSelectSpeciality(speciality: Especialidade){
+  onSelectSpeciality(speciality: Especialidade) {
     this.speciality = speciality;
     this.page = "posto";
     console.log(this.speciality.name);
   }
 
-  onSelectPosto(posto: Posto){
+  onSelectPosto(posto: Posto) {
     this.posto = posto;
     this.page = "consulta";
     console.log(this.posto.name);
   }
 
-  onSelectConsulta(consulta: Consulta){
+  onSelectConsulta(consulta: Consulta) {
     this.consulta = consulta;
     console.log(this.consulta);
   }
@@ -55,50 +58,55 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy{
             Posto: ${this.posto?.name}
             Endereço: ${this.posto?.address}
             Profissional: ${this.consulta?.doctorName}
-            Data e hora: ${this.consulta?.date}`,
+            Data e hora: ${this.consulta?.appointmentDateTime}`,
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        // this.consultaService.marcarConsulta(this.consulta).subscribe(
-        //   () => {
-        //     this.snackBar.open('Consulta marcada com sucesso!', 'Fechar', {
-        //       duration: 5000,
-        //       verticalPosition: 'top',
-        //       horizontalPosition: 'center',
-        //     });
-        //   },
-        //   (error) => {
-        //     console.error('Erro ao marcar consulta:', error);
-        //     this.snackBar.open('Erro ao marcar a consulta. Tente novamente.', 'Fechar', {
-        //       duration: 5000,
-        //       verticalPosition: 'top',
-        //       horizontalPosition: 'center',
-        //     });
-        //   }
-        // );
+      if (result && this.consulta != null) {
+        // this.consultaService.create(this.consulta).subscribe({
+        //   next: () => this.onSuccess(),
+        //   error: (error) => this.onError(error)
+        // });
       }
     });
   }
 
-  onBack(){
-    if(this.page.includes('posto')){
+  private onSuccess() {
+    this.snackBar.open('Consulta marcada com sucesso!', 'Fechar', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+  }
+
+  private onError(error: any) {
+    console.error('Erro ao marcar consulta:', error);
+
+    this.snackBar.open('Erro ao marcar a consulta. Tente novamente.', 'Fechar', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+  }
+
+  onBack() {
+    if (this.page.includes('posto')) {
       this.page = "especialidade";
-      this.posto = null;
-    }else{
+      this.speciality = null;
+    } else {
       this.page = "posto";
+      this.posto = null;
       this.consulta = null;
     }
   }
 
-
-  ngOnDestroy(): void {
+  ngOnInit(): void {
     this.consulta = null;
     this.speciality = null;
     this.posto = null;
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
     this.consulta = null;
     this.speciality = null;
     this.posto = null;

@@ -13,6 +13,7 @@ export function AuthInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Obs
   const authToken = localStorage.getItem('auth-token');
 
   if (authToken) {
+    //console.log("Passou pelo authToken")
     const clonedRequest = req.clone({ setHeaders: { Authorization: `Bearer ${authToken}` } });
     return next(clonedRequest);
   }

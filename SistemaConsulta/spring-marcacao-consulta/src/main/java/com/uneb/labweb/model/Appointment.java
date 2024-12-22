@@ -44,28 +44,28 @@ public class Appointment {
     @Convert(converter = AppointmentStatusConverter.class)
     private AppointmentStatus appointmentStatus;
 
-    @NotNull
+    // @NotNull
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)//, optional = false)
+    @JoinColumn(name = "doctor_id")//, nullable = false)
     private Doctor doctor;
 
-    @NotNull
+    // @NotNull
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "health_center_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)//, optional = false)
+    @JoinColumn(name = "health_center_id")//, nullable = false)
     private HealthCenter healthCenter;
 
-    @NotNull
+    // @NotNull
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "specialty_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)//, optional = false)
+    @JoinColumn(name = "specialty_id")//, nullable = false)
     private Specialty specialty;
 
-    @NotNull
+    // @NotNull
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)//, optional = false)
+    @JoinColumn(name = "user_id")//, nullable = false)
     private User user;
     
     @NotNull
