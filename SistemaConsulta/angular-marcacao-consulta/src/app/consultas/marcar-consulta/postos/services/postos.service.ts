@@ -12,7 +12,7 @@ export class PostosService {
 
   constructor(private readonly http: HttpClient) {}
 
-  list() {
-    return this.http.get<Posto[]>(this.API);
+  list(speciality_id: string) {
+    return this.http.get<Posto[]>(this.API, {params: { speciality_id }});
   }
 }

@@ -1,11 +1,11 @@
 import { Doctor } from "../../shared/model/doctor";
 
 export class ConsultaPorData {
-  date: string;
+  date: Date;
   doctors: Doctor[];
 
   constructor(
-    date: string,
+    date: Date,
     doctors: Doctor[]
   ) {
     this.date = date;

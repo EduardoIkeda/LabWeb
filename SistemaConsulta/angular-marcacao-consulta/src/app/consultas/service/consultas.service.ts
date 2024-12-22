@@ -22,4 +22,8 @@ export class ConsultasService {
     };
     return this.http.post<Consulta>(this.API, recordd);
   }
+
+  marcarConsulta(record: Partial<Consulta>){
+    return this.http.put<Consulta>(`${this.API}/${record.id}`, record);
+  }
 }

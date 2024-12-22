@@ -12,7 +12,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { ConsultasComponent } from './consultas/consultas.component';
 import { ConsultasService } from '../service/consultas.service';
-import { MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { UsersService } from '../../auth/services/users.service';
+import { User } from '../../auth/model/user';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-marcar-consulta',
@@ -26,29 +30,49 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
   speciality!: Especialidade | null;
   posto!: Posto | null;
   page: string = "especialidade";
+  patient: User | null = null;
 
   constructor(
     public dialog: MatDialog,
-    private readonly snackBar: MatSnackBar,
-    private readonly consultaService: ConsultasService
-  ) { }
+    public consultaService: ConsultasService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private usersService: UsersService
+  ) {
+  }
 
   onSelectSpeciality(speciality: Especialidade) {
     this.speciality = speciality;
     this.page = "posto";
-    console.log(this.speciality.name);
   }
 
   onSelectPosto(posto: Posto) {
     this.posto = posto;
     this.page = "consulta";
-    console.log(this.posto.name);
   }
 
-  onSelectConsulta(consulta: Consulta) {
-    this.consulta = consulta;
-    console.log(this.consulta);
+  async onSelectConsulta(consulta: Consulta) {
+    try {
+      this.consulta = consulta;
+
+      const userId = localStorage.getItem("user_id");
+      if (!userId) {
+        throw new Error("Usuário não encontrado no localStorage.");
+      }
+
+      // Carrega o usuário pelo ID
+      this.patient = await firstValueFrom(this.usersService.loadById(userId));
+
+      if (this.patient) {
+        this.consulta.patient = this.patient;
+      } else {
+        console.warn("Nenhum paciente foi encontrado.");
+      }
+    } catch (error) {
+      console.error("Erro ao carregar o paciente:", error);
+    }
   }
+
 
   onMarcarConsulta() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -77,6 +101,7 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
       verticalPosition: 'top',
       horizontalPosition: 'center',
     });
+    this.router.navigate(['/consultas/list']);
   }
 
   private onError(error: any) {

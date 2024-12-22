@@ -22,6 +22,7 @@ export class UsersService {
   login(record: Partial<User>) {
     return this.httpClient.post<AuthResponse>(`${this.API}/login`, record, { headers: this.noAuthHeader }).pipe(
       tap((value) => {
+        localStorage.setItem("user_id", record.id!)
         localStorage.setItem("name", value.name)
         localStorage.setItem("role", value.role)
         localStorage.setItem("auth-token", value.token)
@@ -32,6 +33,7 @@ export class UsersService {
   signup(record: Partial<User>) {
     return this.httpClient.post<AuthResponse>(`${this.API}/register`, record, { headers: this.noAuthHeader }).pipe(
       tap((value) => {
+        localStorage.setItem("user_id", record.id!)
         localStorage.setItem("name", value.name)
         localStorage.setItem("role", value.role)
         localStorage.setItem("auth-token", value.token)

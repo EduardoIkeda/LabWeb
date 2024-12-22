@@ -1,6 +1,8 @@
+import { User } from "../../auth/model/user";
+
 export class Consulta {
   id: string;
-  patientName: string;
+  patient: User | null;
   doctorName: string;
   appointmentDateTime: Date;
   //appointmentStatus: String;
@@ -10,7 +12,7 @@ export class Consulta {
 
   constructor(
     id: string,
-    patientName: string,
+    patient: User | null,
     doctorName: string,
     appointmentDateTime: Date,
     //appointmentStatus: String,
@@ -19,7 +21,7 @@ export class Consulta {
     isFinalized: boolean
   ) {
     this.id = id;
-    this.patientName = patientName;
+    this.patient = patient;
     this.doctorName = doctorName;
     this.appointmentDateTime = appointmentDateTime;
     //this.appointmentStatus = appointmentStatus
