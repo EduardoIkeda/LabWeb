@@ -62,7 +62,7 @@ export class ConsultasComponent {
         this.consultas = consultas
           .map((consulta) => ({
             ...consulta,
-            date: new Date(consulta.appointmentDateTime),
+            appointmentDateTime: new Date(consulta.appointmentDateTime),
           }));
         this.dateList = this.getDateList();
       },
@@ -74,7 +74,7 @@ export class ConsultasComponent {
     return this.consultas
       .map((consulta) => consulta.appointmentDateTime)
       .filter(
-        (date) => date.getFullYear() === this.year
+        (date) => date instanceof Date && date.getFullYear() === this.year
       );
   }
 

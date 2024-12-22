@@ -46,7 +46,7 @@ public class UserService {
                 .map(user -> {
                     if(passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
                         String token = this.tokenService.generateToken(user);
-                        return new AuthResponseDTO(user.getName(), user.getRole().getValue(), token);
+                        return new AuthResponseDTO(user.getId(), user.getName(), user.getRole().getValue(), token);
                     }
                     
                     throw new WrongPasswordException();
@@ -69,7 +69,7 @@ public class UserService {
             userRepository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
-            return new AuthResponseDTO(newUser.getName(), newUser.getRole().getValue(), token);
+            return new AuthResponseDTO(newUser.getId(), newUser.getName(), newUser.getRole().getValue(), token);
         }
 
         throw new RecordAlreadyExistsException(user.get().getId());

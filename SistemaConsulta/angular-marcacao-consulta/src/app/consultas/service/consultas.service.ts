@@ -9,21 +9,13 @@ import { Consulta } from '../../shared/model/consulta';
 export class ConsultasService {
   private readonly API = '/api/appointments';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
   list() {
     return this.http.get<Consulta[]>('assets/consultas.json');
   }
 
-  create(record: Partial<Consulta>) {
-    const recordd: Partial<Consulta> = {
-      appointmentDateTime: record.appointmentDateTime,
-      //appointmentStatus: "scheduled"
-    };
-    return this.http.post<Consulta>(this.API, recordd);
-  }
-
-  marcarConsulta(record: Partial<Consulta>){
-    return this.http.put<Consulta>(`${this.API}/${record.id}`, record);
+  marcarConsulta(record: Partial<Consulta>) {
+    return this.http.put<Consulta>(`${this.API}/schedule/${record.id}`, record);
   }
 }
