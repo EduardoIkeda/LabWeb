@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Consulta } from '../../../shared/model/consulta';
+import { Especialidade } from '../../../shared/model/especialidade';
+import { Posto } from '../../../shared/model/posto';
 
 @Component({
   selector: 'app-consultas',
@@ -19,6 +21,8 @@ export class ConsultasComponent implements OnInit{
   listaConsultas!: ListaConsultas;
   listaPorData: ConsultaPorData[] = [];
   @Output() selectConsulta = new EventEmitter<Consulta>();
+  @Input() speciality!: Especialidade | null;
+  @Input() posto!: Posto | null;
 
   constructor(private readonly consultasService: ConsultasService) {}
 
@@ -27,7 +31,7 @@ export class ConsultasComponent implements OnInit{
   }
 
   loadConsultas() {
-    this.consultasService.list().subscribe({
+    this.consultasService.list(this.speciality!.id, this.posto!.id).subscribe({
       next: (data) => {
         this.listaConsultas = data;
         this.listaPorData = this.listaConsultas.listAppointmentsPerDate;

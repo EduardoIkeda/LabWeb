@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Posto } from '../../../shared/model/posto';
 import {MatInputModule} from '@angular/material/input';
@@ -6,6 +6,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import { PostosService } from './services/postos.service';
 import { PostoItemComponent } from './posto-item/posto-item.component';
+import { Especialidade } from '../../../shared/model/especialidade';
 
 @Component({
   selector: 'app-postos',
@@ -16,6 +17,7 @@ import { PostoItemComponent } from './posto-item/posto-item.component';
 })
 export class PostosComponent implements OnInit{
   @Output() selectPosto = new EventEmitter<Posto>();
+  @Input() speciality!: Especialidade | null;
   postos: Posto[] = [];
   displayedPostos: Posto[] = [];
   query!: string;
@@ -28,7 +30,7 @@ export class PostosComponent implements OnInit{
   }
 
   loadPostos() {
-    this.postosService.list().subscribe({
+    this.postosService.list(this.speciality!.id).subscribe({
       next: (postos) => {
         this.postos = postos.map((posto) => ({ ...posto }));
         // Após carregar os postos, ordene e atribua a displayedPostos
