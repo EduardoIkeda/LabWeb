@@ -44,3 +44,9 @@ mat-label{
 .dataContainer{
   margin-bottom: $spacing-medium;
 }
+
+.datePicker{
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}

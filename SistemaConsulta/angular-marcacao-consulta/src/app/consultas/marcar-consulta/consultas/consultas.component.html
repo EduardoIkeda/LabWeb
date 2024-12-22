@@ -1,16 +1,26 @@
 <div class="consultas-container">
   <h1 class="title">Selecione a data e hora da consulta</h1>
 
-  <p *ngIf="listaPorData.length == 0">Nenhuma consulta disponível para essa data</p>
+  <div class="datePicker">
+    <mat-form-field appearance="fill">
+      <mat-label>Escolha uma data</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onDateChange()" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-flat-button (click)="limparData()" [disabled]="selectedDate == null">Limpar data</button>
+  </div>
 
-  <div *ngFor="let data of listaPorData" class="dataContainer">
-    <p class="data">{{ data.date }}</p>
+  <p *ngIf="displayedListaPorData.length == 0">Nenhuma consulta disponível para essa data</p>
+
+  <div *ngFor="let data of displayedListaPorData" class="dataContainer">
+    <p class="data">{{ data.date | date: 'dd/MM/yyyy' }}</p>
 
     <div class="medico" *ngFor="let medico of data.doctors">
       <mat-card appearance="outlined" class="card-container">
         <p class="medico">{{ medico.name }}</p>
         <div class="card-content">
-          <button *ngFor="let consulta of medico.appointments" mat-stroked-button (click)="onSelect($event, consulta)">{{ consulta.date }}</button>
+          <button *ngFor="let consulta of medico.appointments" mat-stroked-button (click)="onSelect($event, consulta)">{{ consulta.date | date: 'HH:mm' }}</button>
         </div>
       </mat-card>
     </div>
