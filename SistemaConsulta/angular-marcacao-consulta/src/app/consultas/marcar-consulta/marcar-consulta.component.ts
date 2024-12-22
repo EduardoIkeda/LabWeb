@@ -30,7 +30,6 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
   speciality!: Especialidade | null;
   posto!: Posto | null;
   page: string = "especialidade";
-  patient: User | null = null;
 
   constructor(
     public dialog: MatDialog,
@@ -51,26 +50,16 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
     this.page = "consulta";
   }
 
-  async onSelectConsulta(consulta: Consulta) {
-    try {
-      this.consulta = consulta;
+  onSelectConsulta(consulta: Consulta) {
+    this.consulta = consulta;
 
-      const userId = localStorage.getItem("user_id");
-      if (!userId) {
-        throw new Error("Usuário não encontrado no localStorage.");
-      }
-
-      // Carrega o usuário pelo ID
-      this.patient = await firstValueFrom(this.usersService.loadById(userId));
-
-      if (this.patient) {
-        this.consulta.patient = this.patient;
-      } else {
-        console.warn("Nenhum paciente foi encontrado.");
-      }
-    } catch (error) {
-      console.error("Erro ao carregar o paciente:", error);
+    const userId = localStorage.getItem("user_id");
+    if (!userId) {
+      throw new Error("Usuário não encontrado no localStorage.");
     }
+
+    this.consulta.patientId = userId;
+    console.log(this.consulta);
   }
 
 
@@ -87,7 +76,7 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result && this.consulta != null) {
-        // this.consultaService.create(this.consulta).subscribe({
+        // this.consultaService.marcarConsulta(this.consulta).subscribe({
         //   next: () => this.onSuccess(),
         //   error: (error) => this.onError(error)
         // });

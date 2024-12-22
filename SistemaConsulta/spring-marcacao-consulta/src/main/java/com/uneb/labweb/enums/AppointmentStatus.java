@@ -1,6 +1,7 @@
 package com.uneb.labweb.enums;
 
 public enum AppointmentStatus {
+    PENDING("pending"),
     SCHEDULED("scheduled"),
     ATTENDED("attended"),
     MISSED("missed"),
