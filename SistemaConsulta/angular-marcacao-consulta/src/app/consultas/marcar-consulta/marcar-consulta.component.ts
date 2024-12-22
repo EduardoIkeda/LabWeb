@@ -25,7 +25,7 @@ import { firstValueFrom, Observable } from 'rxjs';
   templateUrl: './marcar-consulta.component.html',
   styleUrl: './marcar-consulta.component.scss'
 })
-export class MarcarConsultaComponent implements OnInit, OnDestroy{
+export class MarcarConsultaComponent implements OnInit, OnDestroy {
   consulta!: Consulta | null;
   speciality!: Especialidade | null;
   posto!: Posto | null;
@@ -41,12 +41,12 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy{
   ) {
   }
 
-  onSelectSpeciality(speciality: Especialidade){
+  onSelectSpeciality(speciality: Especialidade) {
     this.speciality = speciality;
     this.page = "posto";
   }
 
-  onSelectPosto(posto: Posto){
+  onSelectPosto(posto: Posto) {
     this.posto = posto;
     this.page = "consulta";
   }
@@ -82,52 +82,56 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy{
             Posto: ${this.posto?.name}
             Endereço: ${this.posto?.address}
             Profissional: ${this.consulta?.doctorName}
-            Data e hora: ${this.consulta?.date}`,
+            Data e hora: ${this.consulta?.appointmentDateTime}`,
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.consultaService.marcarConsulta(this.consulta!).subscribe(
-          () => {
-            this.snackBar.open('Consulta marcada com sucesso!', 'Fechar', {
-              duration: 5000,
-              verticalPosition: 'top',
-              horizontalPosition: 'center',
-            });
-            this.router.navigate(['/consultas/list']);
-          },
-          (error) => {
-            console.error('Erro ao marcar consulta:', error);
-            this.snackBar.open('Erro ao marcar a consulta. Tente novamente.', 'Fechar', {
-              duration: 5000,
-              verticalPosition: 'top',
-              horizontalPosition: 'center',
-            });
-          }
-        );
+      if (result && this.consulta != null) {
+        // this.consultaService.create(this.consulta).subscribe({
+        //   next: () => this.onSuccess(),
+        //   error: (error) => this.onError(error)
+        // });
       }
     });
   }
 
-  onBack(){
-    if(this.page.includes('posto')){
+  private onSuccess() {
+    this.snackBar.open('Consulta marcada com sucesso!', 'Fechar', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+    this.router.navigate(['/consultas/list']);
+  }
+
+  private onError(error: any) {
+    console.error('Erro ao marcar consulta:', error);
+
+    this.snackBar.open('Erro ao marcar a consulta. Tente novamente.', 'Fechar', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+  }
+
+  onBack() {
+    if (this.page.includes('posto')) {
       this.page = "especialidade";
       this.speciality = null;
-    }else{
+    } else {
       this.page = "posto";
       this.posto = null;
       this.consulta = null;
     }
   }
 
-
-  ngOnDestroy(): void {
+  ngOnInit(): void {
     this.consulta = null;
     this.speciality = null;
     this.posto = null;
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
     this.consulta = null;
     this.speciality = null;
     this.posto = null;

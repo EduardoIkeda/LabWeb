@@ -47,7 +47,7 @@
 
             <div *ngIf="consulta">
               <p><span class="subtitle">Profissional:</span> {{ consulta.doctorName }}</p>
-              <p><span class="subtitle">Data e hora da Consulta:</span> {{ consulta.date }}</p>
+              <p><span class="subtitle">Data e hora da Consulta:</span> {{ consulta.appointmentDateTime }}</p>
             </div>
           </div>
           <button mat-flat-button [disabled]="!speciality || !posto || !consulta" (click)="onMarcarConsulta()">Marcar consulta</button>

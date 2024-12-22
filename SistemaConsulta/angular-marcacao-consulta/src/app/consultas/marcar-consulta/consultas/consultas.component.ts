@@ -69,7 +69,7 @@ export class ConsultasComponent implements OnInit {
 
       this.displayedListaPorData = this.listaPorData.filter(data => {
         // Verifica se data.date é uma string e converte para um objeto Date
-        const dataDate = new Date(data.date);
+        const dataDate = this.convertToDate(data.date.toString());
 
         // Zera a hora de dataDate para comparação
         const resetDataDate = new Date(dataDate.setHours(0, 0, 0, 0));
@@ -86,5 +86,14 @@ export class ConsultasComponent implements OnInit {
   limparData(){
     this.selectedDate = null;
     this.onDateChange();
+  }
+
+  convertToDate(dateString: string): Date {
+    const [datePart, timePart] = dateString.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart.split(':');
+
+    // Retorna o objeto Date com os componentes de data e hora
+    return new Date(+year, +month - 1, +day, +hours, +minutes);
   }
 }

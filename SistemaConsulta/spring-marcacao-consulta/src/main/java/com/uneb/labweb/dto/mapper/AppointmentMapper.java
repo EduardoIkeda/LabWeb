@@ -37,7 +37,7 @@ public class AppointmentMapper {
         }
         appointment.setAppointmentDateTime(parseDateTime(appointmentDTO.appointmentDateTime()));      
         appointment.setAppointmentStatus(convertAppointmentStatusValue(appointmentDTO.appointmentStatus()));
-        
+
         return appointment;
     }
 

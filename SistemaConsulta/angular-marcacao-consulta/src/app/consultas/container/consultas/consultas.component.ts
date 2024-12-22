@@ -59,10 +59,11 @@ export class ConsultasComponent {
   loadConsultas() {
     this.consultasService.list().subscribe({
       next: (consultas) => {
-        this.consultas = consultas.map((consulta) => ({
-          ...consulta,
-          date: new Date(consulta.date),
-        }));
+        this.consultas = consultas
+          .map((consulta) => ({
+            ...consulta,
+            date: new Date(consulta.appointmentDateTime),
+          }));
         this.dateList = this.getDateList();
       },
       error: (error) => console.error('Error:', error),
@@ -71,10 +72,9 @@ export class ConsultasComponent {
 
   getDateList() {
     return this.consultas
-      .map((consulta) => consulta.date)
+      .map((consulta) => consulta.appointmentDateTime)
       .filter(
-        (date) =>
-          date.getFullYear() === this.year
+        (date) => date.getFullYear() === this.year
       );
   }
 

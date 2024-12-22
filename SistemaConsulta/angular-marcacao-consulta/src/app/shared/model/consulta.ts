@@ -4,7 +4,8 @@ export class Consulta {
   id: string;
   patient: User | null;
   doctorName: string;
-  date: Date;
+  appointmentDateTime: Date;
+  //appointmentStatus: String;
   specialization: string;
   isTomorrow: boolean = false;
   isFinalized: boolean = false;
@@ -13,7 +14,8 @@ export class Consulta {
     id: string,
     patient: User | null,
     doctorName: string,
-    date: Date,
+    appointmentDateTime: Date,
+    //appointmentStatus: String,
     specialization: string,
     isTomorrow: boolean,
     isFinalized: boolean
@@ -21,7 +23,8 @@ export class Consulta {
     this.id = id;
     this.patient = patient;
     this.doctorName = doctorName;
-    this.date = date;
+    this.appointmentDateTime = appointmentDateTime;
+    //this.appointmentStatus = appointmentStatus
     this.specialization = specialization;
     this.isTomorrow = isTomorrow;
     this.isFinalized = isFinalized;

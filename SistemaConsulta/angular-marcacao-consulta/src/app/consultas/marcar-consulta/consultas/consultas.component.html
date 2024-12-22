@@ -14,13 +14,13 @@
   <p *ngIf="displayedListaPorData.length == 0">Nenhuma consulta disponível para essa data</p>
 
   <div *ngFor="let data of displayedListaPorData" class="dataContainer">
-    <p class="data">{{ data.date | date: 'dd/MM/yyyy' }}</p>
+    <p class="data">{{ data.date }}</p>
 
     <div class="medico" *ngFor="let medico of data.doctors">
       <mat-card appearance="outlined" class="card-container">
         <p class="medico">{{ medico.name }}</p>
         <div class="card-content">
-          <button *ngFor="let consulta of medico.appointments" mat-stroked-button (click)="onSelect($event, consulta)">{{ consulta.date | date: 'HH:mm' }}</button>
+          <button *ngFor="let consulta of medico.appointments" mat-stroked-button (click)="onSelect($event, consulta)">{{ convertToDate(consulta.appointmentDateTime.toString()) | date:'HH:mm' }}</button>
         </div>
       </mat-card>
     </div>
