@@ -2,7 +2,7 @@
   <div class="card-content">
     <div class="card-left">
       <div class="specialty">{{ consulta.specialization }}</div>
-      <div class="date">{{ consulta.date | date : "short" }}</div>
+      <div class="date">{{ consulta.appointmentDateTime | date : "short" }}</div>
     </div>
     <div class="card-right">
       <div *ngIf="consulta.isTomorrow; else showButtons">
