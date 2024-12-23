@@ -31,7 +31,8 @@ export class MedicoFormComponent implements OnInit{
     name: '',
     address: '',
     openingHour: '',
-    closingHour: ''
+    closingHour: '',
+    availableAppointmentsCount: 0
   };
 
   allocatedDoctorSearchTerm: string = '';

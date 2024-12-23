@@ -5,4 +5,5 @@ export interface HealthCenter {
   openingHour: string;
   closingHour: string;
   // especialidades: string[];
+  availableAppointmentsCount: number | null;
 }

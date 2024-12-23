@@ -1,18 +1,19 @@
-import { Component, OnInit, Input, Output, EventEmitter, NgModule  } from '@angular/core';
-import { ListaConsultas } from '../../model/lista_consultas';
-import { ConsultasService } from './services/consultas.service';
 import { CommonModule } from '@angular/common';
-import { ConsultaPorData } from '../../model/consulta_por_data';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core'; // Para suporte nativo de datas
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+
 import { Consulta } from '../../../shared/model/consulta';
 import { Especialidade } from '../../../shared/model/especialidade';
-import { Posto } from '../../../shared/model/posto';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core'; // Para suporte nativo de datas
-import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
+import { HealthCenter } from '../../../shared/model/health-center';
+import { ConsultaPorData } from '../../model/consulta_por_data';
+import { ListaConsultas } from '../../model/lista_consultas';
+import { ConsultasService } from './services/consultas.service';
 
 @Component({
   selector: 'app-consultas',
@@ -37,24 +38,31 @@ export class ConsultasComponent implements OnInit {
   displayedListaPorData: ConsultaPorData[] = [];
   @Output() selectConsulta = new EventEmitter<Consulta>();
   @Input() speciality!: Especialidade | null;
-  @Input() posto!: Posto | null;
+  @Input() posto!: HealthCenter | null;
   selectedDate: Date | null = null;
 
-  constructor(private readonly consultasService: ConsultasService) {}
+  constructor(private readonly consultasService: ConsultasService) { }
 
   ngOnInit(): void {
     this.loadConsultas();
   }
 
   loadConsultas() {
-    this.consultasService.list(this.speciality!.id, this.posto!.id).subscribe({
-      next: (data) => {
-        this.listaConsultas = data;
-        this.listaPorData = this.listaConsultas.listAppointmentsPerDate;
-        this.displayedListaPorData = this.listaPorData;
-      },
-      error: (error) => console.error('Error:', error),
-    });
+    const specialityId = this.speciality?.id ?? '';
+    const postoId = this.posto?.id ?? '';
+
+    if (this.speciality && this.posto) {
+      this.consultasService.list(specialityId, postoId).subscribe({
+        next: (data) => {
+          this.listaConsultas = data;
+          this.listaPorData = this.listaConsultas.listAppointmentsPerDate;
+          this.displayedListaPorData = this.listaPorData;
+        },
+        error: (error) => console.error('Error:', error),
+      });
+    } else {
+      console.error('Especialidade ou Posto de Saúde não definidos.');
+    }
   }
 
   onSelect(event: Event, consulta: Consulta) {
@@ -83,7 +91,7 @@ export class ConsultasComponent implements OnInit {
 
 
 
-  limparData(){
+  limparData() {
     this.selectedDate = null;
     this.onDateChange();
   }

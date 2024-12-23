@@ -1,22 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EspecialidadesComponent } from "./especialidades/especialidades.component";
-import { Consulta } from '../../shared/model/consulta';
-import { Especialidade } from '../../shared/model/especialidade';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { PostosComponent } from './postos/postos.component';
-import { Posto } from '../../shared/model/posto';
-import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
-import { ConsultasComponent } from './consultas/consultas.component';
-import { ConsultasService } from '../service/consultas.service';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+
 import { UsersService } from '../../auth/services/users.service';
-import { User } from '../../auth/model/user';
-import { firstValueFrom, Observable } from 'rxjs';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { Consulta } from '../../shared/model/consulta';
+import { Especialidade } from '../../shared/model/especialidade';
+import { HealthCenter } from '../../shared/model/health-center';
+import { ConsultasService } from '../service/consultas.service';
+import { ConsultasComponent } from './consultas/consultas.component';
+import { EspecialidadesComponent } from './especialidades/especialidades.component';
+import { PostosComponent } from './postos/postos.component';
 
 @Component({
   selector: 'app-marcar-consulta',
@@ -28,15 +27,15 @@ import { firstValueFrom, Observable } from 'rxjs';
 export class MarcarConsultaComponent implements OnInit, OnDestroy {
   consulta!: Consulta | null;
   speciality!: Especialidade | null;
-  posto!: Posto | null;
+  posto!: HealthCenter | null;
   page: string = "especialidade";
 
   constructor(
     public dialog: MatDialog,
     public consultaService: ConsultasService,
-    private snackBar: MatSnackBar,
-    private router: Router,
-    private usersService: UsersService
+    private readonly snackBar: MatSnackBar,
+    private readonly router: Router,
+    private readonly usersService: UsersService
   ) {
   }
 
@@ -45,7 +44,7 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
     this.page = "posto";
   }
 
-  onSelectPosto(posto: Posto) {
+  onSelectPosto(posto: HealthCenter) {
     this.posto = posto;
     this.page = "consulta";
   }

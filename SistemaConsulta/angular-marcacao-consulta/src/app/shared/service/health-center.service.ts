@@ -25,6 +25,14 @@ export class HealthCenterService {
     );
   }
 
+  listBySpecialty(specialtyId: string): Observable<HealthCenter[]> {
+    return this.httpClient.get<HealthCenter[]>(`${this.API}/by-specialty/${specialtyId}`).pipe(
+      first()
+      //delay(10000),
+      //tap(postos => console.log(postos))
+    );
+  }
+
   loadById(id: string): Observable<HealthCenter> {
     return this.httpClient.get<HealthCenter>(`${this.API}/${id}`);
   }

@@ -28,6 +28,7 @@ export class PostoSaudeResolver implements Resolve<HealthCenter> {
       // especialidades: [],
       openingHour: '',
       closingHour: '',
+      availableAppointmentsCount: 0
     });
   }
 }

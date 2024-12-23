@@ -38,18 +38,6 @@ public class AppointmentMapper {
         String healthCenterName = appointmentData.healthCenterName();
         String healthCenterAddress = appointmentData.healthCenterAddress();
 
-        // Long patientId = (Long) appointmentData[0];
-        // String doctorName = (String) appointmentData[1];
-        // String specialtyName = (String) appointmentData[2];
-        // String healthCenterName = (String) appointmentData[3];
-        // String healthCenterAddress = (String) appointmentData[4];
-
-        // Long patientId = 1L;
-        // String doctorName = "A";
-        // String specialtyName = "A";
-        // String healthCenterName = "A";
-        // String healthCenterAddress = "A";
-
         return new AppointmentResponseDTO(
             appointment.getId(), 
             appointmentDateTime, 
