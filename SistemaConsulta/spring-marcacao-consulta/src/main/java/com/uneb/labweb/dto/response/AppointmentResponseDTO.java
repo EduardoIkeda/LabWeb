@@ -29,7 +29,11 @@ public record AppointmentResponseDTO(
         String healthCenterName,
 
         @NotBlank
-        String healthCenterAddress
+        String healthCenterAddress,
+
+        boolean isTomorrow,
+
+        boolean isFinalized
 ) {
     
 }

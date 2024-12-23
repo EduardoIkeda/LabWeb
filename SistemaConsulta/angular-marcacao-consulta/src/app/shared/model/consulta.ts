@@ -3,7 +3,7 @@ import { User } from "../../auth/model/user";
 export class Consulta {
   id: string;
   appointmentDateTime: Date;
-  //appointmentStatus: String;
+  appointmentStatus: string;
   patientId: string | null;
   doctorName: string;
   specialization: string;
@@ -13,7 +13,7 @@ export class Consulta {
   constructor(
     id: string,
     appointmentDateTime: Date,
-    //appointmentStatus: String,
+    appointmentStatus: string,
     patientId: string | null,
     doctorName: string,
     specialization: string,
@@ -22,7 +22,7 @@ export class Consulta {
   ) {
     this.id = id;
     this.appointmentDateTime = appointmentDateTime;
-    //this.appointmentStatus = appointmentStatus;
+    this.appointmentStatus = appointmentStatus;
     this.patientId = patientId;
     this.doctorName = doctorName;
     this.specialization = specialization;

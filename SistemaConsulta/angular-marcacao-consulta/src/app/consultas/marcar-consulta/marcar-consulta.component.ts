@@ -75,10 +75,10 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result && this.consulta != null) {
-        // this.consultaService.marcarConsulta(this.consulta).subscribe({
-        //   next: () => this.onSuccess(),
-        //   error: (error) => this.onError(error)
-        // });
+        this.consultaService.marcarConsulta(this.consulta).subscribe({
+          next: () => this.onSuccess(),
+          error: (error) => this.onError(error)
+        });
       }
     });
   }

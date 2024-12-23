@@ -48,6 +48,7 @@ public class HealthCenterService {
                     return healthCenterRepository.findBySpecialtyId(specialtyId)
                             .stream()
                             .map(healthCenter -> healthCenterMapper.toDTOwithAppointmentFilter(healthCenter, specialtyId))
+                            .filter(healthCenterDTO -> healthCenterDTO.availableAppointmentsCount() > 0)
                             .toList();
                 })
                 .orElseThrow(() -> new RecordNotFoundException("Especialidade não encontrada com o id: " + specialtyId));

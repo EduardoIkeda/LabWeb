@@ -20,7 +20,7 @@ public record AppointmentDTO(
 
         Long specialtyId,
 
-        Long userId
+        Long patientId
 ) {
 
 }
