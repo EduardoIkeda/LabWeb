@@ -8,7 +8,8 @@ import { tap } from 'rxjs';
   providedIn: 'root',
 })
 export class EspecialidadesService {
-  private readonly API = 'assets/especialidades.json';
+  //private readonly API = 'assets/especialidades.json';
+  private readonly API = '/api/specialties';
 
   constructor(private readonly http: HttpClient) {}
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uneb.labweb.dto.request.HealthCenterDTO;
+import com.uneb.labweb.dto.response.HealthCenterResponseDTO;
 import com.uneb.labweb.service.HealthCenterService;
 
 import jakarta.validation.Valid;
@@ -33,23 +34,28 @@ public class HealthCenterController {
     }
 
     @GetMapping
-    public List<HealthCenterDTO> findAllHealthCenters() {
+    public List<HealthCenterResponseDTO> findAllHealthCenters() {
         return healthCenterService.findAllHealthCenters();
     }
 
+    @GetMapping("/by-specialty/{id}")
+    public List<HealthCenterResponseDTO> findHealthCentersBySpecialty(@PathVariable @NotNull @Positive Long id) {
+        return healthCenterService.findHealthCentersBySpecialty(id);
+    }
+
     @GetMapping("/{id}")
-    public HealthCenterDTO findHealthCenterById(@PathVariable @NotNull @Positive Long id) {
+    public HealthCenterResponseDTO findHealthCenterById(@PathVariable @NotNull @Positive Long id) {
         return healthCenterService.findHealthCenterById(id);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public HealthCenterDTO createHealthCenter(@RequestBody @Valid @NotNull HealthCenterDTO healthCenterDTO) {
+    public HealthCenterResponseDTO createHealthCenter(@RequestBody @Valid @NotNull HealthCenterDTO healthCenterDTO) {
         return healthCenterService.createHealthCenter(healthCenterDTO);
     }
 
     @PutMapping("/{id}")
-    public HealthCenterDTO updateHealthCenter(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull HealthCenterDTO healthCenterDTO) {
+    public HealthCenterResponseDTO updateHealthCenter(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull HealthCenterDTO healthCenterDTO) {
         return healthCenterService.updateHealthCenter(id, healthCenterDTO);
     }
 
