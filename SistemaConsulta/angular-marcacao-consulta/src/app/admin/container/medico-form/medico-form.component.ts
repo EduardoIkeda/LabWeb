@@ -32,6 +32,7 @@ export class MedicoFormComponent implements OnInit{
     address: '',
     openingHour: '',
     closingHour: '',
+    specialties: [],
     availableAppointmentsCount: 0
   };
 

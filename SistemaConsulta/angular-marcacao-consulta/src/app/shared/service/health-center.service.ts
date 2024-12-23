@@ -78,14 +78,28 @@ export class HealthCenterService {
   }
 
   private create(record: Partial<HealthCenter>): Observable<HealthCenter> {
-    return this.httpClient.post<HealthCenter>(this.API, record);
+    const body = {
+      name: record.name,
+      address: record.address,
+      openingHour: record.openingHour,
+      closingHour: record.closingHour,
+      specialtyIds: record.specialties?.map(speciality => speciality.id)
+    };
+
+    return this.httpClient.post<HealthCenter>(this.API, body);
   }
 
   private update(record: Partial<HealthCenter>) {
-    return this.httpClient.put<HealthCenter>(
-      `${this.API}/${record.id}`,
-      record
-    );
+    const body = {
+      id: record.id,
+      name: record.name,
+      address: record.address,
+      openingHour: record.openingHour,
+      closingHour: record.closingHour,
+      specialtyIds: record.specialties?.map(speciality => speciality.id)
+    };
+
+    return this.httpClient.put<HealthCenter>(`${this.API}/${record.id}`, body);
   }
 
   remove(id: string | null): Observable<any> {

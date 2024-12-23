@@ -36,7 +36,9 @@ import com.uneb.labweb.repository.UserRepository;
 @SpringBootApplication
 public class SpringMarcacaoConsultaApplication {
 
-    private SpringMarcacaoConsultaApplication self;
+    @Value("${api.database.password}")
+    private String password;
+
     private AppointmentRepository appointmentRepository;
     private DoctorRepository doctorRepository;
     private HealthCenterRepository healthCenterRepository;
@@ -44,9 +46,6 @@ public class SpringMarcacaoConsultaApplication {
     private SpecialtyRepository specialtyRepository;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
-
-    @Value("${api.database.password}")
-    private String password;
 
     public static void main(String[] args) {
         SpringApplication.run(SpringMarcacaoConsultaApplication.class, args);
@@ -65,7 +64,6 @@ public class SpringMarcacaoConsultaApplication {
             PasswordEncoder passwordEncoder
     ) {
         return args -> {
-            this.self = self;
             this.appointmentRepository = appointmentRepository;
             this.doctorRepository = doctorRepository;
             this.healthCenterRepository = healthCenterRepository;
