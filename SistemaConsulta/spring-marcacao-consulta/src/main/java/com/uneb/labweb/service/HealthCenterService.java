@@ -42,15 +42,15 @@ public class HealthCenterService {
                 .toList();
     }
 
-    public List<HealthCenterResponseDTO> findHealthCentersBySpecialty(@NotNull @Positive Long id) {
-        return specialtyRepository.findById(id)
+    public List<HealthCenterResponseDTO> findHealthCentersBySpecialty(@NotNull @Positive Long specialtyId) {
+        return specialtyRepository.findById(specialtyId)
                 .map(recordFound -> {
-                    return healthCenterRepository.findBySpecialtyId(id)
+                    return healthCenterRepository.findBySpecialtyId(specialtyId)
                             .stream()
-                            .map(healthCenterMapper::toDTO)
+                            .map(healthCenter -> healthCenterMapper.toDTOwithAppointmentFilter(healthCenter, specialtyId))
                             .toList();
                 })
-                .orElseThrow(() -> new RecordNotFoundException("Especialidade não encontrada com o id: " + id));
+                .orElseThrow(() -> new RecordNotFoundException("Especialidade não encontrada com o id: " + specialtyId));
     }
 
     public HealthCenterResponseDTO findHealthCenterById(@NotNull @Positive Long id) {

@@ -219,7 +219,7 @@ public class SpringMarcacaoConsultaApplication {
             // Inicialização das consultas
 
             Appointment appointment1 = new Appointment();
-            appointment1.setAppointmentDateTime(LocalDateTime.parse("27/12/2025 14:30", dateTimeFormatter));
+            appointment1.setAppointmentDateTime(LocalDateTime.parse("26/12/2025 14:30", dateTimeFormatter));
             appointment1.setAppointmentStatus(AppointmentStatus.SCHEDULED);
             appointment1.setDoctor(doctor1);
             appointment1.setHealthCenter(healthCenter1);
@@ -271,6 +271,96 @@ public class SpringMarcacaoConsultaApplication {
             appointment6.setSpecialty(specialty5);
             // User null
             this.appointmentRepository.save(appointment6);
+
+            Appointment appointment7 = new Appointment();
+            appointment7.setAppointmentDateTime(LocalDateTime.parse("12/12/2025 11:00", dateTimeFormatter));
+            appointment7.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment7.setDoctor(doctor2);
+            appointment7.setHealthCenter(healthCenter1);
+            appointment7.setSpecialty(specialty5);
+            // User null
+            this.appointmentRepository.save(appointment7);
+
+            Appointment appointment8 = new Appointment();
+            appointment8.setAppointmentDateTime(LocalDateTime.parse("02/12/2025 14:00", dateTimeFormatter));
+            appointment8.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment8.setDoctor(doctor1);
+            appointment8.setHealthCenter(healthCenter1);
+            appointment8.setSpecialty(specialty3);
+            // User null
+            this.appointmentRepository.save(appointment8);
+
+            Appointment appointment9 = new Appointment();
+            appointment9.setAppointmentDateTime(LocalDateTime.parse("19/12/2025 14:00", dateTimeFormatter));
+            appointment9.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment9.setDoctor(doctor2);
+            appointment9.setHealthCenter(healthCenter3);
+            appointment9.setSpecialty(specialty5);
+            // User null
+            this.appointmentRepository.save(appointment9);
+
+            Appointment appointment10 = new Appointment();
+            appointment10.setAppointmentDateTime(LocalDateTime.parse("19/12/2025 15:00", dateTimeFormatter));
+            appointment10.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment10.setDoctor(doctor2);
+            appointment10.setHealthCenter(healthCenter3);
+            appointment10.setSpecialty(specialty5);
+            // User null
+            this.appointmentRepository.save(appointment10);
+
+            Appointment appointment11 = new Appointment();
+            appointment11.setAppointmentDateTime(LocalDateTime.parse("01/12/2025 15:00", dateTimeFormatter));
+            appointment11.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment11.setDoctor(doctor1);
+            appointment11.setHealthCenter(healthCenter2);
+            appointment11.setSpecialty(specialty3);
+            // User null
+            this.appointmentRepository.save(appointment11);
+
+            Appointment appointment12 = new Appointment();
+            appointment12.setAppointmentDateTime(LocalDateTime.parse("03/12/2025 15:00", dateTimeFormatter));
+            appointment12.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment12.setDoctor(doctor2);
+            appointment12.setHealthCenter(healthCenter2);
+            appointment12.setSpecialty(specialty2);
+            // User null
+            this.appointmentRepository.save(appointment12);
+
+            Appointment appointment13 = new Appointment();
+            appointment13.setAppointmentDateTime(LocalDateTime.parse("03/12/2025 16:00", dateTimeFormatter));
+            appointment13.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment13.setDoctor(doctor2);
+            appointment13.setHealthCenter(healthCenter2);
+            appointment13.setSpecialty(specialty2);
+            // User null
+            this.appointmentRepository.save(appointment13);
+
+            Appointment appointment14 = new Appointment();
+            appointment14.setAppointmentDateTime(LocalDateTime.parse("04/12/2025 14:00", dateTimeFormatter));
+            appointment14.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment14.setDoctor(doctor1);
+            appointment14.setHealthCenter(healthCenter1);
+            appointment14.setSpecialty(specialty1);
+            // User null
+            this.appointmentRepository.save(appointment14);
+
+            Appointment appointment15 = new Appointment();
+            appointment15.setAppointmentDateTime(LocalDateTime.parse("04/12/2025 15:00", dateTimeFormatter));
+            appointment15.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment15.setDoctor(doctor1);
+            appointment15.setHealthCenter(healthCenter1);
+            appointment15.setSpecialty(specialty1);
+            // User null
+            this.appointmentRepository.save(appointment15);
+
+            Appointment appointment16 = new Appointment();
+            appointment16.setAppointmentDateTime(LocalDateTime.parse("05/12/2025 14:30", dateTimeFormatter));
+            appointment16.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment16.setDoctor(doctor1);
+            appointment16.setHealthCenter(healthCenter3);
+            appointment16.setSpecialty(specialty1);
+            // User null
+            this.appointmentRepository.save(appointment16);
         };
     }
 }
