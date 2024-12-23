@@ -1,5 +1,6 @@
 package com.uneb.labweb.dto.mapper;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -16,7 +17,7 @@ import com.uneb.labweb.repository.AppointmentRepository;
 
 @Component
 public class AppointmentMapper {
-    
+
     private static final DateTimeFormatter FORMATTER_BR = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private final AppointmentRepository appointmentRepository;
 
@@ -32,24 +33,39 @@ public class AppointmentMapper {
         String appointmentDateTime = appointment.getAppointmentDateTime().format(FORMATTER_BR);
         TempDTO appointmentData = appointmentRepository.getAppointmentData(appointment.getId());
 
-        Long patientId = appointmentData.patientId();
-        String doctorName = appointmentData.doctorName();
-        String specialtyName = appointmentData.specialtyName();
-        String healthCenterName = appointmentData.healthCenterName();
-        String healthCenterAddress = appointmentData.healthCenterAddress();
+        Long patientId = appointmentData != null ? appointmentData.patientId() : null;
+        String doctorName = appointmentData != null ? appointmentData.doctorName() : null;
+        String specialtyName = appointmentData != null ? appointmentData.specialtyName() : null;
+        String healthCenterName = appointmentData != null ? appointmentData.healthCenterName() : null;
+        String healthCenterAddress = appointmentData != null ? appointmentData.healthCenterAddress() : null;
+
+        boolean isTomorrow = false;
+        boolean isFinalized = false;
+
+        LocalDate appointmentDate = appointment.getAppointmentDateTime().toLocalDate();
+        LocalDate today = LocalDate.now();
+        if (appointmentDate.isEqual(today.plusDays(1))) {
+            isTomorrow = true;
+        }
+
+        if ((appointment.getAppointmentStatus() == AppointmentStatus.ATTENDED) || (appointment.getAppointmentStatus() == AppointmentStatus.MISSED)) {
+            isFinalized = true;
+        }
 
         return new AppointmentResponseDTO(
-            appointment.getId(), 
-            appointmentDateTime, 
-            appointment.getAppointmentStatus().getValue(),
-            patientId,
-            doctorName,
-            specialtyName,
-            healthCenterName,
-            healthCenterAddress
-        ); 
+                appointment.getId(),
+                appointmentDateTime,
+                appointment.getAppointmentStatus().getValue(),
+                patientId,
+                doctorName,
+                specialtyName,
+                healthCenterName,
+                healthCenterAddress,
+                isTomorrow,
+                isFinalized
+        );
     }
-    
+
     public Appointment toEntity(AppointmentDTO appointmentDTO) {
         if (appointmentDTO == null) {
             return null;
@@ -60,7 +76,7 @@ public class AppointmentMapper {
         if (appointmentDTO.id() != null) {
             appointment.setId(appointmentDTO.id());
         }
-        appointment.setAppointmentDateTime(parseDateTime(appointmentDTO.appointmentDateTime()));      
+        appointment.setAppointmentDateTime(parseDateTime(appointmentDTO.appointmentDateTime()));
         appointment.setAppointmentStatus(convertAppointmentStatusValue(appointmentDTO.appointmentStatus()));
 
         return appointment;
@@ -79,12 +95,18 @@ public class AppointmentMapper {
             return null;
         }
         return switch (value) {
-            case "pending" -> AppointmentStatus.PENDING;
-            case "scheduled" -> AppointmentStatus.SCHEDULED;
-            case "attended" -> AppointmentStatus.ATTENDED;
-            case "missed" -> AppointmentStatus.MISSED;
-            case "canceled" -> AppointmentStatus.CANCELED;
-            default -> throw new IllegalArgumentException("Status inválido: " + value);
-        };    
+            case "pending" ->
+                AppointmentStatus.PENDING;
+            case "scheduled" ->
+                AppointmentStatus.SCHEDULED;
+            case "attended" ->
+                AppointmentStatus.ATTENDED;
+            case "missed" ->
+                AppointmentStatus.MISSED;
+            case "canceled" ->
+                AppointmentStatus.CANCELED;
+            default ->
+                throw new IllegalArgumentException("Status inválido: " + value);
+        };
     }
 }

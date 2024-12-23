@@ -25,6 +25,41 @@ export class ConsultasComponent {
   year: number = new Date().getFullYear();
   month: number = new Date().getMonth();
   dateList: Date[] = [];
+  consultas: Consulta[] = [];
+
+  constructor(private readonly consultasService: ConsultasService) {
+    this.loadConsultas();
+  }
+
+  loadConsultas() {
+    this.consultasService.listByUser().subscribe({
+      next: (consultas) => {
+        this.consultas = consultas.map(consulta => new Consulta(
+          consulta.id,
+          consulta.appointmentDateTime,
+          consulta.appointmentStatus,
+          consulta.patientId,
+          consulta.doctorName,
+          consulta.specialtyName,
+          consulta.healthCenterName,
+          consulta.healthCenterAddress,
+          consulta.isTomorrow,
+          consulta.isFinalized
+        ));
+        this.dateList = this.getDateList();
+        console.log(this.consultas);
+      },
+      error: (error) => console.error('Error:', error),
+    });
+  }
+
+  getDateList() {
+    return this.consultas
+      .map((consulta) => this.convertToDate(consulta.appointmentDateTime.toString()))
+      .filter(
+        (date) => date instanceof Date && date.getFullYear() === this.year
+      );
+  }
 
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     this.dateList = this.getDateList();
@@ -50,34 +85,6 @@ export class ConsultasComponent {
     return '';
   }
 
-  consultas: Consulta[] = [];
-
-  constructor(private readonly consultasService: ConsultasService) {
-    this.loadConsultas();
-  }
-
-  loadConsultas() {
-    this.consultasService.list().subscribe({
-      next: (consultas) => {
-        this.consultas = consultas
-          .map((consulta) => ({
-            ...consulta,
-            appointmentDateTime: new Date(consulta.appointmentDateTime),
-          }));
-        this.dateList = this.getDateList();
-      },
-      error: (error) => console.error('Error:', error),
-    });
-  }
-
-  getDateList() {
-    return this.consultas
-      .map((consulta) => consulta.appointmentDateTime)
-      .filter(
-        (date) => date instanceof Date && date.getFullYear() === this.year
-      );
-  }
-
   onYearSelected(date: Date) {
     this.year = date.getFullYear();
     this.dateList = this.getDateList();
@@ -94,5 +101,14 @@ export class ConsultasComponent {
 
   onCancel(consulta: Consulta) {
     console.log('Cancel id:', consulta);
+  }
+
+  convertToDate(dateString: string): Date {
+    const [datePart, timePart] = dateString.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart.split(':');
+
+    // Retorna o objeto Date com os componentes de data e hora
+    return new Date(+year, +month - 1, +day, +hours, +minutes);
   }
 }

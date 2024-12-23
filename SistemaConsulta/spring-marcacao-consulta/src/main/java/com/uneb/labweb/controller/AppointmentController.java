@@ -38,6 +38,11 @@ public class AppointmentController {
         return appointmentService.findAllAppointments();  
     }
 
+    @GetMapping("/by-user/{id}")
+    public List<AppointmentResponseDTO> findAppointmentsByUser(@PathVariable @NotNull @Positive Long id) {
+        return appointmentService.findAppointmentsByUser(id); 
+    }
+
     @GetMapping("/{id}")
     public AppointmentResponseDTO findAppointmentById(@PathVariable @NotNull @Positive Long id) {
         return appointmentService.findAppointmentById(id);

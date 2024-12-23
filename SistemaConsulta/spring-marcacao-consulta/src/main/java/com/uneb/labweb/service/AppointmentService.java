@@ -28,9 +28,9 @@ public class AppointmentService {
     private final UserRepository userRepository;
 
     public AppointmentService(
-        AppointmentRepository appointmentRepository, 
-        AppointmentMapper appointmentMapper, 
-        UserRepository userRepository
+            AppointmentRepository appointmentRepository,
+            AppointmentMapper appointmentMapper,
+            UserRepository userRepository
     ) {
         this.appointmentRepository = appointmentRepository;
         this.appointmentMapper = appointmentMapper;
@@ -42,6 +42,17 @@ public class AppointmentService {
                 .stream()
                 .map(appointmentMapper::toDTO)
                 .toList();
+    }
+
+    public List<AppointmentResponseDTO> findAppointmentsByUser(@NotNull @Positive Long userId) {
+        return userRepository.findById(userId)
+                .map(recordFound -> {
+                    return appointmentRepository.findByUserId(userId)
+                            .stream()
+                            .map(appointmentMapper::toDTO)
+                            .toList();
+                })
+                .orElseThrow(() -> new RecordNotFoundException("Usuário não encontrado com o id: " + userId));
     }
 
     public AppointmentResponseDTO findAppointmentById(@NotNull @Positive Long id) {
@@ -68,10 +79,10 @@ public class AppointmentService {
     public AppointmentResponseDTO scheduleAppointment(@NotNull @Positive Long id, @Valid @NotNull AppointmentDTO appointmentDTO) {
         return appointmentRepository.findById(id)
                 .map(recordFound -> {
-                    Optional<User> user = userRepository.findById(appointmentDTO.userId());
+                    Optional<User> user = userRepository.findById(appointmentDTO.patientId());
 
                     if (user.isEmpty()) {
-                        throw new RecordNotFoundException("Usuário não encontrado com o id: " + id);                       
+                        throw new RecordNotFoundException("Usuário não encontrado com o id: " + appointmentDTO.patientId());
                     }
 
                     recordFound.setUser(user.get());
@@ -83,6 +94,7 @@ public class AppointmentService {
     }
 
     public void deleteAppointment(@NotNull @Positive Long id) {
-        appointmentRepository.deleteById(id);
+        appointmentRepository.delete(appointmentRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id)));
     }
 }
