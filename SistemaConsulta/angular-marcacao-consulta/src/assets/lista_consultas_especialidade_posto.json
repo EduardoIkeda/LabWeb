@@ -14,7 +14,7 @@
               "patientId": null,
               "doctorName": "Dr. João Silva",
               "appointmentDateTime": "25/12/2021 10:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             },
@@ -23,7 +23,7 @@
               "patientId": null,
               "doctorName": "Dr. João Silva",
               "appointmentDateTime": "25/12/2021 11:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             }
@@ -39,7 +39,7 @@
               "patientId": null,
               "doctorName": "Dra. Maria Oliveira",
               "appointmentDateTime": "25/12/2021 14:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             }
@@ -60,7 +60,7 @@
               "patientId": null,
               "doctorName": "Dr. ABCD",
               "appointmentDateTime": "27/12/2024 10:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             },
@@ -69,7 +69,7 @@
               "patientId": null,
               "doctorName": "Dr. ABCD",
               "appointmentDateTime": "27/12/2024 11:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             }
@@ -85,7 +85,7 @@
               "patientId": null,
               "doctorName": "Dra. Vitória",
               "appointmentDateTime": "27/12/2024 14:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             }

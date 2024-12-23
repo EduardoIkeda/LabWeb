@@ -44,6 +44,17 @@ public class AppointmentService {
                 .toList();
     }
 
+    public List<AppointmentResponseDTO> findAppointmentsByUser(@NotNull @Positive Long userId) {
+        return userRepository.findById(userId)
+                .map(recordFound -> {
+                    return appointmentRepository.findByUserId(userId)
+                            .stream()
+                            .map(appointmentMapper::toDTO)
+                            .toList();
+                })
+                .orElseThrow(() -> new RecordNotFoundException("Usuário não encontrado com o id: " + userId));
+    }
+
     public AppointmentResponseDTO findAppointmentById(@NotNull @Positive Long id) {
         return appointmentRepository.findById(id)
                 .map(appointmentMapper::toDTO)

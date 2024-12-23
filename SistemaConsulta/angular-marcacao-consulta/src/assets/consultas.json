@@ -4,7 +4,7 @@
     "patientId": "1",
     "doctorName": "Dr. Carlos",
     "appointmentDateTime": "2021-12-25T10:30:00",
-    "specialization": "Cardiologia",
+    "specialtyName": "Cardiologia",
     "isTomorrow": false,
     "isFinalized": true
   },
@@ -13,7 +13,7 @@
     "patientId": "1",
     "doctorName": "Dr. Ana",
     "appointmentDateTime": "2024-12-01T20:00:00",
-    "specialization": "Oftalmologia",
+    "specialtyName": "Oftalmologia",
     "isTomorrow": false,
     "isFinalized": false
   },
@@ -22,7 +22,7 @@
     "patientId": "1",
     "doctorName": "Dr. Pedro",
     "appointmentDateTime": "2024-12-26T08:00:00",
-    "specialization": "Pediatria",
+    "specialtyName": "Pediatria",
     "isTomorrow": false,
     "isFinalized": false
   }

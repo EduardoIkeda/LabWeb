@@ -1,12 +1,12 @@
-import { User } from "../../auth/model/user";
-
 export class Consulta {
   id: string;
   appointmentDateTime: Date;
   appointmentStatus: string;
   patientId: string | null;
   doctorName: string;
-  specialization: string;
+  specialtyName: string;
+  healthCenterName: string;
+  healthCenterAddress: string;
   isTomorrow: boolean = false;
   isFinalized: boolean = false;
 
@@ -16,7 +16,9 @@ export class Consulta {
     appointmentStatus: string,
     patientId: string | null,
     doctorName: string,
-    specialization: string,
+    specialtyName: string,
+    healthCenterName: string,
+    healthCenterAddress: string,
     isTomorrow: boolean,
     isFinalized: boolean
   ) {
@@ -25,7 +27,9 @@ export class Consulta {
     this.appointmentStatus = appointmentStatus;
     this.patientId = patientId;
     this.doctorName = doctorName;
-    this.specialization = specialization;
+    this.specialtyName = specialtyName;
+    this.healthCenterName = healthCenterName;
+    this.healthCenterAddress = healthCenterAddress;
     this.isTomorrow = isTomorrow;
     this.isFinalized = isFinalized;
   }
