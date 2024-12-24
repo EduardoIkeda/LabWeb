@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.uneb.labweb.exception.AppointmentCancelException;
 import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.exception.InvalidDayOfWeekException;
 import com.uneb.labweb.exception.RecordAlreadyExistsException;
@@ -45,6 +46,12 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(InvalidDayOfWeekException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleInvalidDayOfWeekException(InvalidDayOfWeekException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(AppointmentCancelException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleAppointmentCancelException(AppointmentCancelException ex) {
         return ex.getMessage();
     }
 

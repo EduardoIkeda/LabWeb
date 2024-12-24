@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,9 +70,14 @@ public class AppointmentController {
         return appointmentService.updateAppointment(id, appointmentDTO);     
     }
 
-    @PutMapping("/schedule/{id}")
+    @PatchMapping("/schedule/{id}")
     public AppointmentResponseDTO scheduleAppointment(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull AppointmentDTO appointmentDTO) {
         return appointmentService.scheduleAppointment(id, appointmentDTO);     
+    }
+
+    @PatchMapping("/cancel/{id}")
+    public AppointmentResponseDTO cancelAppointment(@PathVariable @NotNull @Positive Long id) {
+        return appointmentService.cancelAppointment(id);     
     }
 
     @DeleteMapping("/{id}")

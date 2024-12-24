@@ -54,6 +54,8 @@ export class ConsultasComponent {
               consulta.appointmentDateTime,
               consulta.appointmentStatus,
               consulta.patientId,
+              consulta.healthCenterId,
+              consulta.specialtyId,
               consulta.doctorName,
               consulta.specialtyName,
               consulta.healthCenterName,
@@ -129,23 +131,13 @@ export class ConsultasComponent {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result && consulta != null) {
         consulta.patientId = null;
-        // VER QUESTÃO DO ENDPOINT PARA CANCELAMENTO
-        this.consultasService.cancelar(consulta).subscribe({
+
+        this.consultasService.cancelarConsulta(consulta).subscribe({
           next: () => this.onSuccess(),
           error: (error) => this.onError(error),
         });
       }
     });
-    this.loadConsultas();
-  }
-
-  convertToDateTime(dateString: string): Date {
-    const [datePart, timePart] = dateString.split(' ');
-    const [day, month, year] = datePart.split('/');
-    const [hours, minutes] = timePart.split(':');
-
-    // Retorna o objeto Date com os componentes de data e hora
-    return new Date(+year, +month - 1, +day, +hours, +minutes);
   }
 
   private onSuccess() {
@@ -154,6 +146,8 @@ export class ConsultasComponent {
       verticalPosition: 'top',
       horizontalPosition: 'center',
     });
+
+    this.router.navigate(['/consultas']);
   }
 
   private onError(error: any) {
@@ -164,5 +158,14 @@ export class ConsultasComponent {
       verticalPosition: 'top',
       horizontalPosition: 'center',
     });
+  }
+
+  convertToDateTime(dateString: string): Date {
+    const [datePart, timePart] = dateString.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart.split(':');
+
+    // Retorna o objeto Date com os componentes de data e hora
+    return new Date(+year, +month - 1, +day, +hours, +minutes);
   }
 }

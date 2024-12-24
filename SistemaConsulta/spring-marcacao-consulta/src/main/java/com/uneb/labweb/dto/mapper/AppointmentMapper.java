@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.uneb.labweb.dto.request.AppointmentDTO;
 import com.uneb.labweb.dto.response.AppointmentResponseDTO;
-import com.uneb.labweb.dto.response.TempDTO;
+import com.uneb.labweb.dto.response.PartialAppointmentDTO;
 import com.uneb.labweb.enums.AppointmentStatus;
 import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.model.Appointment;
@@ -31,9 +31,11 @@ public class AppointmentMapper {
         }
 
         String appointmentDateTime = appointment.getAppointmentDateTime().format(FORMATTER_BR);
-        TempDTO appointmentData = appointmentRepository.getAppointmentData(appointment.getId());
+        PartialAppointmentDTO appointmentData = appointmentRepository.getAppointmentData(appointment.getId());
 
         Long patientId = appointmentData != null ? appointmentData.patientId() : null;
+        Long healthCenterId = appointmentData != null ? appointmentData.healthCenterId() : null;
+        Long specialtyId = appointmentData != null ? appointmentData.specialtyId() : null;
         String doctorName = appointmentData != null ? appointmentData.doctorName() : null;
         String specialtyName = appointmentData != null ? appointmentData.specialtyName() : null;
         String healthCenterName = appointmentData != null ? appointmentData.healthCenterName() : null;
@@ -57,6 +59,8 @@ public class AppointmentMapper {
                 appointmentDateTime,
                 appointment.getAppointmentStatus().getValue(),
                 patientId,
+                healthCenterId,
+                specialtyId,
                 doctorName,
                 specialtyName,
                 healthCenterName,
@@ -103,8 +107,6 @@ public class AppointmentMapper {
                 AppointmentStatus.ATTENDED;
             case "missed" ->
                 AppointmentStatus.MISSED;
-            case "canceled" ->
-                AppointmentStatus.CANCELED;
             default ->
                 throw new IllegalArgumentException("Status inválido: " + value);
         };

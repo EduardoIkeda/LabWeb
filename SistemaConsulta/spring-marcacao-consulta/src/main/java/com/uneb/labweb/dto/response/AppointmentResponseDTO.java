@@ -4,6 +4,7 @@ import com.uneb.labweb.enums.AppointmentStatus;
 import com.uneb.labweb.enums.validation.ValueOfEnum;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record AppointmentResponseDTO(
@@ -18,6 +19,12 @@ public record AppointmentResponseDTO(
         String appointmentStatus,
 
         Long patientId,
+
+        @NotNull
+        Long healthCenterId,
+
+        @NotNull
+        Long specialtyId,
 
         @NotBlank
         String doctorName,

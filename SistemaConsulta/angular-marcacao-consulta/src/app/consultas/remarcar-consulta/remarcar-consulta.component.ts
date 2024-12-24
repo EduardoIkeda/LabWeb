@@ -21,15 +21,15 @@ import { ConsultasService } from '../service/consultas.service';
   selector: 'app-remarcar-consulta',
   standalone: true,
   imports: [
-      CommonModule,
-      MatIconModule,
-      MatButtonModule,
-      MatCardModule,
-      MatDatepickerModule,
-      MatNativeDateModule,
-      MatInputModule,
-      ReactiveFormsModule,
-      FormsModule
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './remarcar-consulta.component.html',
   styleUrl: './remarcar-consulta.component.scss',
@@ -47,7 +47,7 @@ export class RemarcarConsultaComponent implements OnInit {
     private readonly consultasService: ConsultasService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Aguarda o parâmetro da rota e carrega a consulta.
@@ -58,9 +58,8 @@ export class RemarcarConsultaComponent implements OnInit {
         await this.getConsulta(this.consulta_id);
       }
 
-      if(this.consulta){
-        // VAI PRECISAR DO ID DO POSTO E ESPECIALIDADE NO MODEL DE CONSULTA
-        this.consultasService.listGroup("1", "1").subscribe({
+      if (this.consulta) {
+        this.consultasService.listGroup(this.consulta.specialtyId, this.consulta.healthCenterId).subscribe({
           next: (data) => {
             this.listaPorData = data;
             this.displayedListaPorData = this.listaPorData;
@@ -88,31 +87,33 @@ export class RemarcarConsultaComponent implements OnInit {
   async onSelect(event: Event, consulta_nova: Consulta) {
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        data: `Deseja realmente remarcar a consulta?
+      data: `Deseja realmente remarcar a consulta?
 
               Especialidade: ${consulta_nova.specialtyName}
               Posto: ${consulta_nova.healthCenterName}
               Endereço: ${consulta_nova.healthCenterAddress}
               Profissional: ${consulta_nova.doctorName}
               Data e hora: ${consulta_nova.appointmentDateTime}`,
-      });
+    });
 
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result && consulta_nova != null && this.consulta != null) {
-          consulta_nova.patientId = this.consulta.patientId;
-          this.consulta.patientId = null;
-          // VER QUESTÃO DO ENDPOINT PARA REMARCAÇÃO / MUDAR STATUS DA CONSULTA QUE VAI FICAR SEM USER
-          this.consultasService.marcarConsulta(this.consulta).subscribe({
-            next: () => {
-              this.consultasService.marcarConsulta(consulta_nova).subscribe({
-                next: () => this.onSuccess(),
-                error: (error) => this.onError(error)
-              })
-            },
-            error: (error) => this.onError(error)
-          });
-        }
-      });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result && consulta_nova != null && this.consulta != null) {
+        consulta_nova.patientId = this.consulta.patientId;
+        this.consulta.patientId = null;
+
+        this.consultasService.cancelarConsulta(this.consulta).subscribe({
+          next: () => {
+            console.log("Consulta desmarcada com sucesso");
+            this.consultasService.marcarConsulta(consulta_nova).subscribe({
+              next: () => this.onSuccess(),
+              error: (error) => this.onError(error)
+            })
+          },
+          error: (error) => this.onError(error)
+        });
+        console.log("Consulta marcada com sucesso com o id:" + consulta_nova.id);
+      }
+    });
   }
 
   private onSuccess() {
@@ -135,7 +136,7 @@ export class RemarcarConsultaComponent implements OnInit {
   }
 
 
-  limparData(){
+  limparData() {
     this.selectedDate = null;
     this.onDateChange();
   }

@@ -46,15 +46,15 @@ export class ConsultasService {
     return this.http.get<ConsultaPorData[]>('assets/lista_consultas_especialidade_posto.json', { params: { specialty_id, posto_id } });
   }
 
-  marcarConsulta(record: Partial<Consulta>) {
-    return this.http.put<Consulta>(`${this.API}/schedule/${record.id}`, record);
-  }
-
   loadById(id: string) {
     return this.http.get<Consulta>(`${this.API}/${id}`);
   }
 
-  cancelar(record: Partial<Consulta>) {
-    return this.http.put<Consulta>(`${this.API}/cancel/${record.id}`, record);
+  marcarConsulta(record: Partial<Consulta>) {
+    return this.http.patch<Consulta>(`${this.API}/schedule/${record.id}`, record);
+  }
+
+  cancelarConsulta(record: Partial<Consulta>) {
+    return this.http.patch<Consulta>(`${this.API}/cancel/${record.id}`, {});
   }
 }

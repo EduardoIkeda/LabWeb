@@ -4,8 +4,7 @@ public enum AppointmentStatus {
     PENDING("pending"),
     SCHEDULED("scheduled"),
     ATTENDED("attended"),
-    MISSED("missed"),
-    CANCELED("canceled");
+    MISSED("missed");
     
     private final String value;
 
