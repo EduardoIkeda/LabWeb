@@ -8,14 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.uneb.labweb.dto.response.TempDTO;
+import com.uneb.labweb.dto.response.PartialAppointmentDTO;
 import com.uneb.labweb.model.Appointment;
 import com.uneb.labweb.model.Doctor;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    @Query("SELECT new com.uneb.labweb.dto.response.TempDTO(u1.id, u2.name, s.name, hc.name, hc.address) "
+    @Query("SELECT new com.uneb.labweb.dto.response.PartialAppointmentDTO(u1.id, hc.id, s.id, u2.name, s.name, hc.name, hc.address) "
         + "FROM Appointment a "
         + "LEFT JOIN a.doctor d "
         + "LEFT JOIN a.healthCenter hc "
@@ -23,7 +23,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
         + "LEFT JOIN a.user u1 "
         + "LEFT JOIN d.user u2 "
         + "WHERE a.id = :appointmentId")
-    TempDTO getAppointmentData(@Param("appointmentId") Long appointmentId);
+    PartialAppointmentDTO getAppointmentData(@Param("appointmentId") Long appointmentId);
 
     @Query("SELECT a "
         + "FROM Appointment a "

@@ -129,6 +129,36 @@ public class SpringMarcacaoConsultaApplication {
             user4.setRole(Role.ADMIN);
             this.userRepository.save(user4);
 
+            User user5 = new User();
+            user5.setSusCardNumber("012345678901238");
+            user5.setName("Dr. João Silva");
+            user5.setCpf("01234567894");
+            user5.setPhone("5571982345672");
+            user5.setEmail("email5@gmail.com");
+            user5.setPassword(this.passwordEncoder.encode(this.password));
+            user5.setRole(Role.DOCTOR);
+            this.userRepository.save(user5);
+
+            User user6 = new User();
+            user6.setSusCardNumber("012345678901239");
+            user6.setName("Dra. Maria Oliveira");
+            user6.setCpf("01234567895");
+            user6.setPhone("5571982345673");
+            user6.setEmail("email6@gmail.com");
+            user6.setPassword(this.passwordEncoder.encode(this.password));
+            user6.setRole(Role.DOCTOR);
+            this.userRepository.save(user6);
+
+            User user7 = new User();
+            user7.setSusCardNumber("012345678901230");
+            user7.setName("Dra. Vitória");
+            user7.setCpf("01234567896");
+            user7.setPhone("5571982345674");
+            user7.setEmail("email7@gmail.com");
+            user7.setPassword(this.passwordEncoder.encode(this.password));
+            user7.setRole(Role.DOCTOR);
+            this.userRepository.save(user7);
+
             // Inicialização das especialidades
 
             Specialty specialty1 = new Specialty();
@@ -181,6 +211,7 @@ public class SpringMarcacaoConsultaApplication {
             healthCenter3.setClosingHour(LocalTime.parse("19:00", timeFormatter));
             healthCenter3.getSpecialties().add(specialty1);
             healthCenter3.getSpecialties().add(specialty2);
+            healthCenter3.getSpecialties().add(specialty4);
             healthCenter3.getSpecialties().add(specialty5);
             this.healthCenterRepository.save(healthCenter3);
 
@@ -200,7 +231,7 @@ public class SpringMarcacaoConsultaApplication {
             doctor1.getHealthCenters().add(healthCenter2);
             doctor1.getSpecialties().add(specialty1);
             doctor1.getSpecialties().add(specialty3);
-            doctor1.setUser(user1);
+            doctor1.setUser(user5);
             this.doctorRepository.save(doctor1);
 
             Doctor doctor2 = new Doctor();
@@ -217,8 +248,26 @@ public class SpringMarcacaoConsultaApplication {
             doctor2.getHealthCenters().add(healthCenter3);
             doctor2.getSpecialties().add(specialty2);
             doctor2.getSpecialties().add(specialty5);
-            doctor2.setUser(user2);
+            doctor2.setUser(user6);
             this.doctorRepository.save(doctor2);
+
+            Doctor doctor3 = new Doctor();
+            doctor3.setCrm("13254-BA");
+            doctor3.setStartWork(LocalTime.parse("08:00", timeFormatter));
+            doctor3.setEndWork(LocalTime.parse("18:00", timeFormatter));
+            doctor3.setWorkingDays(new HashSet<>(Set.of(
+                    DayOfWeek.MONDAY,
+                    DayOfWeek.TUESDAY,
+                    DayOfWeek.WEDNESDAY,
+                    DayOfWeek.THURSDAY,
+                    DayOfWeek.FRIDAY
+            )));
+            doctor3.getHealthCenters().add(healthCenter1);
+            doctor3.getHealthCenters().add(healthCenter2);
+            doctor3.getHealthCenters().add(healthCenter3);
+            doctor3.getSpecialties().add(specialty4);
+            doctor3.setUser(user7);
+            this.doctorRepository.save(doctor3);
 
             // Inicialização das penalidades
 
@@ -379,6 +428,42 @@ public class SpringMarcacaoConsultaApplication {
             appointment16.setSpecialty(specialty1);
             // User null
             this.appointmentRepository.save(appointment16);
+
+            Appointment appointment17 = new Appointment();
+            appointment17.setAppointmentDateTime(LocalDateTime.parse("15/12/2025 14:00", dateTimeFormatter));
+            appointment17.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment17.setDoctor(doctor3);
+            appointment17.setHealthCenter(healthCenter1);
+            appointment17.setSpecialty(specialty4);
+            // User null
+            this.appointmentRepository.save(appointment17);
+
+            Appointment appointment18 = new Appointment();
+            appointment18.setAppointmentDateTime(LocalDateTime.parse("15/12/2025 16:00", dateTimeFormatter));
+            appointment18.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment18.setDoctor(doctor3);
+            appointment18.setHealthCenter(healthCenter1);
+            appointment18.setSpecialty(specialty4);
+            // User null
+            this.appointmentRepository.save(appointment18);
+
+            Appointment appointment19 = new Appointment();
+            appointment19.setAppointmentDateTime(LocalDateTime.parse("16/12/2025 14:00", dateTimeFormatter));
+            appointment19.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment19.setDoctor(doctor3);
+            appointment19.setHealthCenter(healthCenter2);
+            appointment19.setSpecialty(specialty4);
+            // User null
+            this.appointmentRepository.save(appointment19);
+
+            Appointment appointment20 = new Appointment();
+            appointment20.setAppointmentDateTime(LocalDateTime.parse("17/12/2025 14:00", dateTimeFormatter));
+            appointment20.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment20.setDoctor(doctor3);
+            appointment20.setHealthCenter(healthCenter3);
+            appointment20.setSpecialty(specialty4);
+            // User null
+            this.appointmentRepository.save(appointment20);
         };
     }
 }

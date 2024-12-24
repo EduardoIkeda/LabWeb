@@ -1,7 +1,9 @@
 package com.uneb.labweb.dto.response;
 
-public record TempDTO(
+public record PartialAppointmentDTO(
     Long patientId,
+    Long healthCenterId,
+    Long specialtyId,
     String doctorName,
     String specialtyName,
     String healthCenterName,

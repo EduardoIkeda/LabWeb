@@ -3,6 +3,8 @@ export class Consulta {
   appointmentDateTime: Date;
   appointmentStatus: string;
   patientId: string | null;
+  healthCenterId: string;
+  specialtyId: string;
   doctorName: string;
   specialtyName: string;
   healthCenterName: string;
@@ -15,6 +17,8 @@ export class Consulta {
     appointmentDateTime: Date,
     appointmentStatus: string,
     patientId: string | null,
+    healthCenterId: string,
+    specialtyId: string,
     doctorName: string,
     specialtyName: string,
     healthCenterName: string,
@@ -26,6 +30,8 @@ export class Consulta {
     this.appointmentDateTime = appointmentDateTime;
     this.appointmentStatus = appointmentStatus;
     this.patientId = patientId;
+    this.healthCenterId = healthCenterId;
+    this.specialtyId = specialtyId;
     this.doctorName = doctorName;
     this.specialtyName = specialtyName;
     this.healthCenterName = healthCenterName;

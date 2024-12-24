@@ -16,6 +16,7 @@ import com.uneb.labweb.dto.response.AppointmentResponseDTO;
 import com.uneb.labweb.dto.response.AppointmentsByDateDTO;
 import com.uneb.labweb.dto.response.DoctorResponseDTO;
 import com.uneb.labweb.enums.AppointmentStatus;
+import com.uneb.labweb.exception.AppointmentCancelException;
 import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.model.Doctor;
 import com.uneb.labweb.model.HealthCenter;
@@ -157,6 +158,21 @@ public class AppointmentService {
 
                     recordFound.setUser(user.get());
                     recordFound.setAppointmentStatus(AppointmentStatus.SCHEDULED);
+
+                    return appointmentMapper.toDTO(appointmentRepository.save(recordFound));
+                })
+                .orElseThrow(() -> new RecordNotFoundException(id));
+    }
+
+    public AppointmentResponseDTO cancelAppointment(@NotNull @Positive Long id) {
+        return appointmentRepository.findById(id)
+                .map(recordFound -> {
+                    if (recordFound.getAppointmentStatus() == AppointmentStatus.SCHEDULED) {
+                        recordFound.setUser(null);
+                        recordFound.setAppointmentStatus(AppointmentStatus.PENDING);
+                    } else {
+                        throw new AppointmentCancelException("Não é possível desmarcar uma consulta com o estado: " + recordFound.getAppointmentStatus());
+                    }
 
                     return appointmentMapper.toDTO(appointmentRepository.save(recordFound));
                 })
