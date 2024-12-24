@@ -20,8 +20,7 @@ export class EspecialidadesComponent implements OnInit {
   query!: string;
   especialidades: Especialidade[] = [];
 
-  constructor(private readonly especialidadesService: EspecialidadesService) {
-  }
+  constructor(private readonly especialidadesService: EspecialidadesService) { }
 
   ngOnInit(): void {
     this.loadEspecialidades();

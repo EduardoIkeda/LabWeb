@@ -30,9 +30,8 @@ export class PostoSaudeComponent {
   }
 
   refresh(pageEvent: PageEvent = { length: 0, pageIndex: 0, pageSize: 10 }) {
-    this.healthCenterService
-      .list()
-      .subscribe((healthCentersList: HealthCenter[]) => {
+    this.healthCenterService.list().subscribe(
+      (healthCentersList: HealthCenter[]) => {
         this.healthCenters = healthCentersList;
       });
   }

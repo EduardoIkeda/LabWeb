@@ -9,6 +9,7 @@ import com.uneb.labweb.dto.mapper.HealthCenterMapper;
 import com.uneb.labweb.dto.request.HealthCenterDTO;
 import com.uneb.labweb.dto.response.HealthCenterResponseDTO;
 import com.uneb.labweb.exception.RecordNotFoundException;
+import com.uneb.labweb.model.Specialty;
 import com.uneb.labweb.repository.HealthCenterRepository;
 import com.uneb.labweb.repository.SpecialtyRepository;
 
@@ -71,6 +72,14 @@ public class HealthCenterService {
                     recordFound.setAddress(healthCenterDTO.address());
                     recordFound.setOpeningHour(healthCenterMapper.parseTime(healthCenterDTO.openingHour()));
                     recordFound.setClosingHour(healthCenterMapper.parseTime(healthCenterDTO.closingHour()));
+
+                    recordFound.getSpecialties().clear();
+
+                    healthCenterDTO.specialtyIds().forEach(specialtyId -> {
+                        Specialty specialty = specialtyRepository.findById(specialtyId)
+                                .orElseThrow(() -> new RecordNotFoundException("Especialidade não encontrada com o id: " + specialtyId));
+                        recordFound.getSpecialties().add(specialty);
+                    });
 
                     return healthCenterMapper.toDTO(healthCenterRepository.save(recordFound));
                 })

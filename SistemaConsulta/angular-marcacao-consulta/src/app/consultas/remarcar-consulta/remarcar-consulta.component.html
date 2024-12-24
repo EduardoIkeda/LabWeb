@@ -14,9 +14,9 @@
     <p class="data">{{ convertToDate(data.date.toString()) | date:'dd/MM/yyyy' }}</p>
     <div class="medico" *ngFor="let medico of data.doctors">
       <mat-card appearance="outlined" class="card-container">
-        <p class="medico">{{ medico.name }}</p>
+        <p class="medico">{{ medico.doctorName }}</p>
         <div class="card-content">
-          <button *ngFor="let consulta of medico.appointments" mat-stroked-button (click)="onSelect($event, consulta)">{{ convertToDate(consulta.appointmentDateTime.toString()) | date:'HH:mm' }}</button>
+          <button *ngFor="let consulta of medico.doctorAppointments" mat-stroked-button (click)="onSelect($event, consulta)">{{ convertToDate(consulta.appointmentDateTime.toString()) | date:'HH:mm' }}</button>
         </div>
       </mat-card>
     </div>

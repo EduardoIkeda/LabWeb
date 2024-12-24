@@ -19,7 +19,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -33,12 +32,12 @@ public class Penalty {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @FutureOrPresent
+    //@FutureOrPresent
     @NotNull
     @Column(length = 15, nullable = false)
     private LocalDate penaltyStartDate;
 
-    @FutureOrPresent
+    //@FutureOrPresent
     @NotNull
     @Column(length = 15, nullable = false)
     private LocalDate penaltyEndDate;

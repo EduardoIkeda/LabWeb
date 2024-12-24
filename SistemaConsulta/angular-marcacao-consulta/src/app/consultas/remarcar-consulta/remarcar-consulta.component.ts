@@ -1,22 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Consulta } from '../../shared/model/consulta';
-import { ConsultasService } from '../service/consultas.service';
-import { ConsultasListService } from '../marcar-consulta/consultas/services/consultas.service';
-import { firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ListaConsultas } from '../model/lista_consultas';
-import { ConsultaPorData } from '../model/consulta_por_data';
-import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { Consulta } from '../../shared/model/consulta';
+import { ConsultaPorData } from '../model/consulta_por_data';
+import { ConsultasService } from '../service/consultas.service';
 
 @Component({
   selector: 'app-remarcar-consulta',
@@ -38,7 +37,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class RemarcarConsultaComponent implements OnInit {
   consulta_id!: string | null;
   consulta!: Consulta | null; // Permite inicializar vazio.
-  listaConsultas!: ListaConsultas;
   listaPorData: ConsultaPorData[] = [];
   displayedListaPorData: ConsultaPorData[] = [];
   selectedDate: Date | null = null;
@@ -47,7 +45,6 @@ export class RemarcarConsultaComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private router: Router,
     private readonly consultasService: ConsultasService,
-    private readonly consultasListService: ConsultasListService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
@@ -63,11 +60,11 @@ export class RemarcarConsultaComponent implements OnInit {
 
       if(this.consulta){
         // VAI PRECISAR DO ID DO POSTO E ESPECIALIDADE NO MODEL DE CONSULTA
-        this.consultasListService.list("1", "1").subscribe({
+        this.consultasService.listGroup2("1", "1").subscribe({
           next: (data) => {
-            this.listaConsultas = data;
-            this.listaPorData = this.listaConsultas.listAppointmentsPerDate;
+            this.listaPorData = data;
             this.displayedListaPorData = this.listaPorData;
+            console.log(this.displayedListaPorData);
           },
           error: (error) => console.error('Error:', error),
         });

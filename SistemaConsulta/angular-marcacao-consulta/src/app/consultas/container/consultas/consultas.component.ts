@@ -71,9 +71,7 @@ export class ConsultasComponent {
 
   getDateList() {
     return this.consultas
-      .map((consulta) =>
-        this.convertToDate(consulta.appointmentDateTime.toString())
-      )
+      .map((consulta) => this.convertToDateTime(consulta.appointmentDateTime.toString()))
       .filter(
         (date) => date instanceof Date && date.getFullYear() === this.year
       );
@@ -141,7 +139,7 @@ export class ConsultasComponent {
     this.loadConsultas();
   }
 
-  convertToDate(dateString: string): Date {
+  convertToDateTime(dateString: string): Date {
     const [datePart, timePart] = dateString.split(' ');
     const [day, month, year] = datePart.split('/');
     const [hours, minutes] = timePart.split(':');

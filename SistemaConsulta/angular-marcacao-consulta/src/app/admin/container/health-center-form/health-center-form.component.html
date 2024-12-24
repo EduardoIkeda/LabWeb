@@ -57,12 +57,11 @@
 
             <mat-form-field appearance="fill">
               <mat-label>Especialidades</mat-label>
-              <mat-select formControlName="specialities" multiple required>
-                <mat-option
-                  *ngFor="let especialidade of specialities"
-                  [value]="especialidade"
-                  >{{ especialidade }}</mat-option
-                >
+              <mat-select formControlName="specialties" multiple required>
+                <mat-option *ngFor="let especialidade of specialties"
+                  [value]="especialidade">
+                  {{ especialidade.name }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>

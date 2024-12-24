@@ -12,8 +12,7 @@ import { Consulta } from '../../../shared/model/consulta';
 import { Especialidade } from '../../../shared/model/especialidade';
 import { HealthCenter } from '../../../shared/model/health-center';
 import { ConsultaPorData } from '../../model/consulta_por_data';
-import { ListaConsultas } from '../../model/lista_consultas';
-import { ConsultasListService } from './services/consultas.service';
+import { ConsultasService } from '../../service/consultas.service';
 
 @Component({
   selector: 'app-consultas',
@@ -33,7 +32,6 @@ import { ConsultasListService } from './services/consultas.service';
   styleUrl: './consultas.component.scss',
 })
 export class ConsultasComponent implements OnInit {
-  listaConsultas!: ListaConsultas;
   listaPorData: ConsultaPorData[] = [];
   displayedListaPorData: ConsultaPorData[] = [];
   @Output() selectConsulta = new EventEmitter<Consulta>();
@@ -41,7 +39,7 @@ export class ConsultasComponent implements OnInit {
   @Input() posto!: HealthCenter | null;
   selectedDate: Date | null = null;
 
-  constructor(private readonly consultasService: ConsultasListService) { }
+  constructor(private readonly consultasService: ConsultasService) { }
 
   ngOnInit(): void {
     this.loadConsultas();
@@ -52,11 +50,11 @@ export class ConsultasComponent implements OnInit {
     const postoId = this.posto?.id ?? '';
 
     if (this.speciality && this.posto) {
-      this.consultasService.list(specialityId, postoId).subscribe({
+      this.consultasService.listGroup(specialityId, postoId).subscribe({
         next: (data) => {
-          this.listaConsultas = data;
-          this.listaPorData = this.listaConsultas.listAppointmentsPerDate;
+          this.listaPorData = data;
           this.displayedListaPorData = this.listaPorData;
+          console.log(this.displayedListaPorData);
         },
         error: (error) => console.error('Error:', error),
       });
@@ -96,12 +94,19 @@ export class ConsultasComponent implements OnInit {
     this.onDateChange();
   }
 
-  convertToDate(dateString: string): Date {
+  convertToDateTime(dateString: string): Date {
     const [datePart, timePart] = dateString.split(' ');
     const [day, month, year] = datePart.split('/');
     const [hours, minutes] = timePart.split(':');
 
     // Retorna o objeto Date com os componentes de data e hora
     return new Date(+year, +month - 1, +day, +hours, +minutes);
+  }
+
+  convertToDate(dateString: string): Date {
+    const [day, month, year] = dateString.split('/');
+
+    // Retorna o objeto Date com os componentes de data e hora
+    return new Date(+year, +month - 1, +day);
   }
 }

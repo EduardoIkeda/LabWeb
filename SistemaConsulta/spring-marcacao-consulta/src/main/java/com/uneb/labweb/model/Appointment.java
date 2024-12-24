@@ -20,7 +20,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -34,7 +33,7 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @FutureOrPresent
+    //@FutureOrPresent
     @NotNull
     @Column(length = 25, nullable = false)
     private LocalDateTime appointmentDateTime;

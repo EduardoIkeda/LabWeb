@@ -15,6 +15,8 @@ import { CommonModule, Location } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { EspecialidadesService } from '../../../consultas/marcar-consulta/especialidades/services/especialidades.service';
+import { Especialidade } from '../../../shared/model/especialidade';
 
 @Component({
   selector: 'app-health-center-form',
@@ -37,12 +39,7 @@ export class HealthCenterFormComponent implements OnInit {
   address: string = '';
   openingHour: string = '';
   closingHour: string = '';
-  specialities: string[] = [
-    'Cardiologia',
-    'Dermatologia',
-    'Pediatria',
-    'Ortopedia',
-  ];
+  specialties: Especialidade[] = [];
   postoSaudeForm: FormGroup;
   horarios: string[] = horarios;
 
@@ -51,7 +48,8 @@ export class HealthCenterFormComponent implements OnInit {
     private readonly location: Location,
     private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
-    private readonly postoSaudeService: HealthCenterService
+    private readonly postoSaudeService: HealthCenterService,
+    private readonly especialidadesService: EspecialidadesService
   ) {
     this.postoSaudeForm = this.fb.group(
       {
@@ -74,12 +72,15 @@ export class HealthCenterFormComponent implements OnInit {
         ],
         openingHour: ['', Validators.required],
         closingHour: ['', Validators.required],
-        specialities: [[], Validators.required],
+        specialties: [[], Validators.required],
+        availableAppointmentsCount: 0
       },
       {
         validators: this.hourRangeValidator,
       }
     );
+
+    this.loadEspecialidades()
   }
 
   ngOnInit(): void {
@@ -87,6 +88,16 @@ export class HealthCenterFormComponent implements OnInit {
       if (data.postoSaude) {
         this.postoSaudeForm.patchValue(data.postoSaude);
       }
+    });
+  }
+
+  loadEspecialidades() {
+    this.especialidadesService.list().subscribe({
+      next: (especialidades) => {
+        this.specialties = especialidades
+        console.log(this.specialties)
+      },
+      error: (error) => console.error('Error:', error),
     });
   }
 
@@ -103,9 +114,7 @@ export class HealthCenterFormComponent implements OnInit {
     if (this.postoSaudeForm.valid) {
       this.postoSaudeService.save(this.postoSaudeForm.value);
     } else if (this.postoSaudeForm.errors?.['invalidHours']) {
-      this.invalidMessage(
-        'Horário de abertura deve ser menor que o horário de fechamento'
-      );
+      this.invalidMessage('Horário de abertura deve ser menor que o horário de fechamento');
     } else {
       this.invalidMessage('Formulário inválido');
     }

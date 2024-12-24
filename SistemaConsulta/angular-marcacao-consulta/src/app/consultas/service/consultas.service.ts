@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 import { Consulta } from '../../shared/model/consulta';
 import { isPlatformBrowser } from '@angular/common';
-import { firstValueFrom, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
+import { ConsultaPorData } from '../model/consulta_por_data';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,24 @@ export class ConsultasService {
     } else {
       return throwError(() => new Error('Execução no servidor. Acesso ao localStorage não é permitido.'));
     }
+  }
+
+  listGroup(specialty_id: string, posto_id: string) {
+    const params = new HttpParams()
+      .set('healthCenterId', posto_id)
+      .set('specialtyId', specialty_id);
+
+    return this.http.get<ConsultaPorData[]>(`${this.API}/group`, { params });
+    //return this.http.get<ConsultaPorData[]>('assets/lista_consultas_especialidade_posto.json', { params: { speciality_id, posto_id } });
+  }
+
+  listGroup2(specialty_id: string, posto_id: string) {
+    const params = new HttpParams()
+      .set('healthCenterId', posto_id)
+      .set('specialtyId', specialty_id);
+
+    //return this.http.get<ConsultaPorData[]>(`${this.API}/group`, { params });
+    return this.http.get<ConsultaPorData[]>('assets/lista_consultas_especialidade_posto.json', { params: { specialty_id, posto_id } });
   }
 
   marcarConsulta(record: Partial<Consulta>) {

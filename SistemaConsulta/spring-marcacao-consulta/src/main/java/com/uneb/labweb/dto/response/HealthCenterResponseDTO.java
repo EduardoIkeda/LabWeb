@@ -1,5 +1,7 @@
 package com.uneb.labweb.dto.response;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotBlank;
@@ -24,6 +26,9 @@ public record HealthCenterResponseDTO(
         @NotBlank
         @Pattern(regexp = "^\\d{2}:\\d{2}$") // Ex: 18:00
         String closingHour,
+
+        @NotNull
+        List<SpecialtyResponseDTO> specialties,
 
         @NotNull
         long availableAppointmentsCount
