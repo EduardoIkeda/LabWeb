@@ -11,7 +11,7 @@ import { ConsultaPorData } from '../model/consulta_por_data';
 })
 export class ConsultasService {
   private readonly API = '/api/appointments';
-  //private readonly API = 'assets/consultas.json';
+  private readonly API_test = 'assets/consultas.json';
 
   constructor(private readonly http: HttpClient) { }
 
@@ -42,7 +42,24 @@ export class ConsultasService {
     //return this.http.get<ConsultaPorData[]>('assets/lista_consultas_especialidade_posto.json', { params: { speciality_id, posto_id } });
   }
 
+  listGroup2(specialty_id: string, posto_id: string) {
+    const params = new HttpParams()
+      .set('healthCenterId', posto_id)
+      .set('specialtyId', specialty_id);
+
+    //return this.http.get<ConsultaPorData[]>(`${this.API}/group`, { params });
+    return this.http.get<ConsultaPorData[]>('assets/lista_consultas_especialidade_posto.json', { params: { specialty_id, posto_id } });
+  }
+
   marcarConsulta(record: Partial<Consulta>) {
     return this.http.put<Consulta>(`${this.API}/schedule/${record.id}`, record);
+  }
+
+  loadById(id: string) {
+    return this.http.get<Consulta>(`${this.API}/${id}`);
+  }
+
+  cancelar(record: Partial<Consulta>) {
+    return this.http.put<Consulta>(`${this.API}/cancel/${record.id}`, record);
   }
 }

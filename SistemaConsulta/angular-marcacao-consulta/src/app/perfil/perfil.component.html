@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="content">
+    <div class="userProfile">
+      <mat-card class="profile-card custom-card">
+        <mat-card-header>
+          <div
+          mat-card-avatar
+          class="custom-avatar"
+          [ngStyle]="{ 'background-image': 'url(' + avatarUrl + ')' }"
+        ></div>          <mat-card-title>{{ user.name }}</mat-card-title>
+          <mat-card-subtitle *ngIf="!isEditing">{{ user.email }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="!isEditing">
+            <p class="cardtext"><strong>CPF:</strong> {{ user.cpf }}</p>
+            <p class="cardtext"><strong>Cartão SUS:</strong> {{ user.susCardNumber }}</p>
+            <p class="cardtext"><strong>Telefone:</strong> {{ user.phone }}</p>
+            <p class="cardtext"><strong>Status:</strong> {{ user.status }}</p>
+          </div>
+
+          <div *ngIf="isEditing">
+            <form [formGroup]="formulario">
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Email:</mat-label>
+                <input matInput formControlName="email">
+                <mat-error *ngIf="formulario.get('email')?.invalid && formulario.get('email')?.touched">
+                  <span *ngIf="formulario.get('email')?.hasError('required')">Email is required</span>
+                  <span *ngIf="formulario.get('email')?.hasError('email')">Invalid email format</span>
+                  <span *ngIf="formulario.get('email')?.hasError('maxlength')">Email is too long</span>
+                </mat-error>
+              </mat-form-field>
+              <p class="cardtext"><strong>CPF:</strong> {{ user.cpf }}</p>
+              <p class="cardtext"><strong>Cartão SUS:</strong> {{ user.susCardNumber }}</p>
+
+
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Telefone:</mat-label>
+                <input matInput formControlName="phone">
+                <mat-error *ngIf="formulario.get('phone')?.invalid && formulario.get('phone')?.touched">
+                  <span *ngIf="formulario.get('phone')?.hasError('required')">Numero de telefone é obrigatorio</span>
+                  <span *ngIf="formulario.get('phone')?.hasError('pattern')">Telefone deve ser numerico</span>
+                  <span *ngIf="formulario.get('phone')?.hasError('minlength')">PTelefone muito curto</span>
+                </mat-error>
+              </mat-form-field>
+              <p class="cardtext"><strong>Status:</strong> {{ user.status }}</p>
+
+            </form>
+
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button class="cardbtn" mat-raised-button color="primary" (click)="toggleEditMode()">
+            {{ isEditing ? 'Salvar' : 'Editar Perfil' }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

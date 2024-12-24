@@ -16,4 +16,9 @@ export const APP_ROUTES: Routes = [
     loadChildren: () =>
       import('./admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
+  {
+    path: 'perfil',
+    loadChildren: () =>
+      import('./perfil/perfil.routes').then((m) => m.PERFIL_ROUTES),
+  },
 ];

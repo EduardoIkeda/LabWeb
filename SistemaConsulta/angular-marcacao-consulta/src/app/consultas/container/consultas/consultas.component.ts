@@ -2,11 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatCalendarCellClassFunction,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 
 import { ConsultaItemComponent } from '../../components/consulta-item/consulta-item.component';
 import { Consulta } from '../../../shared/model/consulta';
 import { ConsultasService } from './../../service/consultas.service';
+import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-consultas',
@@ -27,25 +35,33 @@ export class ConsultasComponent {
   dateList: Date[] = [];
   consultas: Consulta[] = [];
 
-  constructor(private readonly consultasService: ConsultasService) {
+  constructor(
+    private readonly consultasService: ConsultasService,
+    private readonly router: Router,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {
     this.loadConsultas();
   }
 
   loadConsultas() {
     this.consultasService.listByUser().subscribe({
       next: (consultas) => {
-        this.consultas = consultas.map(consulta => new Consulta(
-          consulta.id,
-          consulta.appointmentDateTime,
-          consulta.appointmentStatus,
-          consulta.patientId,
-          consulta.doctorName,
-          consulta.specialtyName,
-          consulta.healthCenterName,
-          consulta.healthCenterAddress,
-          consulta.isTomorrow,
-          consulta.isFinalized
-        ));
+        this.consultas = consultas.map(
+          (consulta) =>
+            new Consulta(
+              consulta.id,
+              consulta.appointmentDateTime,
+              consulta.appointmentStatus,
+              consulta.patientId,
+              consulta.doctorName,
+              consulta.specialtyName,
+              consulta.healthCenterName,
+              consulta.healthCenterAddress,
+              consulta.isTomorrow,
+              consulta.isFinalized
+            )
+        );
         this.dateList = this.getDateList();
         console.log(this.consultas);
       },
@@ -96,11 +112,31 @@ export class ConsultasComponent {
   }
 
   onReschedule(consulta: Consulta) {
-    console.log('Reschedule id:', consulta);
+    this.router.navigate(['/consultas/reschedule', consulta.id]);
   }
 
   onCancel(consulta: Consulta) {
-    console.log('Cancel id:', consulta);
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: `Deseja realmente cancelar a consulta?
+
+                  Especialidade: ${consulta.specialtyName}
+                  Posto: ${consulta.healthCenterName}
+                  Endereço: ${consulta.healthCenterAddress}
+                  Profissional: ${consulta.doctorName}
+                  Data e hora: ${consulta.appointmentDateTime}`,
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result && consulta != null) {
+        consulta.patientId = null;
+        // VER QUESTÃO DO ENDPOINT PARA CANCELAMENTO
+        this.consultasService.cancelar(consulta).subscribe({
+          next: () => this.onSuccess(),
+          error: (error) => this.onError(error),
+        });
+      }
+    });
+    this.loadConsultas();
   }
 
   convertToDateTime(dateString: string): Date {
@@ -110,5 +146,23 @@ export class ConsultasComponent {
 
     // Retorna o objeto Date com os componentes de data e hora
     return new Date(+year, +month - 1, +day, +hours, +minutes);
+  }
+
+  private onSuccess() {
+    this.snackBar.open('Consulta cancelada com sucesso!', 'Fechar', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+  }
+
+  private onError(error: any) {
+    console.error('Erro ao remarcar consulta:', error);
+
+    this.snackBar.open('Erro ao cancelar a consulta. Tente novamente.', 'Fechar', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
   }
 }
