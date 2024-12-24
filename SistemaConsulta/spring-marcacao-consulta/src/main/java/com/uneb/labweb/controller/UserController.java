@@ -19,6 +19,7 @@ import com.uneb.labweb.dto.request.LoginDTO;
 import com.uneb.labweb.dto.request.RegisterDTO;
 import com.uneb.labweb.dto.request.TesteDTO;
 import com.uneb.labweb.dto.request.UserDTO;
+import com.uneb.labweb.dto.request.UserPartialDTO;
 import com.uneb.labweb.dto.response.AuthResponseDTO;
 import com.uneb.labweb.service.UserService;
 
@@ -76,7 +77,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public UserDTO partialUpdateUser(@PathVariable @NotNull @Positive Long id, @RequestBody UserDTO userDTO) {
+    public UserDTO partialUpdateUser(@PathVariable @NotNull @Positive Long id, @RequestBody UserPartialDTO userDTO) {
         return userService.patchUser(id, userDTO);
     }
 
