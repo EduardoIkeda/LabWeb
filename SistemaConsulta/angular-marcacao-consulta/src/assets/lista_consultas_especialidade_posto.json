@@ -3,27 +3,27 @@
   "healthCenter": "Posto Central",
   "listAppointmentsPerDate": [
     {
-      "date": "25/12/2021",
+      "date": "25/12/2021 00:00",
       "doctors": [
         {
           "name": "Dr. João Silva",
           "crm": "12345-SP",
           "appointments": [
             {
-              "id": "10",
-              "patientName": "",
+              "id": "1",
+              "patientId": null,
               "doctorName": "Dr. João Silva",
               "appointmentDateTime": "25/12/2021 10:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             },
             {
-              "id": "20",
-              "patientName": "",
+              "id": "2",
+              "patientId": null,
               "doctorName": "Dr. João Silva",
               "appointmentDateTime": "25/12/2021 11:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             }
@@ -35,11 +35,11 @@
           "crm": "67890-SP",
           "appointments": [
             {
-              "id": "30",
-              "patientName": "",
+              "id": "3",
+              "patientId": null,
               "doctorName": "Dra. Maria Oliveira",
               "appointmentDateTime": "25/12/2021 14:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             }
@@ -49,27 +49,27 @@
     },
 
     {
-      "date": "27/12/2024",
+      "date": "27/12/2024 00:00",
       "doctors": [
         {
           "name": "Dr. ABCD",
           "crm": "12345-SP",
           "appointments": [
             {
-              "id": "40",
-              "patientName": "",
+              "id": "4",
+              "patientId": null,
               "doctorName": "Dr. ABCD",
               "appointmentDateTime": "27/12/2024 10:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             },
             {
-              "id": "50",
-              "patientName": "",
+              "id": "5",
+              "patientId": null,
               "doctorName": "Dr. ABCD",
               "appointmentDateTime": "27/12/2024 11:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             }
@@ -81,11 +81,11 @@
           "crm": "67890-SP",
           "appointments": [
             {
-              "id": "60",
-              "patientName": "",
+              "id": "6",
+              "patientId": null,
               "doctorName": "Dra. Vitória",
               "appointmentDateTime": "27/12/2024 14:30",
-              "specialization": "Cardiologia",
+              "specialtyName": "Cardiologia",
               "isTomorrow": false,
               "isFinalized": false
             }

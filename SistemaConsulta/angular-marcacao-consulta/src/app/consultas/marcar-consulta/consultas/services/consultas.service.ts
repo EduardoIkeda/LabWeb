@@ -11,7 +11,7 @@ export class ConsultasService {
 
   constructor(private readonly http: HttpClient) {}
 
-  list() {
-    return this.http.get<ListaConsultas>(this.API);
+  list(speciality_id: string, posto_id: string) {
+    return this.http.get<ListaConsultas>(this.API, {params: {speciality_id, posto_id}});
   }
 }

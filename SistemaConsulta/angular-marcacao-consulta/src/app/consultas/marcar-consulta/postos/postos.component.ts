@@ -1,10 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Posto } from '../../../shared/model/posto';
-import { MatInputModule } from '@angular/material/input';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { PostosService } from './services/postos.service';
+import { MatInputModule } from '@angular/material/input';
+
+import { Especialidade } from '../../../shared/model/especialidade';
+import { HealthCenter } from '../../../shared/model/health-center';
+import { HealthCenterService } from '../../../shared/service/health-center.service';
 import { PostoItemComponent } from './posto-item/posto-item.component';
 
 @Component({
@@ -15,12 +17,13 @@ import { PostoItemComponent } from './posto-item/posto-item.component';
   styleUrl: './postos.component.scss'
 })
 export class PostosComponent implements OnInit {
-  @Output() selectPosto = new EventEmitter<Posto>();
-  postos: Posto[] = [];
-  displayedPostos: Posto[] = [];
+  @Output() selectPosto = new EventEmitter<HealthCenter>();
+  @Input() speciality!: Especialidade | null;
+  postos: HealthCenter[] = [];
+  displayedPostos: HealthCenter[] = [];
   query!: string;
 
-  constructor(private readonly postosService: PostosService) {
+  constructor(private readonly healthCenterService: HealthCenterService) {
   }
 
   ngOnInit(): void {
@@ -28,12 +31,14 @@ export class PostosComponent implements OnInit {
   }
 
   loadPostos() {
-    this.postosService.list().subscribe({
+    this.healthCenterService.listBySpecialty(this.speciality!.id).subscribe({
       next: (postos) => {
-        this.postos = postos.map((posto) => ({ ...posto }));
-        this.displayedPostos = this.postos.sort((a, b) => b.appointments.length - a.appointments.length);
+        this.postos = postos.map(
+          (posto) => ({ ...posto })
+        );
+        this.displayedPostos = this.postos.sort((a, b) => (b.availableAppointmentsCount ?? 0) - (a.availableAppointmentsCount ?? 0));
       },
-      error: (error) => console.error('Error:', error),
+      error: (error: any) => console.error('Error:', error),
     });
   }
 
@@ -42,17 +47,17 @@ export class PostosComponent implements OnInit {
 
     if (this.query != "") {
       this.displayedPostos = [];
-      for (let speciality of this.postos) {
-        if (speciality.name.toLowerCase().includes(this.query)) {
-          this.displayedPostos.push(speciality);
+      for (let healthCenter of this.postos) {
+        if (healthCenter.name.toLowerCase().includes(this.query)) {
+          this.displayedPostos.push(healthCenter);
         }
       }
     } else {
-      this.displayedPostos = this.postos.sort((a, b) => b.appointments.length - a.appointments.length);
+      this.displayedPostos = this.postos.sort((a, b) => (b.availableAppointmentsCount ?? 0) - (a.availableAppointmentsCount ?? 0));
     }
   }
 
-  onSelectPosto(posto: Posto) {
+  onSelectPosto(posto: HealthCenter) {
     this.selectPosto.emit(posto);
   }
 }

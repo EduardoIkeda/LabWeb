@@ -1,29 +1,35 @@
 export class Consulta {
   id: string;
-  patientName: string;
-  doctorName: string;
   appointmentDateTime: Date;
-  //appointmentStatus: String;
-  specialization: string;
+  appointmentStatus: string;
+  patientId: string | null;
+  doctorName: string;
+  specialtyName: string;
+  healthCenterName: string;
+  healthCenterAddress: string;
   isTomorrow: boolean = false;
   isFinalized: boolean = false;
 
   constructor(
     id: string,
-    patientName: string,
-    doctorName: string,
     appointmentDateTime: Date,
-    //appointmentStatus: String,
-    specialization: string,
+    appointmentStatus: string,
+    patientId: string | null,
+    doctorName: string,
+    specialtyName: string,
+    healthCenterName: string,
+    healthCenterAddress: string,
     isTomorrow: boolean,
     isFinalized: boolean
   ) {
     this.id = id;
-    this.patientName = patientName;
-    this.doctorName = doctorName;
     this.appointmentDateTime = appointmentDateTime;
-    //this.appointmentStatus = appointmentStatus
-    this.specialization = specialization;
+    this.appointmentStatus = appointmentStatus;
+    this.patientId = patientId;
+    this.doctorName = doctorName;
+    this.specialtyName = specialtyName;
+    this.healthCenterName = healthCenterName;
+    this.healthCenterAddress = healthCenterAddress;
     this.isTomorrow = isTomorrow;
     this.isFinalized = isFinalized;
   }

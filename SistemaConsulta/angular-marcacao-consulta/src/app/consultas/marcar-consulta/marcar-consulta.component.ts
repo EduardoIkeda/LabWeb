@@ -1,18 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EspecialidadesComponent } from "./especialidades/especialidades.component";
-import { Consulta } from '../../shared/model/consulta';
-import { Especialidade } from '../../shared/model/especialidade';
-import { MatIconModule } from '@angular/material/icon';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { PostosComponent } from './postos/postos.component';
-import { Posto } from '../../shared/model/posto';
-import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
+import { UsersService } from '../../auth/services/users.service';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
-import { ConsultasComponent } from './consultas/consultas.component';
+import { Consulta } from '../../shared/model/consulta';
+import { Especialidade } from '../../shared/model/especialidade';
+import { HealthCenter } from '../../shared/model/health-center';
 import { ConsultasService } from '../service/consultas.service';
-import { MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import { ConsultasComponent } from './consultas/consultas.component';
+import { EspecialidadesComponent } from './especialidades/especialidades.component';
+import { PostosComponent } from './postos/postos.component';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-marcar-consulta',
@@ -24,31 +28,41 @@ import { MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 export class MarcarConsultaComponent implements OnInit, OnDestroy {
   consulta!: Consulta | null;
   speciality!: Especialidade | null;
-  posto!: Posto | null;
+  posto!: HealthCenter | null;
   page: string = "especialidade";
 
   constructor(
     public dialog: MatDialog,
+    public consultaService: ConsultasService,
     private readonly snackBar: MatSnackBar,
-    private readonly consultaService: ConsultasService
-  ) { }
+    private readonly router: Router,
+    private readonly usersService: UsersService
+  ) {
+  }
 
   onSelectSpeciality(speciality: Especialidade) {
     this.speciality = speciality;
     this.page = "posto";
-    console.log(this.speciality.name);
   }
 
-  onSelectPosto(posto: Posto) {
+  onSelectPosto(posto: HealthCenter) {
     this.posto = posto;
     this.page = "consulta";
-    console.log(this.posto.name);
   }
 
   onSelectConsulta(consulta: Consulta) {
     this.consulta = consulta;
+
+    const userId = localStorage.getItem("user_id");
+    if (!userId) {
+      throw new Error("Usuário não encontrado no localStorage.");
+    }
+
+    this.consulta.patientId = userId;
+
     console.log(this.consulta);
   }
+
 
   onMarcarConsulta() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -63,10 +77,10 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result && this.consulta != null) {
-        // this.consultaService.create(this.consulta).subscribe({
-        //   next: () => this.onSuccess(),
-        //   error: (error) => this.onError(error)
-        // });
+        this.consultaService.marcarConsulta(this.consulta).subscribe({
+          next: () => this.onSuccess(),
+          error: (error) => this.onError(error)
+        });
       }
     });
   }
@@ -77,6 +91,7 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
       verticalPosition: 'top',
       horizontalPosition: 'center',
     });
+    this.router.navigate(['/consultas/list']);
   }
 
   private onError(error: any) {

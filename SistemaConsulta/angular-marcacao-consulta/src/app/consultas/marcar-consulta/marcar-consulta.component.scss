@@ -1,5 +1,9 @@
 @import "../../../styles.scss";
 
+.master{
+  background-color: $light-gray-color;
+}
+
 .card-container {
   display: flex;
   background-color: $light-gray-color;

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uneb.labweb.dto.request.AppointmentDTO;
+import com.uneb.labweb.dto.response.AppointmentResponseDTO;
 import com.uneb.labweb.service.AppointmentService;
 
 import jakarta.validation.Valid;
@@ -33,24 +34,34 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public List<AppointmentDTO> findAllAppointments() {
+    public List<AppointmentResponseDTO> findAllAppointments() {
         return appointmentService.findAllAppointments();  
     }
 
+    @GetMapping("/by-user/{id}")
+    public List<AppointmentResponseDTO> findAppointmentsByUser(@PathVariable @NotNull @Positive Long id) {
+        return appointmentService.findAppointmentsByUser(id); 
+    }
+
     @GetMapping("/{id}")
-    public AppointmentDTO findAppointmentById(@PathVariable @NotNull @Positive Long id) {
+    public AppointmentResponseDTO findAppointmentById(@PathVariable @NotNull @Positive Long id) {
         return appointmentService.findAppointmentById(id);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public AppointmentDTO createAppointment(@RequestBody @Valid @NotNull AppointmentDTO appointmentDTO) {
+    public AppointmentResponseDTO createAppointment(@RequestBody @Valid @NotNull AppointmentDTO appointmentDTO) {
         return appointmentService.createAppointment(appointmentDTO);
     }
 
     @PutMapping("/{id}")
-    public AppointmentDTO updateAppointment(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull AppointmentDTO appointmentDTO) {
+    public AppointmentResponseDTO updateAppointment(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull AppointmentDTO appointmentDTO) {
         return appointmentService.updateAppointment(id, appointmentDTO);     
+    }
+
+    @PutMapping("/schedule/{id}")
+    public AppointmentResponseDTO scheduleAppointment(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull AppointmentDTO appointmentDTO) {
+        return appointmentService.scheduleAppointment(id, appointmentDTO);     
     }
 
     @DeleteMapping("/{id}")
@@ -58,4 +69,6 @@ public class AppointmentController {
     public void deleteAppointment(@PathVariable @NotNull @Positive Long id) {
         appointmentService.deleteAppointment(id);
     }
+
+
 }

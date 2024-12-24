@@ -6,10 +6,10 @@
     "appointments": [
       {
         "id": "1",
-        "patientName": "João",
+        "patientId": null,
         "doctorName": "Dr. Carlos",
         "date": "2021-12-25T10:30:00",
-        "specialization": "Cardiologia",
+        "specialtyName": "Cardiologia",
         "isTomorrow": false,
         "isFinalized": true
       }
@@ -22,10 +22,10 @@
     "appointments": [
       {
         "id": "2",
-        "patientName": "Maria",
+        "patientId": null,
         "doctorName": "Dr. Ana",
         "date": "2024-12-01T20:00:00",
-        "specialization": "Oftalmologia",
+        "specialtyName": "Oftalmologia",
         "isTomorrow": false,
         "isFinalized": false
       }
@@ -38,19 +38,19 @@
     "appointments": [
       {
         "id": "3",
-        "patientName": "José",
+        "patientId": null,
         "doctorName": "Dr. Pedro",
         "date": "2024-12-26T08:00:00",
-        "specialization": "Pediatria",
+        "specialtyName": "Pediatria",
         "isTomorrow": false,
         "isFinalized": false
       },
       {
         "id": "2",
-        "patientName": "Maria",
+        "patientId": null,
         "doctorName": "Dr. Ana",
         "date": "2024-12-01T20:00:00",
-        "specialization": "Oftalmologia",
+        "specialtyName": "Oftalmologia",
         "isTomorrow": false,
         "isFinalized": false
       }

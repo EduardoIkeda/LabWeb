@@ -1,28 +1,28 @@
 [
   {
     "id": "1",
-    "patientName": "João",
+    "patientId": "1",
     "doctorName": "Dr. Carlos",
-    "date": "2021-12-25T10:30:00",
-    "specialization": "Cardiologia",
+    "appointmentDateTime": "2021-12-25T10:30:00",
+    "specialtyName": "Cardiologia",
     "isTomorrow": false,
     "isFinalized": true
   },
   {
     "id": "2",
-    "patientName": "Maria",
+    "patientId": "1",
     "doctorName": "Dr. Ana",
-    "date": "2024-12-01T20:00:00",
-    "specialization": "Oftalmologia",
+    "appointmentDateTime": "2024-12-01T20:00:00",
+    "specialtyName": "Oftalmologia",
     "isTomorrow": false,
     "isFinalized": false
   },
   {
     "id": "3",
-    "patientName": "José",
+    "patientId": "1",
     "doctorName": "Dr. Pedro",
-    "date": "2024-12-26T08:00:00",
-    "specialization": "Pediatria",
+    "appointmentDateTime": "2024-12-26T08:00:00",
+    "specialtyName": "Pediatria",
     "isTomorrow": false,
     "isFinalized": false
   }
