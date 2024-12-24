@@ -11,7 +11,7 @@ import { ConsultaPorData } from '../model/consulta_por_data';
 })
 export class ConsultasService {
   private readonly API = '/api/appointments';
-  //private readonly API = 'assets/consultas.json';
+  private readonly API_test = 'assets/consultas.json';
 
   constructor(private readonly http: HttpClient) { }
 
@@ -44,5 +44,13 @@ export class ConsultasService {
 
   marcarConsulta(record: Partial<Consulta>) {
     return this.http.put<Consulta>(`${this.API}/schedule/${record.id}`, record);
+  }
+
+  loadById(id: string) {
+    return this.http.get<Consulta>(`${this.API}/${id}`);
+  }
+
+  cancelar(record: Partial<Consulta>) {
+    return this.http.put<Consulta>(`${this.API}/cancel/${record.id}`, record);
   }
 }

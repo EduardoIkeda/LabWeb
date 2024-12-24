@@ -31,4 +31,8 @@ export class AppComponent {
     return this.router.url.includes('auth');
   }
 
+  isRouteProfile() {
+    return this.router.url.includes('perfil');
+  }
+
 }
