@@ -11,6 +11,7 @@ import com.uneb.labweb.dto.mapper.UserMapper;
 import com.uneb.labweb.dto.request.LoginDTO;
 import com.uneb.labweb.dto.request.RegisterDTO;
 import com.uneb.labweb.dto.request.UserDTO;
+import com.uneb.labweb.dto.request.UserPartialDTO;
 import com.uneb.labweb.dto.response.AuthResponseDTO;
 import com.uneb.labweb.enums.Role;
 import com.uneb.labweb.exception.RecordAlreadyExistsException;
@@ -116,7 +117,7 @@ public class UserService {
         
     }
 
-    public UserDTO patchUser(@NotNull @Positive Long id, @Valid @NotNull UserDTO userDTO) {
+    public UserDTO patchUser(@NotNull @Positive Long id, @Valid @NotNull UserPartialDTO userDTO) {
         return userRepository.findById(id)
                 .map(recordFound -> {
                     if (userDTO.password() != null && !userDTO.password().isEmpty()) {
