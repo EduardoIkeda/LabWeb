@@ -15,5 +15,7 @@ import { CommonModule } from '@angular/common';
 export class TopbarComponent {
   @Input() drawer: any;
   @Input() isRouterAuth: boolean = false;
+  @Input() isRouterProfile: boolean = false;
+
   constructor() {}
 }
