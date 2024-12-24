@@ -116,6 +116,23 @@ public class UserService {
         
     }
 
+    public UserDTO patchUser(@NotNull @Positive Long id, @Valid @NotNull UserDTO userDTO) {
+        return userRepository.findById(id)
+                .map(recordFound -> {
+                    if (userDTO.password() != null && !userDTO.password().isEmpty()) {
+                        recordFound.setPassword(passwordEncoder.encode(userDTO.password()));
+                    }
+                    if (userDTO.email() != null && !userDTO.email().isEmpty()) {
+                        recordFound.setEmail(userDTO.email());
+                    }
+                    if (userDTO.phone() != null && !userDTO.phone().isEmpty()) {
+                        recordFound.setPhone(userDTO.phone());
+                    }
+                    return userMapper.toDTO(userRepository.save(recordFound));
+                })
+                .orElseThrow(() -> new RecordNotFoundException(id));
+    }
+
     public void deleteUser(@NotNull @Positive Long id) {
         userRepository.delete(userRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id)));

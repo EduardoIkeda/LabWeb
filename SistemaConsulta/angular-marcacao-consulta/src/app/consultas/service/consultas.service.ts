@@ -39,14 +39,9 @@ export class ConsultasService {
       .set('specialtyId', specialty_id);
 
     return this.http.get<ConsultaPorData[]>(`${this.API}/group`, { params });
-    //return this.http.get<ConsultaPorData[]>('assets/lista_consultas_especialidade_posto.json', { params: { speciality_id, posto_id } });
   }
 
-  listGroup2(specialty_id: string, posto_id: string) {
-    const params = new HttpParams()
-      .set('healthCenterId', posto_id)
-      .set('specialtyId', specialty_id);
-
+  listGroupTeste(specialty_id: string, posto_id: string) {
     //return this.http.get<ConsultaPorData[]>(`${this.API}/group`, { params });
     return this.http.get<ConsultaPorData[]>('assets/lista_consultas_especialidade_posto.json', { params: { specialty_id, posto_id } });
   }

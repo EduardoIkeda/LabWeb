@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -72,6 +73,11 @@ public class UserController {
     @PutMapping("/{id}")
     public UserDTO updateUser(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull UserDTO userDTO) {
         return userService.updateUser(id, userDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public UserDTO partialUpdateUser(@PathVariable @NotNull @Positive Long id, @RequestBody UserDTO userDTO) {
+        return userService.patchUser(id, userDTO);
     }
 
     @DeleteMapping("/{id}")
