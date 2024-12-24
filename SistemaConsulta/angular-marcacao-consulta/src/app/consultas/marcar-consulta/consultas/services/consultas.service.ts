@@ -6,7 +6,7 @@ import { tap } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ConsultasService {
+export class ConsultasListService {
   private readonly API = 'assets/lista_consultas_especialidade_posto.json';
 
   constructor(private readonly http: HttpClient) {}

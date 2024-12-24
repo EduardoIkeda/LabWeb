@@ -13,7 +13,7 @@ import { Especialidade } from '../../../shared/model/especialidade';
 import { HealthCenter } from '../../../shared/model/health-center';
 import { ConsultaPorData } from '../../model/consulta_por_data';
 import { ListaConsultas } from '../../model/lista_consultas';
-import { ConsultasService } from './services/consultas.service';
+import { ConsultasListService } from './services/consultas.service';
 
 @Component({
   selector: 'app-consultas',
@@ -41,7 +41,7 @@ export class ConsultasComponent implements OnInit {
   @Input() posto!: HealthCenter | null;
   selectedDate: Date | null = null;
 
-  constructor(private readonly consultasService: ConsultasService) { }
+  constructor(private readonly consultasService: ConsultasListService) { }
 
   ngOnInit(): void {
     this.loadConsultas();
