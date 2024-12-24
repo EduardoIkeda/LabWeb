@@ -60,7 +60,7 @@ export class RemarcarConsultaComponent implements OnInit {
 
       if(this.consulta){
         // VAI PRECISAR DO ID DO POSTO E ESPECIALIDADE NO MODEL DE CONSULTA
-        this.consultasService.listGroup2("1", "1").subscribe({
+        this.consultasService.listGroup("1", "1").subscribe({
           next: (data) => {
             this.listaPorData = data;
             this.displayedListaPorData = this.listaPorData;
@@ -83,39 +83,6 @@ export class RemarcarConsultaComponent implements OnInit {
     } catch (error) {
       console.error('Erro ao carregar consulta:', error);
     }
-  }
-
-  onDateChange() {
-    if (this.selectedDate) {
-      // Zera a hora, minuto, segundo e milissegundo da data selecionada
-      const resetSelectedDate = new Date(this.selectedDate.setHours(0, 0, 0, 0));
-
-      this.displayedListaPorData = this.listaPorData.filter(data => {
-        // Verifica se data.date é uma string e converte para um objeto Date
-        const dataDate = this.convertToDate(data.date.toString());
-
-        // Zera a hora de dataDate para comparação
-        const resetDataDate = new Date(dataDate.setHours(0, 0, 0, 0));
-        return resetDataDate.getTime() === resetSelectedDate.getTime(); // Compara as datas sem as horas
-      });
-    } else {
-      // Se nenhuma data estiver selecionada, mostra todas as consultas
-      this.displayedListaPorData = this.listaPorData;
-    }
-  }
-
-  limparData(){
-    this.selectedDate = null;
-    this.onDateChange();
-  }
-
-  convertToDate(dateString: string): Date {
-    const [datePart, timePart] = dateString.split(' ');
-    const [day, month, year] = datePart.split('/');
-    const [hours, minutes] = timePart.split(':');
-
-    // Retorna o objeto Date com os componentes de data e hora
-    return new Date(+year, +month - 1, +day, +hours, +minutes);
   }
 
   async onSelect(event: Event, consulta_nova: Consulta) {
@@ -165,5 +132,46 @@ export class RemarcarConsultaComponent implements OnInit {
       verticalPosition: 'top',
       horizontalPosition: 'center',
     });
+  }
+
+
+  limparData(){
+    this.selectedDate = null;
+    this.onDateChange();
+  }
+
+  onDateChange() {
+    if (this.selectedDate) {
+      // Zera a hora, minuto, segundo e milissegundo da data selecionada
+      const resetSelectedDate = new Date(this.selectedDate.setHours(0, 0, 0, 0));
+
+      this.displayedListaPorData = this.listaPorData.filter(data => {
+        // Verifica se data.date é uma string e converte para um objeto Date
+        const dataDate = this.convertToDate(data.date.toString());
+
+        // Zera a hora de dataDate para comparação
+        const resetDataDate = new Date(dataDate.setHours(0, 0, 0, 0));
+        return resetDataDate.getTime() === resetSelectedDate.getTime(); // Compara as datas sem as horas
+      });
+    } else {
+      // Se nenhuma data estiver selecionada, mostra todas as consultas
+      this.displayedListaPorData = this.listaPorData;
+    }
+  }
+
+  convertToDateTime(dateString: string): Date {
+    const [datePart, timePart] = dateString.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart.split(':');
+
+    // Retorna o objeto Date com os componentes de data e hora
+    return new Date(+year, +month - 1, +day, +hours, +minutes);
+  }
+
+  convertToDate(dateString: string): Date {
+    const [day, month, year] = dateString.split('/');
+
+    // Retorna o objeto Date com os componentes de data
+    return new Date(+year, +month - 1, +day);
   }
 }

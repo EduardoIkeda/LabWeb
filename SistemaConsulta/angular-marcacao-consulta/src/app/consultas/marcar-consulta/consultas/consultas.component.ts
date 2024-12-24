@@ -106,7 +106,7 @@ export class ConsultasComponent implements OnInit {
   convertToDate(dateString: string): Date {
     const [day, month, year] = dateString.split('/');
 
-    // Retorna o objeto Date com os componentes de data e hora
+    // Retorna o objeto Date com os componentes de data
     return new Date(+year, +month - 1, +day);
   }
 }
