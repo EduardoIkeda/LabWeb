@@ -1,5 +1,5 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,7 +16,6 @@ import { ConsultasService } from '../service/consultas.service';
 import { ConsultasComponent } from './consultas/consultas.component';
 import { EspecialidadesComponent } from './especialidades/especialidades.component';
 import { PostosComponent } from './postos/postos.component';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-marcar-consulta',

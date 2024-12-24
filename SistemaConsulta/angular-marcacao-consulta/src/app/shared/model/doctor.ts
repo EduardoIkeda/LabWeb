@@ -2,7 +2,10 @@ import { Consulta } from "./consulta";
 
 export interface Doctor {
   id: string;
-  name: string;
+  doctorName: string;
   crm: string;
-  appointments: Consulta[];
+  startWork: string;
+  endWork: string;
+  workingDays: string[];
+  doctorAppointments: Consulta[];
 }

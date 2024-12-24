@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uneb.labweb.dto.request.DoctorDTO;
+import com.uneb.labweb.dto.response.DoctorResponseDTO;
 import com.uneb.labweb.service.DoctorService;
 
 import jakarta.validation.Valid;
@@ -33,23 +34,23 @@ public class DoctorController {
     }
 
     @GetMapping
-    public List<DoctorDTO> findAllDoctors() {
+    public List<DoctorResponseDTO> findAllDoctors() {
         return doctorService.findAllDoctors();
     }
 
     @GetMapping("/{id}")
-    public DoctorDTO findDoctorById(@PathVariable @NotNull @Positive Long id) {
+    public DoctorResponseDTO findDoctorById(@PathVariable @NotNull @Positive Long id) {
         return doctorService.findDoctorById(id);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public DoctorDTO createDoctor(@RequestBody @Valid @NotNull DoctorDTO doctorDTO) {
+    public DoctorResponseDTO createDoctor(@RequestBody @Valid @NotNull DoctorDTO doctorDTO) {
         return doctorService.createDoctor(doctorDTO);
     }
 
     @PutMapping("/{id}")
-    public DoctorDTO updateDoctor(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull DoctorDTO doctorDTO) {
+    public DoctorResponseDTO updateDoctor(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull DoctorDTO doctorDTO) {
         return doctorService.updateDoctor(id, doctorDTO);  
     }
 

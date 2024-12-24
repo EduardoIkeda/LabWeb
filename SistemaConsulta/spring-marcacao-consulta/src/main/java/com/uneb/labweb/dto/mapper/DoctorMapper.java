@@ -4,27 +4,37 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
 import com.uneb.labweb.dto.request.DoctorDTO;
+import com.uneb.labweb.dto.response.AppointmentResponseDTO;
+import com.uneb.labweb.dto.response.DoctorResponseDTO;
 import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.exception.InvalidDayOfWeekException;
 import com.uneb.labweb.model.Doctor;
+import com.uneb.labweb.repository.DoctorRepository;
 
 @Component
 public class DoctorMapper {
 
     private static final DateTimeFormatter FORMATTER_BR = DateTimeFormatter.ofPattern("HH:mm");
+    private final DoctorRepository doctorRepository;
 
-    public DoctorDTO toDTO(Doctor doctor) {
+    public DoctorMapper(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
+    }
+
+    public DoctorResponseDTO toDTO(Doctor doctor) {
         if (doctor == null) {
             return null;
         }
+
+        String doctorName = doctorRepository.getDoctorName(doctor.getId());
 
         String startTime = doctor.getStartWork().format(FORMATTER_BR);
         String endTime = doctor.getEndWork().format(FORMATTER_BR);
@@ -32,9 +42,19 @@ public class DoctorMapper {
         List<String> workingDays = doctor.getWorkingDays()
                 .stream()
                 .map(Enum::name)
-                .collect(Collectors.toList());
+                .toList();
 
-        return new DoctorDTO(doctor.getId(), doctor.getCrm(), startTime, endTime, workingDays);
+        List<AppointmentResponseDTO> doctorAppointments = new ArrayList<>();
+
+        return new DoctorResponseDTO(
+            doctor.getId(),
+            doctorName, 
+            doctor.getCrm(), 
+            startTime, 
+            endTime, 
+            workingDays,
+            doctorAppointments
+        );
     }
 
     public Doctor toEntity(DoctorDTO doctorDTO) {
@@ -76,5 +96,33 @@ public class DoctorMapper {
         }
 
         return workingDays;
+    }
+
+    public DoctorResponseDTO toDTOwithAppointments(Doctor doctor, List<AppointmentResponseDTO> appointmentDTOs) {
+        if (doctor == null) {
+            return null;
+        }
+
+        String doctorName = doctorRepository.getDoctorName(doctor.getId());
+
+        String startTime = doctor.getStartWork().format(FORMATTER_BR);
+        String endTime = doctor.getEndWork().format(FORMATTER_BR);
+
+        List<String> workingDays = doctor.getWorkingDays()
+                .stream()
+                .map(Enum::name)
+                .toList();
+
+        List<AppointmentResponseDTO> doctorAppointments = appointmentDTOs;
+
+        return new DoctorResponseDTO(
+            doctor.getId(),
+            doctorName, 
+            doctor.getCrm(), 
+            startTime, 
+            endTime, 
+            workingDays,
+            doctorAppointments
+        );
     }
 }

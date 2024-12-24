@@ -1,7 +1,6 @@
 package com.uneb.labweb.enums.validation;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import jakarta.validation.ConstraintValidator;
@@ -15,7 +14,7 @@ public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, Ch
     public void initialize(ValueOfEnum annotation) {
         acceptedValues = Stream.of(annotation.enumClass().getEnumConstants())
                 .map(Enum::toString)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

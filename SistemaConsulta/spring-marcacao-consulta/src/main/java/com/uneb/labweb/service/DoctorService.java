@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.uneb.labweb.dto.mapper.DoctorMapper;
 import com.uneb.labweb.dto.request.DoctorDTO;
+import com.uneb.labweb.dto.response.DoctorResponseDTO;
 import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.repository.DoctorRepository;
 
@@ -26,24 +27,24 @@ public class DoctorService {
         this.doctorMapper = doctorMapper;
     }
 
-    public List<DoctorDTO> findAllDoctors() {
+    public List<DoctorResponseDTO> findAllDoctors() {
         return doctorRepository.findAll()
                 .stream()
                 .map(doctorMapper::toDTO)
                 .toList();
     }
 
-    public DoctorDTO findDoctorById(@NotNull @Positive Long id) {
+    public DoctorResponseDTO findDoctorById(@NotNull @Positive Long id) {
         return doctorRepository.findById(id)
                 .map(doctorMapper::toDTO)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public DoctorDTO createDoctor(@Valid @NotNull DoctorDTO doctorDTO) {
+    public DoctorResponseDTO createDoctor(@Valid @NotNull DoctorDTO doctorDTO) {
         return doctorMapper.toDTO(doctorRepository.save(doctorMapper.toEntity(doctorDTO)));
     }
 
-    public DoctorDTO updateDoctor(@NotNull @Positive Long id, @Valid @NotNull DoctorDTO doctorDTO) {
+    public DoctorResponseDTO updateDoctor(@NotNull @Positive Long id, @Valid @NotNull DoctorDTO doctorDTO) {
         return doctorRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setCrm(doctorDTO.crm());

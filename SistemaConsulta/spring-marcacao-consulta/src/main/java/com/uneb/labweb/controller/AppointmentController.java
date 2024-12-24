@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uneb.labweb.dto.request.AppointmentDTO;
 import com.uneb.labweb.dto.response.AppointmentResponseDTO;
+import com.uneb.labweb.dto.response.AppointmentsByDateDTO;
 import com.uneb.labweb.service.AppointmentService;
 
 import jakarta.validation.Valid;
@@ -36,6 +38,14 @@ public class AppointmentController {
     @GetMapping
     public List<AppointmentResponseDTO> findAllAppointments() {
         return appointmentService.findAllAppointments();  
+    }
+
+    @GetMapping("/group")
+    public List<AppointmentsByDateDTO> findAppointmentsGroup(
+        @RequestParam @NotNull @Positive Long healthCenterId,
+        @RequestParam @NotNull @Positive Long specialtyId
+    ) {
+        return appointmentService.findAppointmentsGroup(healthCenterId, specialtyId);
     }
 
     @GetMapping("/by-user/{id}")
