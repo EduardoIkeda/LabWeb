@@ -1,0 +1,69 @@
+<mat-card class="card-content">
+  <mat-card-header>
+    <mat-card-title class="card-title">Suas Consultas</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="grid-container">
+    <!-- Seção das Consultas -->
+    <div class="consultas-section">
+      <div *ngIf="consultas.length > 0; else noConsultas">
+        <div *ngFor="let consulta of consultas" class="consulta-card">
+          <!-- Cabeçalho da Consulta -->
+          <div class="consulta-header">
+            <div>
+              <span><strong>Especialidade:</strong> {{ consulta.specialization }}</span>
+              <br>
+              <span>Paciente: {{ consulta.patientName }}</span>
+            </div>
+          </div>
+
+          <div class="consulta-details">
+            <span><strong>Posto:</strong> {{ getPostoName(consulta.postoId) }}</span>
+            <span class="centered"><strong>Data:</strong> {{ consulta.appointmentDateTime | date: 'dd/MM/yyyy' }}</span>
+            <span class="right-aligned"><strong>Hora:</strong> {{ consulta.appointmentDateTime | date: 'HH:mm' }}</span>
+          </div>
+
+          <!-- Endereço e Botões -->
+          <div class="consulta-address-and-actions" style="display: flex; justify-content: space-between; align-items: center;">
+            <p><strong>Endereço:</strong> {{ getPostoAddress(consulta.postoId) }}</p>
+
+            <mat-card-actions>
+              <button
+                mat-fab
+                aria-label="Reschedule Button"
+                type="button"
+                class="button button-reschedule"
+                (click)="onReschedule($event)"
+                [disabled]="consulta.isFinalized"
+              >
+                <mat-icon>calendar_month</mat-icon>
+              </button>
+              <button
+                mat-fab
+                aria-label="Cancel Button"
+                type="button"
+                class="button button-cancel"
+                (click)="onCancel($event)"
+                [disabled]="consulta.isFinalized"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-card-actions>
+          </div>
+        </div>
+      </div>
+      <ng-template #noConsultas>
+        <p>Você não tem consultas agendadas.</p>
+      </ng-template>
+    </div>
+
+    <div class="calendar-section">
+      <mat-calendar
+        ngSkipHydration
+        [dateClass]="dateClass"
+        (monthSelected)="onMonthSelected($event)"
+        (yearSelected)="onYearSelected($event)"
+      ></mat-calendar>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,95 @@
+@import '../../styles.scss';
+
+
+
+:host {
+  display: flex;
+  min-height: 50vh;
+  align-items: center;
+  justify-content: center;
+}
+
+h2, h1, h3, p {
+  margin: 0;
+}
+
+.custom-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.custom-card {
+  background-color:$light-gray-color;
+  color: #333;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+  margin-top: 70px;
+
+}
+
+
+.cardtext{
+  margin-bottom: 10px;
+}
+
+.cardbtn{
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.content {
+  width: 90%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 5vh;
+
+  @media (min-width: 750px) {
+    row-gap: 8vh;
+  }
+}
+
+.logos{
+  min-width: 200px;
+  max-width: 500px;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 1vh;
+
+  @media (min-width: 750px) {
+    flex-direction: row;
+    column-gap: 3vw;
+  }
+}
+
+.userProfile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.profile-avatar {
+  background-color: #3f51b5;
+  border-radius: 50%;
+}

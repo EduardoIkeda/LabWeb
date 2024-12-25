@@ -1,0 +1,131 @@
+@import '../../../styles.scss';
+@import '../../medico/medico.component.scss';
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px; /* Espaçamento entre colunas */
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.consultas-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.consulta-card {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.consulta-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+}
+
+.consulta-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555;
+}
+
+.consulta-address {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.card-content{
+  background-color: aliceblue;
+  margin-top: 20px;
+}
+
+.calendar-section {
+  max-width: 100%;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.button-reschedule {
+  @extend .button;
+  background-color: $primary-color;
+  color: $white-color;
+
+  &:disabled {
+    background-color: $gray-color;
+    color: $white-color;
+  }
+}
+
+.button {
+  border-radius: 5px;
+  box-shadow: none;
+  margin-left: $spacing-small;
+  align-items:end;
+}
+
+
+.button-cancel {
+  @extend .button;
+  background-color: $warning-color;
+  color: $white-color;
+
+  &:disabled {
+    background-color: $gray-color;
+    color: $white-color;
+  }
+}
+
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.consulta-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-small;
+  padding: 0 $spacing-small;
+
+  .centered {
+    margin-right: auto;
+    margin-left: $spacing-small;
+  }
+
+  .right-aligned {
+    margin-right: $spacing-medium;
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-small;
+  }
+
+  .button {
+    margin: 0;
+  }
+}
