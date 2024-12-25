@@ -1,3 +1,4 @@
+import { Doctor } from "./doctor";
 import { Especialidade } from "./especialidade";
 
 export interface  HealthCenter {
@@ -7,5 +8,6 @@ export interface  HealthCenter {
   openingHour: string;
   closingHour: string;
   specialties: Especialidade[];
+  doctors: Doctor[];
   availableAppointmentsCount: number | null;
 }

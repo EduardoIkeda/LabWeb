@@ -9,7 +9,9 @@ import com.uneb.labweb.dto.mapper.HealthCenterMapper;
 import com.uneb.labweb.dto.request.HealthCenterDTO;
 import com.uneb.labweb.dto.response.HealthCenterResponseDTO;
 import com.uneb.labweb.exception.RecordNotFoundException;
+import com.uneb.labweb.model.Doctor;
 import com.uneb.labweb.model.Specialty;
+import com.uneb.labweb.repository.DoctorRepository;
 import com.uneb.labweb.repository.HealthCenterRepository;
 import com.uneb.labweb.repository.SpecialtyRepository;
 
@@ -24,16 +26,18 @@ public class HealthCenterService {
     private final HealthCenterRepository healthCenterRepository;
     private final HealthCenterMapper healthCenterMapper;
     private final SpecialtyRepository specialtyRepository;
+    private final DoctorRepository doctorRepository;
 
     public HealthCenterService(
             HealthCenterRepository healthCenterRepository,
             HealthCenterMapper healthCenterMapper,
-            SpecialtyRepository specialtyRepository
+            SpecialtyRepository specialtyRepository,
+            DoctorRepository doctorRepository
     ) {
         this.healthCenterRepository = healthCenterRepository;
         this.healthCenterMapper = healthCenterMapper;
         this.specialtyRepository = specialtyRepository;
-
+        this.doctorRepository = doctorRepository;
     }
 
     public List<HealthCenterResponseDTO> findAllHealthCenters() {
@@ -84,6 +88,28 @@ public class HealthCenterService {
                     return healthCenterMapper.toDTO(healthCenterRepository.save(recordFound));
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));
+    }
+
+    public HealthCenterResponseDTO addDoctors(@NotNull @Positive Long id, @Valid @NotNull HealthCenterDTO healthCenterDTO) {
+        return healthCenterRepository.findById(id)
+                .map(recordFound -> {
+                    recordFound.getDoctors().forEach(doctor -> doctor.getHealthCenters().remove(recordFound));
+
+                    doctorRepository.saveAll(recordFound.getDoctors());
+                    recordFound.getDoctors().clear();
+
+                    healthCenterDTO.doctorIds().forEach(doctorId -> {
+                        Doctor doctor = doctorRepository.findById(doctorId)
+                                .orElseThrow(() -> new RecordNotFoundException("Médico não encontrado com o id: " + doctorId));
+
+                        doctor.getHealthCenters().add(recordFound);
+                        recordFound.getDoctors().add(doctor);
+                    });
+
+                    doctorRepository.saveAll(recordFound.getDoctors());
+                    return healthCenterMapper.toDTO(healthCenterRepository.save(recordFound));
+                })
+                .orElseThrow(() -> new RecordNotFoundException("Posto de saúde não encontrado com o id: " + id));
     }
 
     public void deleteHealthCenter(@NotNull @Positive Long id) {

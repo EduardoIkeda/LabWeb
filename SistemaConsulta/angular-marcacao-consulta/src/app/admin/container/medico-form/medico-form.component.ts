@@ -9,7 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-medico-form',
@@ -33,8 +35,11 @@ export class MedicoFormComponent implements OnInit{
     openingHour: '',
     closingHour: '',
     specialties: [],
+    doctors: [],
     availableAppointmentsCount: 0
   };
+
+  healthCenterId: string | null = '';
 
   allocatedDoctorSearchTerm: string = '';
   allocatedDoctorsFiltered: Doctor[] = [];
@@ -45,28 +50,32 @@ export class MedicoFormComponent implements OnInit{
   registeredDoctors: Doctor[] = [];
 
   constructor(
-    private readonly postoSaudeService: HealthCenterService,
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly location: Location,
+    private readonly snackBar: MatSnackBar,
+    private readonly postoSaudeService: HealthCenterService,
     private readonly doctorService: DoctorService
   ) {
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) {
-        this.postoSaudeService.loadById(id).subscribe((healthCenter) => {
-          this.healthCenter = healthCenter;
-        });
-      }
-    });
+
   }
 
-  ngOnInit(): void {
-    this.doctorService.list().subscribe((doctors) => {
-      this.registeredDoctors = doctors;
-      this.registeredDoctorsFiltered = [...this.registeredDoctors];
-    });
+  async ngOnInit(): Promise<void> {
+    const params = await firstValueFrom(this.route.paramMap);
+    this.healthCenterId = params.get('id');
 
-    this.allocatedDoctors = [];
+    if (this.healthCenterId) {
+      this.healthCenter = await firstValueFrom(this.postoSaudeService.loadById(this.healthCenterId));
+
+      this.allocatedDoctors = await firstValueFrom(this.doctorService.listByHealthCenter(this.healthCenterId));
+      this.allocatedDoctorsFiltered = [...this.allocatedDoctors];
+
+      this.registeredDoctors = await firstValueFrom(this.doctorService.list());
+      this.registeredDoctors = this.registeredDoctors.filter(
+        doctor => !this.allocatedDoctors.some(allocated => allocated.id === doctor.id)
+      );
+      this.registeredDoctorsFiltered = [...this.registeredDoctors];
+    }
   }
 
   onRemove(medico: Doctor) {
@@ -129,11 +138,38 @@ export class MedicoFormComponent implements OnInit{
     });
   }
 
-  onSave() {
-    console.log('Save');
-  }
-
   onCancel() {
     this.location.back();
+  }
+
+  onSave() {
+    if (this.healthCenter) {
+      this.healthCenter.doctors = [];
+      this.healthCenter.doctors.push(...this.allocatedDoctors);
+
+      this.postoSaudeService.addDoctors(this.healthCenter).subscribe({
+        next: () => this.onSuccess(),
+        error: (error) => this.onError(error)
+      });
+    }
+  }
+
+  private onSuccess() {
+    this.snackBar.open('Médicos alterados com sucesso!', 'Fechar', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
+    this.router.navigate(['/admin/posto-saude']);
+  }
+
+  private onError(error: any) {
+    console.error('Erro ao marcar consulta:', error);
+
+    this.snackBar.open('Erro ao alterar os médicos.', 'Fechar', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+    });
   }
 }

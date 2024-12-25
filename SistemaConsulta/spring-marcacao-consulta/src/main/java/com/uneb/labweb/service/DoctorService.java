@@ -10,6 +10,7 @@ import com.uneb.labweb.dto.request.DoctorDTO;
 import com.uneb.labweb.dto.response.DoctorResponseDTO;
 import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.repository.DoctorRepository;
+import com.uneb.labweb.repository.HealthCenterRepository;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -21,10 +22,16 @@ public class DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final DoctorMapper doctorMapper;
+    private final HealthCenterRepository healthCenterRepository;
 
-    public DoctorService(DoctorRepository doctorRepository, DoctorMapper doctorMapper) {
+    public DoctorService(
+        DoctorRepository doctorRepository, 
+        DoctorMapper doctorMapper, 
+        HealthCenterRepository healthCenterRepository
+    ) {
         this.doctorRepository = doctorRepository;
         this.doctorMapper = doctorMapper;
+        this.healthCenterRepository = healthCenterRepository;
     }
 
     public List<DoctorResponseDTO> findAllDoctors() {
@@ -34,7 +41,18 @@ public class DoctorService {
                 .toList();
     }
 
-    public DoctorResponseDTO findDoctorById(@NotNull @Positive Long id) {
+    public List<DoctorResponseDTO> findDoctorsByHealthCenter(@NotNull @Positive Long healthCenterId) {
+        return healthCenterRepository.findById(healthCenterId)
+                .map(recordFound -> {
+                    return doctorRepository.findByHealthCenterId(healthCenterId)
+                            .stream()
+                            .map(doctorMapper::toDTO)
+                            .toList();
+                })
+                .orElseThrow(() -> new RecordNotFoundException("Posto de saúde não encontrado com o id: " + healthCenterId));
+    }
+
+    public DoctorResponseDTO findDoctorById(@NotNull @Positive Long id) { 
         return doctorRepository.findById(id)
                 .map(doctorMapper::toDTO)
                 .orElseThrow(() -> new RecordNotFoundException(id));

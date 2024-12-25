@@ -102,6 +102,19 @@ export class HealthCenterService {
     return this.httpClient.put<HealthCenter>(`${this.API}/${record.id}`, body);
   }
 
+  addDoctors(record: Partial<HealthCenter>): Observable<HealthCenter> {
+    const body = {
+      name: record.name,
+      address: record.address,
+      openingHour: record.openingHour,
+      closingHour: record.closingHour,
+      specialtyIds: record.specialties?.map(speciality => speciality.id),
+      doctorIds: record.doctors?.map(doctor => doctor.id)
+    };
+
+    return this.httpClient.patch<HealthCenter>(`${this.API}/${record.id}`, body);
+  }
+
   remove(id: string | null): Observable<any> {
     return this.httpClient.delete(`${this.API}/${id}`);
   }

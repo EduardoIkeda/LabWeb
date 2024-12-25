@@ -30,10 +30,9 @@ public record HealthCenterDTO(
         String closingHour,
 
         @NotEmpty
-        List<Long> specialtyIds//,
+        List<Long> specialtyIds,
 
-        // @NotEmpty
-        // List<Long> doctorIds
+        List<Long> doctorIds
 ) {
 
 }

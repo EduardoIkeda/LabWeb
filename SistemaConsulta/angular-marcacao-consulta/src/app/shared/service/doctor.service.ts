@@ -27,4 +27,12 @@ export class DoctorService {
       })))
     );
   }
+
+  listByHealthCenter(healthCenterId: string): Observable<Doctor[]> {
+      return this.httpClient.get<Doctor[]>(`${this.API}/by-health-center/${healthCenterId}`).pipe(
+        first()
+        //delay(10000),
+        //tap(postos => console.log(postos))
+      );
+    }
 }
