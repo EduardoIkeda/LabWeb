@@ -1,5 +1,5 @@
-@import '../../../styles.scss';
-@import '../../medico/medico.component.scss';
+@import "../../../styles.scss";
+@import "../../medico/medico.component.scss";
 
 .grid-container {
   display: grid;
@@ -35,13 +35,6 @@
   font-size: 16px;
 }
 
-.consulta-details {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  color: #555;
-}
-
 .consulta-address {
   margin-top: 10px;
   font-size: 14px;
@@ -54,7 +47,7 @@
   margin-top: 10px;
 }
 
-.card-content{
+.card-content {
   background-color: aliceblue;
   margin-top: 20px;
 }
@@ -67,65 +60,17 @@
   padding: 10px;
 }
 
-.button-reschedule {
-  @extend .button;
-  background-color: $primary-color;
-  color: $white-color;
-
-  &:disabled {
-    background-color: $gray-color;
-    color: $white-color;
-  }
-}
-
-.button {
-  border-radius: 5px;
-  box-shadow: none;
-  margin-left: $spacing-small;
-  align-items:end;
-}
-
-
-.button-cancel {
-  @extend .button;
-  background-color: $warning-color;
-  color: $white-color;
-
-  &:disabled {
-    background-color: $gray-color;
-    color: $white-color;
-  }
-}
-
-
 mat-card-actions {
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
 }
-.consulta-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: $spacing-small;
-  padding: 0 $spacing-small;
 
-  .centered {
-    margin-right: auto;
-    margin-left: $spacing-small;
-  }
+.centered {
+  margin-right: auto;
+  margin-left: $spacing-small;
+}
 
-  .right-aligned {
-    margin-right: $spacing-medium;
-  }
-
-  .action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: $spacing-small;
-  }
-
-  .button {
-    margin: 0;
-  }
+.right-aligned {
+  margin-left: $spacing-small;
 }

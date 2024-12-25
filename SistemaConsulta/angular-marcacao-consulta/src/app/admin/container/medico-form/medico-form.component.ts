@@ -133,7 +133,7 @@ export class MedicoFormComponent implements OnInit{
   private filterMedicos(medicos: Doctor[], term: string) {
     return medicos.filter((medico) => {
       return (
-        medico.doctorName.toLowerCase().includes(term) || medico.crm.includes(term)
+        medico.name.toLowerCase().includes(term) || medico.crm.includes(term)
       );
     });
   }

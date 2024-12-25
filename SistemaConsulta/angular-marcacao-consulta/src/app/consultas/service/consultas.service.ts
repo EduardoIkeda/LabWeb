@@ -3,7 +3,7 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 import { Consulta } from '../../shared/model/consulta';
 import { isPlatformBrowser } from '@angular/common';
-import { throwError } from 'rxjs';
+import { map, throwError } from 'rxjs';
 import { ConsultaPorData } from '../model/consulta_por_data';
 
 @Injectable({
@@ -33,6 +33,12 @@ export class ConsultasService {
     }
   }
 
+  listByDoctor(doctorName: string) {
+    // Aqui estamos assumindo que o nome do médico está no JSON ou API
+    return this.http.get<Consulta[]>(this.API_test).pipe(
+      map((consultas) => consultas.filter((consulta) => consulta.doctorName === doctorName))
+    );
+  }
   listGroup(specialty_id: string, posto_id: string) {
     const params = new HttpParams()
       .set('healthCenterId', posto_id)

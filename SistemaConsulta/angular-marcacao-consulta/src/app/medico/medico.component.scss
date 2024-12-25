@@ -1,6 +1,4 @@
-@import '../../styles.scss';
-
-
+@import "../../styles.scss";
 
 :host {
   display: flex;
@@ -9,7 +7,10 @@
   justify-content: center;
 }
 
-h2, h1, h3, p {
+h2,
+h1,
+h3,
+p {
   margin: 0;
 }
 
@@ -22,21 +23,18 @@ h2, h1, h3, p {
   background-repeat: no-repeat;
 }
 
-
 .custom-card {
-  background-color:$light-gray-color;
+  background-color: $light-gray-color;
   color: #333;
   box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
   margin-top: 70px;
-
 }
 
-
-.cardtext{
+.cardtext {
   margin-bottom: 10px;
 }
 
-.cardbtn{
+.cardbtn {
   margin-right: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -62,7 +60,7 @@ h2, h1, h3, p {
   }
 }
 
-.logos{
+.logos {
   min-width: 200px;
   max-width: 500px;
   width: 50%;

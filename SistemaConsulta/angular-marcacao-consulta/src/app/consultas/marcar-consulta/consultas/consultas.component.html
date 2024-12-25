@@ -18,7 +18,7 @@
 
     <div class="medico" *ngFor="let medico of data.doctors">
       <mat-card appearance="outlined" class="card-container">
-        <p class="medico">{{ medico.doctorName }}</p>
+        <p class="medico">{{ medico.name }}</p>
         <div class="card-content">
           <button *ngFor="let consulta of medico.doctorAppointments" mat-stroked-button
             (click)="onSelect($event, consulta)">{{ convertToDateTime(consulta.appointmentDateTime.toString()) |

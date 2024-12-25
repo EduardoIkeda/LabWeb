@@ -1,15 +1,20 @@
+import { PostoService } from './../../shared/service/posto.service';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatCalendarCellClassFunction,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
 import { ConsultaItemComponent } from '../../consultas/components/consulta-item/consulta-item.component';
 import { Consulta } from '../../shared/model/consulta';
 import { ConsultasService } from '../../consultas/service/consultas.service';
-import { PostoService } from '../../shared/service/posto.service';
 import { Posto } from '../../shared/model/posto';
 import { MatIconModule } from '@angular/material/icon';
+import { UserService } from '../../shared/service/user.service';
+import { DoctorService } from '../../shared/service/doctor.service';
 
 @Component({
   selector: 'app-medico-consulta',
@@ -31,6 +36,8 @@ export class MedicoConsultaComponent implements OnInit {
   dateList: Date[] = [];
   consultas: Consulta[] = [];
   postos: Posto[] = [];
+  doctorName: string = '';
+  userNames: { [key: string]: string } = {};
   @Input() consulta!: Consulta;
   @Output() reschedule = new EventEmitter<Consulta>();
   @Output() cancel = new EventEmitter<Consulta>();
@@ -51,6 +58,8 @@ export class MedicoConsultaComponent implements OnInit {
   constructor(
     private readonly consultasService: ConsultasService,
     private readonly postoService: PostoService,
+    private readonly userService: UserService,
+    private readonly doctorService: DoctorService,
     private readonly route: ActivatedRoute
   ) {}
 
@@ -58,8 +67,22 @@ export class MedicoConsultaComponent implements OnInit {
     const doctorId = this.route.snapshot.paramMap.get('id');
     if (doctorId) {
       this.loadPostos();
-      this.loadConsultas(doctorId);
+      this.loadDoctorName(doctorId);
+    } else {
+      console.error('ID do médico não encontrado na rota.');
     }
+  }
+
+  loadDoctorName(doctorId: string): void {
+    this.doctorService.getDoctorById(doctorId).subscribe({
+      next: (doctor) => {
+        if (doctor) {
+          this.doctorName = doctor.name;
+          this.loadConsultas(doctor.name);
+        }
+      },
+      error: (error) => console.error('Erro ao carregar o médico:', error),
+    });
   }
 
   loadPostos(): void {
@@ -71,17 +94,38 @@ export class MedicoConsultaComponent implements OnInit {
     });
   }
 
-  loadConsultas(doctorId: string): void {
-    this.consultasService.list().subscribe({
+  loadConsultas(doctorName: string): void {
+    this.consultasService.listByDoctor(doctorName).subscribe({
       next: (consultas) => {
-        this.consultas = consultas.filter((consulta) => consulta.doctorId === doctorId);
-        this.dateList = this.consultas.map((consulta) => new Date(consulta.appointmentDateTime));
+        this.consultas = consultas;
+        this.dateList = consultas.map(
+          (consulta) => new Date(consulta.appointmentDateTime)
+        );
+        consultas.forEach((consulta) => {
+          // Verificando se patientId é uma string válida
+          const patientId = consulta.patientId;
+          if (patientId && typeof patientId === 'string') {
+            this.userService.docgetById(patientId).subscribe({
+              next: (user) => {
+                if (user) {
+                  this.userNames[patientId] = user.name;
+                }
+              },
+              error: (error) =>
+                console.error('Erro ao carregar nome do paciente:', error),
+            });
+          }
+        });
       },
       error: (error) => console.error('Erro ao carregar consultas:', error),
     });
   }
 
   getPostoName(postoId: string): string {
+    if (!postoId) {
+      return 'ID do posto não fornecido';
+    }
+
     const posto = this.postos.find((posto) => posto.id === postoId);
     return posto ? posto.name : 'Posto não encontrado';
   }
@@ -99,13 +143,12 @@ export class MedicoConsultaComponent implements OnInit {
     this.month = date.getMonth();
   }
 
-  onReschedule(event: Event): void {
-    event.stopPropagation();
-    this.reschedule.emit(this.consulta);
-  }
-
-  onCancel(event: Event): void {
-    event.stopPropagation();
-    this.cancel.emit(this.consulta);
+  getPatientName(patientId: string | null): string {
+    // Verificar se patientId é uma string válida antes de procurar no objeto
+    if (typeof patientId === 'string') {
+      const patientName = this.userNames[patientId];
+      return patientName ? patientName : 'Paciente não encontrado';
+    }
+    return 'ID do paciente não fornecido';
   }
 }

@@ -61,7 +61,8 @@ export class ConsultasComponent {
               consulta.healthCenterName,
               consulta.healthCenterAddress,
               consulta.isTomorrow,
-              consulta.isFinalized
+              consulta.isFinalized,
+              consulta.postoId
             )
         );
         this.dateList = this.getDateList();
