@@ -77,8 +77,8 @@ export class MedicoConsultaComponent implements OnInit {
     this.doctorService.getDoctorById(doctorId).subscribe({
       next: (doctor) => {
         if (doctor) {
-          this.doctorName = doctor.doctorName;
-          this.loadConsultas(doctor.doctorName);
+          this.doctorName = doctor.name;
+          this.loadConsultas(doctor.name);
         }
       },
       error: (error) => console.error('Erro ao carregar o médico:', error),
@@ -93,7 +93,6 @@ export class MedicoConsultaComponent implements OnInit {
       error: (error) => console.error('Erro ao carregar postos:', error),
     });
   }
-
   loadConsultas(doctorName: string): void {
     this.consultasService.listByDoctor(doctorName).subscribe({
       next: (consultas) => {
@@ -101,8 +100,10 @@ export class MedicoConsultaComponent implements OnInit {
         this.dateList = consultas.map(
           (consulta) => new Date(consulta.appointmentDateTime)
         );
+
         consultas.forEach((consulta) => {
-          // Verificando se patientId é uma string válida
+          console.log('Consulta:', consulta);
+
           const patientId = consulta.patientId;
           if (patientId && typeof patientId === 'string') {
             this.userService.docgetById(patientId).subscribe({
@@ -111,8 +112,7 @@ export class MedicoConsultaComponent implements OnInit {
                   this.userNames[patientId] = user.name;
                 }
               },
-              error: (error) =>
-                console.error('Erro ao carregar nome do paciente:', error),
+              error: (error) => console.error('Erro ao carregar nome do paciente:', error),
             });
           }
         });
@@ -120,6 +120,7 @@ export class MedicoConsultaComponent implements OnInit {
       error: (error) => console.error('Erro ao carregar consultas:', error),
     });
   }
+
 
   getPostoName(postoId: string): string {
     if (!postoId) {
@@ -144,7 +145,6 @@ export class MedicoConsultaComponent implements OnInit {
   }
 
   getPatientName(patientId: string | null): string {
-    // Verificar se patientId é uma string válida antes de procurar no objeto
     if (typeof patientId === 'string') {
       const patientName = this.userNames[patientId];
       return patientName ? patientName : 'Paciente não encontrado';

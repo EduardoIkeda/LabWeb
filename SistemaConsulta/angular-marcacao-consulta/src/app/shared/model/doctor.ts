@@ -3,7 +3,7 @@ import { Especialidade } from "./especialidade";
 
 export interface Doctor {
   id: string;
-  doctorName: string;
+  name: string;
   crm: string;
   startWork: string;
   endWork: string;
