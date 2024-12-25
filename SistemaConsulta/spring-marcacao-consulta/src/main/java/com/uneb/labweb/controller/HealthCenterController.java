@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -57,6 +58,11 @@ public class HealthCenterController {
     @PutMapping("/{id}")
     public HealthCenterResponseDTO updateHealthCenter(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull HealthCenterDTO healthCenterDTO) {
         return healthCenterService.updateHealthCenter(id, healthCenterDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public HealthCenterResponseDTO addDoctors(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull HealthCenterDTO healthCenterDTO) {
+        return healthCenterService.addDoctors(id, healthCenterDTO);
     }
 
     @DeleteMapping("/{id}")

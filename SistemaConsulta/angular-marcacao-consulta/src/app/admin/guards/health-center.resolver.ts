@@ -28,6 +28,7 @@ export class PostoSaudeResolver implements Resolve<HealthCenter> {
       openingHour: '',
       closingHour: '',
       specialties: [],
+      doctors: [],
       availableAppointmentsCount: 0
     });
   }

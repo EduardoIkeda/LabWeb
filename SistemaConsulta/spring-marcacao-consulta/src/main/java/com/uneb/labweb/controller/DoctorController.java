@@ -38,6 +38,11 @@ public class DoctorController {
         return doctorService.findAllDoctors();
     }
 
+    @GetMapping("/by-health-center/{id}")
+    public List<DoctorResponseDTO> findDoctorsByHealthCenter(@PathVariable @NotNull @Positive Long id) {
+        return doctorService.findDoctorsByHealthCenter(id);
+    }
+
     @GetMapping("/{id}")
     public DoctorResponseDTO findDoctorById(@PathVariable @NotNull @Positive Long id) {
         return doctorService.findDoctorById(id);

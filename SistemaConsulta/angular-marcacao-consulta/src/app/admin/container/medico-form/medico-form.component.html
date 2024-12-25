@@ -1,4 +1,5 @@
 <mat-card class="card">
+
   <mat-card-header>
     <mat-card-title><h2>Informações do Posto de Saúde</h2></mat-card-title>
     <mat-card-subtitle>
@@ -6,17 +7,20 @@
       <p>Endereço: {{ healthCenter.address }}</p>
     </mat-card-subtitle>
   </mat-card-header>
+
   <mat-card-content>
     <div class="container">
+
       <mat-card class="column">
         <h3>Médicos Cadastrados</h3>
-        <!-- Adicione o campo de busca aqui -->
+
         <input class="search"
           type="text"
           [(ngModel)]="registeredDoctorSearchTerm"
           placeholder="Buscar médico por nome ou CRM"
           (input)="filterMedicosCadastrados()"
         />
+
         <mat-list>
           <mat-list-item
             *ngFor="let doctor of registeredDoctorsFiltered"
@@ -26,16 +30,19 @@
             {{ doctor.doctorName }} - CRM: {{ doctor.crm }}
           </mat-list-item>
         </mat-list>
+
       </mat-card>
 
       <mat-card class="column">
         <h3>Médicos Alocados</h3>
+
         <input class="search"
           type="text"
           [(ngModel)]="allocatedDoctorSearchTerm"
           placeholder="Buscar médico por nome ou CRM"
           (input)="filterMedicosAlocados()"
         />
+
         <mat-list>
           <mat-list-item
             *ngFor="let doctor of allocatedDoctorsFiltered"
@@ -45,7 +52,9 @@
             {{ doctor.doctorName }} - CRM: {{ doctor.crm }}
           </mat-list-item>
         </mat-list>
+
       </mat-card>
+
     </div>
   </mat-card-content>
   <mat-card-actions class="actions">
