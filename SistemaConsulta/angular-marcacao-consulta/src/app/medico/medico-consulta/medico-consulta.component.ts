@@ -77,8 +77,8 @@ export class MedicoConsultaComponent implements OnInit {
     this.doctorService.getDoctorById(doctorId).subscribe({
       next: (doctor) => {
         if (doctor) {
-          this.doctorName = doctor.name;
-          this.loadConsultas(doctor.name);
+          this.doctorName = doctor.doctorName;
+          this.loadConsultas(doctor.doctorName);
         }
       },
       error: (error) => console.error('Erro ao carregar o médico:', error),

@@ -27,7 +27,7 @@ export class DoctorService {
       first(),
       map(doctors => doctors.map(doctor => ({
       ...doctor,
-      name: doctor.name || 'placeholder'
+      name: doctor.doctorName || 'placeholder'
       })))
     );
   }
