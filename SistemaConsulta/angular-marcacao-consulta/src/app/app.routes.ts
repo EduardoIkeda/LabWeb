@@ -21,4 +21,9 @@ export const APP_ROUTES: Routes = [
     loadChildren: () =>
       import('./perfil/perfil.routes').then((m) => m.PERFIL_ROUTES),
   },
+  {
+    path: 'medico',
+    loadChildren: () =>
+      import('./medico/medico.routes').then((m) => m.MEDICO_ROUTES),
+  },
 ];
