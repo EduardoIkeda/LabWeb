@@ -14,8 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.uneb.labweb.enums.Role;
 import com.uneb.labweb.enums.Status;
+import com.uneb.labweb.enums.UserStatus;
 import com.uneb.labweb.enums.converters.RoleConverter;
 import com.uneb.labweb.enums.converters.StatusConverter;
+import com.uneb.labweb.enums.converters.UserStatusConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -78,6 +80,15 @@ public class User implements UserDetails {
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String password;
+
+    @Length(min = 5, max = 400)
+    @Column(length = 400, nullable = false)
+    private String avatarUrl;
+
+    @NotNull
+    @Column(length = 10, nullable = false)
+    @Convert(converter = UserStatusConverter.class)
+    private UserStatus userStatus = UserStatus.ACTIVE;
 
     @NotNull
     @Column(length = 10, nullable = false)

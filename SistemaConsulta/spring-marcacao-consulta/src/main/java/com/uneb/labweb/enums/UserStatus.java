@@ -1,12 +1,12 @@
 package com.uneb.labweb.enums;
 
-public enum Status {
-    ACTIVE("Ativo"), 
-    INACTIVE("Inativo");
+public enum UserStatus {
+    ACTIVE("Ativo"),
+    BLOCKED("Bloqueado");
     
     private final String value;
 
-    private Status(String value) {
+    private UserStatus(String value) {
         this.value = value;
     }
 

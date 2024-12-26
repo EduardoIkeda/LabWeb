@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class SidebarComponent {
   isAdmin: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
     // this.isAdmin = localStorage.getItem('role') === 'admin';
@@ -23,5 +23,14 @@ export class SidebarComponent {
 
   goToPage(page: string) {
     this.router.navigate([page]);
+  }
+
+  logout() {
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("name");
+    localStorage.removeItem("role");
+    localStorage.removeItem("auth-token");
+
+    this.router.navigate(['/auth/login']);
   }
 }

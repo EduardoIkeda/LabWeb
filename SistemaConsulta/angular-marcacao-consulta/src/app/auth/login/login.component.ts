@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UsersService } from '../services/users.service';
 import { FormUtilsService } from '../../shared/form/form-utils.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -24,10 +25,11 @@ import { FormUtilsService } from '../../shared/form/form-utils.service';
 export class LoginComponent implements OnInit {
   form: FormGroup;
   constructor(
-    private userService: UsersService,
-    private formBuilder: NonNullableFormBuilder,
-    private snackBar: MatSnackBar,
-    private location: Location,
+    private readonly userService: UsersService,
+    private readonly formBuilder: NonNullableFormBuilder,
+    private readonly snackBar: MatSnackBar,
+    private readonly location: Location,
+    private readonly router: Router,
     public formUtils: FormUtilsService
   ) {
     this.form = this.formBuilder.group({
@@ -63,12 +65,11 @@ export class LoginComponent implements OnInit {
   private onSuccess() {
     this.snackBar.open('Login efetuado com sucesso', '',
       { duration : 5000, });
-    //this.onCancel();
+    this.router.navigate(['/consultas']);
   }
 
   private onError() {
     this.snackBar.open('Erro ao efetuar login', '',
       { duration : 5000, });
-    //this.onCancel();
   }
 }

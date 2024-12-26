@@ -7,15 +7,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  private readonly API = 'assets/user.json';
+  private readonly API = 'api/users';
 
   constructor(private readonly http: HttpClient) {}
 
-  get() {
-    return this.http.get<User>(this.API);
+  get(userId: string) {
+    return this.http.get<User>(`${this.API}/${userId}`);
   }
 
-  update(user: User): Observable<User> {
-    return this.http.put<User>(`${this.API}`, user);
+  update(record: Partial<User>): Observable<User> {
+    return this.http.patch<User>(`${this.API}/${record.id}`, record);
   }
 }

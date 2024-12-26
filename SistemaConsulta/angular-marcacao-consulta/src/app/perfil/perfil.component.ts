@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Importando ReactiveFormsModule aqui
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 import { User } from '../auth/model/user';
 import { UserService } from '../shared/service/user.service';
@@ -26,23 +25,40 @@ import { UserService } from '../shared/service/user.service';
 export class PerfilComponent implements OnInit {
   isEditing = false;
   formulario: FormGroup;
-  user!: User;
+  user: User = {
+    id: '',
+    susCardNumber: '',
+    name: '',
+    cpf: '',
+    phone: '',
+    email: '',
+    password: '',
+    avatarUrl: '',
+    status: '',
+    role: ''
+  };
 
   @Output() profileClicked = new EventEmitter<void>();
 
   constructor(
     private readonly userService: UserService,
-    private formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly location: Location
   ) {
     this.formulario = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
-      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(12), Validators.pattern('^[0-9]*$')]],
+      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(13), Validators.pattern('^[0-9]*$')]],
     });
   }
 
   ngOnInit(): void {
-    this.userService.get().subscribe((user) => {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) {
+      throw new Error("Usuário não encontrado no localStorage.");
+    }
+
+    this.userService.get(userId).subscribe((user) => {
       this.user = user;
       this.formulario.patchValue({
         name: user.name,
@@ -52,44 +68,16 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  toggleEditMode() {
-    this.isEditing = !this.isEditing;
-    if (!this.isEditing) {
-      this.formulario.patchValue({
-        name: this.user.name,
-        email: this.user.email,
-        phone: this.user.phone
-      });
-    }
-  }
-
-  get name(): string {
-    return this.user?.name || 'John Doe';
-  }
-  get email(): string {
-    return this.user?.email || 'John Doe';
-  }
-
-  get susNumber(): string {
-    return this.user?.susCardNumber || '1234567890';
-  }
-
-  get status(): string {
-    return this.user?.status || 'Active';
-  }
-  get cpf(): string {
-    return this.user?.cpf || '000000000';
-  }
-
-  get avatarUrl(): string {
-    return (
-      this.user?.avatarUrl ||
-      'https://material.angular.io/assets/img/examples/shiba1.jpg'
-    );
-  }
-
   onProfileClick() {
     this.profileClicked.emit();
+  }
+
+  toggleEditMode() {
+    if (this.isEditing) {
+      this.onSubmit();
+    }
+
+    this.isEditing = !this.isEditing;
   }
 
   onSubmit() {
@@ -97,10 +85,19 @@ export class PerfilComponent implements OnInit {
       const updatedUser = { ...this.user, ...this.formulario.value };
       this.userService.update(updatedUser).subscribe(() => {
         this.user = updatedUser;
-        this.toggleEditMode();
+
+        this.formulario.patchValue({
+          name: this.user.name,
+          email: this.user.email,
+          phone: this.user.phone
+        });
       });
     } else {
       alert('Form is invalid');
     }
+  }
+
+  onBack() {
+    this.location.back();
   }
 }

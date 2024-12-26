@@ -3,7 +3,7 @@ import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 import { Consulta } from '../../shared/model/consulta';
 import { isPlatformBrowser } from '@angular/common';
-import { throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ConsultaPorData } from '../model/consulta_por_data';
 
 @Injectable({
@@ -29,7 +29,8 @@ export class ConsultasService {
 
       return this.http.get<Consulta[]>(`${this.API}/by-user/${userId}`);
     } else {
-      return throwError(() => new Error('Execução no servidor. Acesso ao localStorage não é permitido.'));
+      console.log("Execução no servidor. Acesso ao localStorage não é permitido.");
+      return of([]);
     }
   }
 

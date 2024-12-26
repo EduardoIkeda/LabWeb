@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 
 import { User } from '../../auth/model/user';
 import { UserService } from '../service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -14,36 +15,34 @@ import { UserService } from '../service/user.service';
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
-  user!: User;
+  user: User = {
+    id: '',
+    susCardNumber: '',
+    name: '',
+    cpf: '',
+    phone: '',
+    email: '',
+    password: '',
+    avatarUrl: '',
+    status: '',
+    role: ''
+  };
 
-  constructor(private readonly userService: UserService) {
-    this.userService.get().subscribe((user) => {
+  constructor(
+    private readonly userService: UserService,
+    private readonly router: Router
+  ) {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) {
+      throw new Error("Usuário não encontrado no localStorage.");
+    }
+
+    this.userService.get(userId).subscribe((user) => {
       this.user = user;
     });
   }
 
-  @Output() profileClicked = new EventEmitter<void>();
-
-  get name(): string {
-    return this.user?.name || 'John Doe';
-  }
-
-  get susNumber(): string {
-    return this.user?.susCardNumber || '1234567890';
-  }
-
-  get status(): string {
-    return this.user?.status || 'Active';
-  }
-
-  get avatarUrl(): string {
-    return (
-      this.user?.avatarUrl ||
-      'https://material.angular.io/assets/img/examples/shiba1.jpg'
-    );
-  }
-
   onProfileClick() {
-    this.profileClicked.emit();
+    this.router.navigate(['/perfil']);
   }
 }

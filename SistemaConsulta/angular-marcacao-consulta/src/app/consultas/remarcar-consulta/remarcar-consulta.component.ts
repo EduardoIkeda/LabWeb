@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -43,10 +43,11 @@ export class RemarcarConsultaComponent implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private router: Router,
+    private readonly router: Router,
     private readonly consultasService: ConsultasService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly location: Location
   ) { }
 
   ngOnInit() {
@@ -63,7 +64,6 @@ export class RemarcarConsultaComponent implements OnInit {
           next: (data) => {
             this.listaPorData = data;
             this.displayedListaPorData = this.listaPorData;
-            console.log(this.displayedListaPorData);
           },
           error: (error) => console.error('Error:', error),
         });
@@ -135,6 +135,9 @@ export class RemarcarConsultaComponent implements OnInit {
     });
   }
 
+  onBack() {
+    this.location.back();
+  }
 
   limparData() {
     this.selectedDate = null;
