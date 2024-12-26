@@ -93,7 +93,7 @@ public class SpringMarcacaoConsultaApplication {
             user1.setSusCardNumber("012345678901234");
             user1.setName("Washington");
             user1.setCpf("01234567890");
-            user1.setPhone("5571982345678");
+            user1.setPhone("71982345678");
             user1.setEmail("email1@gmail.com");
             user1.setPassword(this.passwordEncoder.encode(this.password));
             user1.setAvatarUrl("https://i.imgur.com/m9rfeek.png");
@@ -104,7 +104,7 @@ public class SpringMarcacaoConsultaApplication {
             user2.setSusCardNumber("012345678901235");
             user2.setName("Eduardo");
             user2.setCpf("01234567891");
-            user2.setPhone("5571982345679");
+            user2.setPhone("71982345679");
             user2.setEmail("email2@gmail.com");
             user2.setPassword(this.passwordEncoder.encode(this.password));
             user2.setAvatarUrl("https://i.imgur.com/GWD83vj.png");
@@ -115,7 +115,7 @@ public class SpringMarcacaoConsultaApplication {
             user3.setSusCardNumber("012345678901236");
             user3.setName("Vinícius");
             user3.setCpf("01234567892");
-            user3.setPhone("5571982345670");
+            user3.setPhone("71982345670");
             user3.setEmail("email3@gmail.com");
             user3.setPassword(this.passwordEncoder.encode(this.password));
             user3.setAvatarUrl("https://i.imgur.com/PRNTYxH.png");
@@ -126,7 +126,7 @@ public class SpringMarcacaoConsultaApplication {
             user4.setSusCardNumber("012345678901237");
             user4.setName("Carol");
             user4.setCpf("01234567893");
-            user4.setPhone("5571982345671");
+            user4.setPhone("71982345671");
             user4.setEmail("email4@gmail.com");
             user4.setPassword(this.passwordEncoder.encode(this.password));
             user4.setAvatarUrl("https://i.imgur.com/OdjyMRI.jpeg");
@@ -137,7 +137,7 @@ public class SpringMarcacaoConsultaApplication {
             user5.setSusCardNumber("012345678901238");
             user5.setName("Dr. João Silva");
             user5.setCpf("01234567894");
-            user5.setPhone("5571982345672");
+            user5.setPhone("71982345672");
             user5.setEmail("email5@gmail.com");
             user5.setPassword(this.passwordEncoder.encode(this.password));
             user5.setAvatarUrl("https://i.imgur.com/deNyPdX.png");
@@ -148,7 +148,7 @@ public class SpringMarcacaoConsultaApplication {
             user6.setSusCardNumber("012345678901239");
             user6.setName("Dra. Maria Oliveira");
             user6.setCpf("01234567895");
-            user6.setPhone("5571982345673");
+            user6.setPhone("71982345673");
             user6.setEmail("email6@gmail.com");
             user6.setPassword(this.passwordEncoder.encode(this.password));
             user6.setAvatarUrl("https://i.imgur.com/LooAP9k.png");
@@ -159,12 +159,45 @@ public class SpringMarcacaoConsultaApplication {
             user7.setSusCardNumber("012345678901230");
             user7.setName("Dra. Vitória");
             user7.setCpf("01234567896");
-            user7.setPhone("5571982345674");
+            user7.setPhone("71982345674");
             user7.setEmail("email7@gmail.com");
             user7.setPassword(this.passwordEncoder.encode(this.password));
             user7.setAvatarUrl("https://i.imgur.com/JIKT5Wq.png");
             user7.setRole(Role.DOCTOR);
             this.userRepository.save(user7);
+
+            User user8 = new User();
+            user8.setSusCardNumber("012345678901111");
+            user8.setName("Felipe Alves");
+            user8.setCpf("01234567888");
+            user8.setPhone("71982345666");
+            user8.setEmail("email8@gmail.com");
+            user8.setPassword(this.passwordEncoder.encode(this.password));
+            user8.setAvatarUrl("https://i.imgur.com/MEP4uJt.png");
+            user8.setRole(Role.CITIZEN);
+            this.userRepository.save(user8);
+
+            User user9 = new User();
+            user9.setSusCardNumber("012345678902222");
+            user9.setName("Pedro Ferreira");
+            user9.setCpf("01234567999");
+            user9.setPhone("71982345777");
+            user9.setEmail("email9@gmail.com");
+            user9.setPassword(this.passwordEncoder.encode(this.password));
+            user9.setAvatarUrl("https://i.imgur.com/ZHLSVUT.png");
+            user9.setRole(Role.CITIZEN);
+            this.userRepository.save(user9);
+
+            User user10 = new User();
+            user10.setSusCardNumber("012345678903333");
+            user10.setName("Aline Silva");
+            user10.setCpf("01234567777");
+            user10.setPhone("71982345555");
+            user10.setEmail("email10@gmail.com");
+            user10.setPassword(this.passwordEncoder.encode(this.password));
+            user10.setAvatarUrl("https://i.imgur.com/xl5cLQd.png");
+            user10.setRole(Role.CITIZEN);
+            this.userRepository.save(user10);
 
             // Inicialização das especialidades
 
@@ -334,11 +367,11 @@ public class SpringMarcacaoConsultaApplication {
 
             Appointment appointment5 = new Appointment();
             appointment5.setAppointmentDateTime(LocalDateTime.parse("17/01/2025 10:00", dateTimeFormatter));
-            appointment5.setAppointmentStatus(AppointmentStatus.PENDING);
+            appointment5.setAppointmentStatus(AppointmentStatus.SCHEDULED);
             appointment5.setDoctor(doctor2);
             appointment5.setHealthCenter(healthCenter3);
             appointment5.setSpecialty(specialty2);
-            // User null
+            appointment5.setUser(user1);
             appointment5.setCancellationCount(3);
             this.appointmentRepository.save(appointment5);
 
@@ -359,7 +392,7 @@ public class SpringMarcacaoConsultaApplication {
             appointment7.setHealthCenter(healthCenter1);
             appointment7.setSpecialty(specialty5);
             // User null
-            appointment7.setCancellationCount(1);
+            appointment7.setCancellationCount(0);
             this.appointmentRepository.save(appointment7);
 
             Appointment appointment8 = new Appointment();
@@ -419,7 +452,7 @@ public class SpringMarcacaoConsultaApplication {
             appointment13.setHealthCenter(healthCenter2);
             appointment13.setSpecialty(specialty2);
             // User null
-            appointment13.setCancellationCount(1);
+            appointment13.setCancellationCount(0);
             this.appointmentRepository.save(appointment13);
 
             Appointment appointment14 = new Appointment();
@@ -439,7 +472,7 @@ public class SpringMarcacaoConsultaApplication {
             appointment15.setHealthCenter(healthCenter1);
             appointment15.setSpecialty(specialty1);
             // User null
-            appointment15.setCancellationCount(2);
+            appointment15.setCancellationCount(0);
             this.appointmentRepository.save(appointment15);
 
             Appointment appointment16 = new Appointment();
@@ -489,11 +522,11 @@ public class SpringMarcacaoConsultaApplication {
             appointment20.setHealthCenter(healthCenter3);
             appointment20.setSpecialty(specialty4);
             // User null
-            appointment20.setCancellationCount(3);
+            appointment20.setCancellationCount(1);
             this.appointmentRepository.save(appointment20);
 
             Appointment appointment21 = new Appointment();
-            appointment21.setAppointmentDateTime(LocalDateTime.parse("01/11/2020 09:30", dateTimeFormatter));
+            appointment21.setAppointmentDateTime(LocalDateTime.parse("01/03/2024 09:30", dateTimeFormatter));
             appointment21.setAppointmentStatus(AppointmentStatus.ATTENDED);
             appointment21.setDoctor(doctor1);
             appointment21.setHealthCenter(healthCenter2);
@@ -503,7 +536,7 @@ public class SpringMarcacaoConsultaApplication {
             this.appointmentRepository.save(appointment21);
 
             Appointment appointment22 = new Appointment();
-            appointment22.setAppointmentDateTime(LocalDateTime.parse("01/12/2021 09:30", dateTimeFormatter));
+            appointment22.setAppointmentDateTime(LocalDateTime.parse("01/06/2024 09:30", dateTimeFormatter));
             appointment22.setAppointmentStatus(AppointmentStatus.ATTENDED);
             appointment22.setDoctor(doctor1);
             appointment22.setHealthCenter(healthCenter2);
@@ -513,7 +546,7 @@ public class SpringMarcacaoConsultaApplication {
             this.appointmentRepository.save(appointment22);
 
             Appointment appointment23 = new Appointment();
-            appointment23.setAppointmentDateTime(LocalDateTime.parse("01/12/2022 09:30", dateTimeFormatter));
+            appointment23.setAppointmentDateTime(LocalDateTime.parse("04/11/2024 09:30", dateTimeFormatter));
             appointment23.setAppointmentStatus(AppointmentStatus.ATTENDED);
             appointment23.setDoctor(doctor1);
             appointment23.setHealthCenter(healthCenter2);
@@ -525,9 +558,9 @@ public class SpringMarcacaoConsultaApplication {
             Appointment appointment24 = new Appointment();
             appointment24.setAppointmentDateTime(LocalDateTime.parse("16/12/2023 09:30", dateTimeFormatter));
             appointment24.setAppointmentStatus(AppointmentStatus.ATTENDED);
-            appointment24.setDoctor(doctor1);
-            appointment24.setHealthCenter(healthCenter2);
-            appointment24.setSpecialty(specialty3);
+            appointment24.setDoctor(doctor3);
+            appointment24.setHealthCenter(healthCenter3);
+            appointment24.setSpecialty(specialty4);
             appointment24.setUser(user2);
             appointment24.setCancellationCount(1);
             this.appointmentRepository.save(appointment24);
@@ -535,20 +568,20 @@ public class SpringMarcacaoConsultaApplication {
             Appointment appointment25 = new Appointment();
             appointment25.setAppointmentDateTime(LocalDateTime.parse("15/01/2024 09:30", dateTimeFormatter));
             appointment25.setAppointmentStatus(AppointmentStatus.ATTENDED);
-            appointment25.setDoctor(doctor1);
-            appointment25.setHealthCenter(healthCenter2);
-            appointment25.setSpecialty(specialty3);
-            appointment25.setUser(user4);
+            appointment25.setDoctor(doctor3);
+            appointment25.setHealthCenter(healthCenter3);
+            appointment25.setSpecialty(specialty4);
+            appointment25.setUser(user8);
             appointment25.setCancellationCount(0);
             this.appointmentRepository.save(appointment25);
 
             Appointment appointment26 = new Appointment();
-            appointment26.setAppointmentDateTime(LocalDateTime.parse("19/04/2021 17:00", dateTimeFormatter));
+            appointment26.setAppointmentDateTime(LocalDateTime.parse("19/04/2024 17:00", dateTimeFormatter));
             appointment26.setAppointmentStatus(AppointmentStatus.MISSED);
-            appointment26.setDoctor(doctor2);
-            appointment26.setHealthCenter(healthCenter2);
-            appointment26.setSpecialty(specialty2);
-            appointment26.setUser(user1);
+            appointment26.setDoctor(doctor3);
+            appointment26.setHealthCenter(healthCenter3);
+            appointment26.setSpecialty(specialty4);
+            appointment26.setUser(user9);
             appointment26.setCancellationCount(1);
             this.appointmentRepository.save(appointment26);
 
@@ -558,7 +591,7 @@ public class SpringMarcacaoConsultaApplication {
             appointment27.setDoctor(doctor2);
             appointment27.setHealthCenter(healthCenter2);
             appointment27.setSpecialty(specialty2);
-            appointment27.setUser(user2);
+            appointment27.setUser(user10);
             appointment27.setCancellationCount(0);
             this.appointmentRepository.save(appointment27);
 
@@ -568,7 +601,7 @@ public class SpringMarcacaoConsultaApplication {
             appointment28.setDoctor(doctor2);
             appointment28.setHealthCenter(healthCenter2);
             appointment28.setSpecialty(specialty2);
-            appointment28.setUser(user2);
+            appointment28.setUser(user8);
             appointment28.setCancellationCount(2);
             this.appointmentRepository.save(appointment28);
 
@@ -578,17 +611,17 @@ public class SpringMarcacaoConsultaApplication {
             appointment29.setDoctor(doctor2);
             appointment29.setHealthCenter(healthCenter2);
             appointment29.setSpecialty(specialty2);
-            appointment29.setUser(user4);
+            appointment29.setUser(user9);
             appointment29.setCancellationCount(0);
             this.appointmentRepository.save(appointment29);
 
             Appointment appointment30 = new Appointment();
             appointment30.setAppointmentDateTime(LocalDateTime.parse("18/12/2024 17:00", dateTimeFormatter));
             appointment30.setAppointmentStatus(AppointmentStatus.MISSED);
-            appointment30.setDoctor(doctor2);
-            appointment30.setHealthCenter(healthCenter2);
-            appointment30.setSpecialty(specialty2);
-            appointment30.setUser(user3);
+            appointment30.setDoctor(doctor1);
+            appointment30.setHealthCenter(healthCenter1);
+            appointment30.setSpecialty(specialty1);
+            appointment30.setUser(user10);
             appointment30.setCancellationCount(1);
             this.appointmentRepository.save(appointment30);
 
@@ -596,51 +629,101 @@ public class SpringMarcacaoConsultaApplication {
             appointment31.setAppointmentDateTime(LocalDateTime.parse("16/12/2024 08:30", dateTimeFormatter));
             appointment31.setAppointmentStatus(AppointmentStatus.ATTENDED);
             appointment31.setDoctor(doctor1);
-            appointment31.setHealthCenter(healthCenter2);
-            appointment31.setSpecialty(specialty3);
-            appointment31.setUser(user1);
-            appointment31.setCancellationCount(1);
+            appointment31.setHealthCenter(healthCenter1);
+            appointment31.setSpecialty(specialty1);
+            appointment31.setUser(user8);
+            appointment31.setCancellationCount(0);
             this.appointmentRepository.save(appointment31);
 
             Appointment appointment32 = new Appointment();
             appointment32.setAppointmentDateTime(LocalDateTime.parse("20/12/2024 11:00", dateTimeFormatter));
             appointment32.setAppointmentStatus(AppointmentStatus.ATTENDED);
             appointment32.setDoctor(doctor1);
-            appointment32.setHealthCenter(healthCenter2);
-            appointment32.setSpecialty(specialty3);
-            appointment32.setUser(user2);
-            appointment32.setCancellationCount(1);
+            appointment32.setHealthCenter(healthCenter1);
+            appointment32.setSpecialty(specialty1);
+            appointment32.setUser(user9);
+            appointment32.setCancellationCount(0);
             this.appointmentRepository.save(appointment32);
 
             Appointment appointment33 = new Appointment();
-            appointment33.setAppointmentDateTime(LocalDateTime.parse("04/12/2024 17:00", dateTimeFormatter));
+            appointment33.setAppointmentDateTime(LocalDateTime.parse("04/02/2024 17:00", dateTimeFormatter));
             appointment33.setAppointmentStatus(AppointmentStatus.ATTENDED);
-            appointment33.setDoctor(doctor1);
-            appointment33.setHealthCenter(healthCenter2);
-            appointment33.setSpecialty(specialty3);
-            appointment33.setUser(user3);
+            appointment33.setDoctor(doctor2);
+            appointment33.setHealthCenter(healthCenter1);
+            appointment33.setSpecialty(specialty5);
+            appointment33.setUser(user10);
             appointment33.setCancellationCount(1);
             this.appointmentRepository.save(appointment33);
 
             Appointment appointment34 = new Appointment();
-            appointment34.setAppointmentDateTime(LocalDateTime.parse("03/12/2024 17:00", dateTimeFormatter));
-            appointment34.setAppointmentStatus(AppointmentStatus.ATTENDED);
-            appointment34.setDoctor(doctor1);
-            appointment34.setHealthCenter(healthCenter2);
-            appointment34.setSpecialty(specialty3);
-            appointment34.setUser(user4);
-            appointment34.setCancellationCount(1);
+            appointment34.setAppointmentDateTime(LocalDateTime.parse("03/02/2024 17:00", dateTimeFormatter));
+            appointment34.setAppointmentStatus(AppointmentStatus.MISSED);
+            appointment34.setDoctor(doctor2);
+            appointment34.setHealthCenter(healthCenter1);
+            appointment34.setSpecialty(specialty5);
+            appointment34.setUser(user8);
+            appointment34.setCancellationCount(0);
             this.appointmentRepository.save(appointment34);
 
             Appointment appointment35 = new Appointment();
-            appointment35.setAppointmentDateTime(LocalDateTime.parse("02/12/2024 17:00", dateTimeFormatter));
+            appointment35.setAppointmentDateTime(LocalDateTime.parse("02/08/2024 17:00", dateTimeFormatter));
             appointment35.setAppointmentStatus(AppointmentStatus.ATTENDED);
-            appointment35.setDoctor(doctor1);
-            appointment35.setHealthCenter(healthCenter2);
-            appointment35.setSpecialty(specialty3);
-            appointment35.setUser(user1);
+            appointment35.setDoctor(doctor2);
+            appointment35.setHealthCenter(healthCenter1);
+            appointment35.setSpecialty(specialty5);
+            appointment35.setUser(user9);
             appointment35.setCancellationCount(1);
             this.appointmentRepository.save(appointment35);
+
+            Appointment appointment36 = new Appointment();
+            appointment36.setAppointmentDateTime(LocalDateTime.parse("02/08/2024 16:00", dateTimeFormatter));
+            appointment36.setAppointmentStatus(AppointmentStatus.MISSED);
+            appointment36.setDoctor(doctor2);
+            appointment36.setHealthCenter(healthCenter1);
+            appointment36.setSpecialty(specialty5);
+            appointment36.setUser(user10);
+            appointment36.setCancellationCount(1);
+            this.appointmentRepository.save(appointment36);
+
+            Appointment appointment37 = new Appointment();
+            appointment37.setAppointmentDateTime(LocalDateTime.parse("02/08/2024 15:00", dateTimeFormatter));
+            appointment37.setAppointmentStatus(AppointmentStatus.ATTENDED);
+            appointment37.setDoctor(doctor2);
+            appointment37.setHealthCenter(healthCenter2);
+            appointment37.setSpecialty(specialty2);
+            appointment37.setUser(user8);
+            appointment37.setCancellationCount(0);
+            this.appointmentRepository.save(appointment37);
+
+            Appointment appointment38 = new Appointment();
+            appointment38.setAppointmentDateTime(LocalDateTime.parse("02/08/2024 15:00", dateTimeFormatter));
+            appointment38.setAppointmentStatus(AppointmentStatus.MISSED);
+            appointment38.setDoctor(doctor2);
+            appointment38.setHealthCenter(healthCenter2);
+            appointment38.setSpecialty(specialty2);
+            appointment38.setUser(user9);
+            appointment38.setCancellationCount(0);
+            this.appointmentRepository.save(appointment38);
+
+            Appointment appointment39 = new Appointment();
+            appointment39.setAppointmentDateTime(LocalDateTime.parse("02/07/2024 17:00", dateTimeFormatter));
+            appointment39.setAppointmentStatus(AppointmentStatus.ATTENDED);
+            appointment39.setDoctor(doctor2);
+            appointment39.setHealthCenter(healthCenter2);
+            appointment39.setSpecialty(specialty2);
+            appointment39.setUser(user10);
+            appointment39.setCancellationCount(1);
+            this.appointmentRepository.save(appointment39);
+
+            Appointment appointment40 = new Appointment();
+            appointment40.setAppointmentDateTime(LocalDateTime.parse("02/05/2024 16:00", dateTimeFormatter));
+            appointment40.setAppointmentStatus(AppointmentStatus.ATTENDED);
+            appointment40.setDoctor(doctor2);
+            appointment40.setHealthCenter(healthCenter2);
+            appointment40.setSpecialty(specialty2);
+            appointment40.setUser(user8);
+            appointment40.setCancellationCount(1);
+            this.appointmentRepository.save(appointment40);
         };
     }
 }

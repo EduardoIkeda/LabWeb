@@ -65,7 +65,8 @@ export class LoginComponent implements OnInit {
   private onSuccess() {
     this.snackBar.open('Login efetuado com sucesso', '',
       { duration : 5000, });
-    this.router.navigate(['/consultas']);
+
+    this.router.navigate(['/consultas/list']);
   }
 
   private onError() {

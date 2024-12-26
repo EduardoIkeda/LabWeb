@@ -12,13 +12,16 @@ import { Router } from '@angular/router';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
+  isDoctor: boolean = false;
   isAdmin: boolean = false;
 
   constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
-    // this.isAdmin = localStorage.getItem('userRole') === 'admin';
-    this.isAdmin = true; // TODO Remover isso depois
+    const userRole = localStorage.getItem('userRole');
+
+    this.isDoctor = (userRole === 'admin' || userRole === 'doctor');
+    this.isAdmin = (userRole === 'admin');
   }
 
   goToPage(page: string) {

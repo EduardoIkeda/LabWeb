@@ -9,7 +9,7 @@ public record UserPartialDTO(
         @Length(min = 5, max = 400)
         String avatarUrl,
 
-        @Pattern(regexp = "^(55)?\\d{10,11}$") // Ex: 5571982345678, 557136485678, 71982345678, 7136485678 
+        @Pattern(regexp = "^\\d{10,12}$") // Ex: 71982345678, 7136485678 
         String phone,
 
         @Email  
