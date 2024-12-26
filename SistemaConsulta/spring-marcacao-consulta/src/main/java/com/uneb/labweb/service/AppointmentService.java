@@ -124,14 +124,23 @@ public class AppointmentService {
         for (Integer year : years) {
             List<MonthlyAppointmentStatsDTO> monthlyStats = new ArrayList<>();
 
+            List<Object[]> scheduledResults = appointmentRepository.countScheduledAppointmentsMonth(year);
             List<Object[]> attendedResults = appointmentRepository.countAppointmentsByStatusAndMonth(year, "attended");
             List<Object[]> missedResults = appointmentRepository.countAppointmentsByStatusAndMonth(year, "missed");
             List<Object[]> cancelledResults = appointmentRepository.countCancelledAppointmentsByMonth(year);
 
             for (int month = 1; month <= 12; month++) {
+                int scheduledCount = 0;
                 int attendedCount = 0; 
                 int missedCount = 0; 
                 int cancelledCount = 0;
+
+                for (Object[] result : scheduledResults) {
+                    if ((Integer) result[0] == month) {
+                        scheduledCount = (Integer) result[1];
+                        break;
+                    }
+                }
 
                 for (Object[] result : attendedResults) {
                     if ((Integer) result[0] == month) {
@@ -154,7 +163,7 @@ public class AppointmentService {
                     }
                 }
 
-                monthlyStats.add(new MonthlyAppointmentStatsDTO(month, attendedCount, missedCount, cancelledCount));
+                monthlyStats.add(new MonthlyAppointmentStatsDTO(month, scheduledCount, attendedCount, missedCount, cancelledCount));
             }
 
             yearsWithAppointmentsDTOList.add(new YearsWithAppointmentsDTO(year, monthlyStats));
