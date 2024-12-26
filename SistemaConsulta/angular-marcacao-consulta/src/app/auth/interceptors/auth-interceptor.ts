@@ -15,7 +15,7 @@ export function AuthInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Obs
 
   if (isPlatformBrowser(inject(PLATFORM_ID))) {
     // console.log("Execução no navegador")
-    const authToken = localStorage.getItem('auth-token');
+    const authToken = localStorage.getItem('authToken');
 
     if (authToken) {
       const clonedRequest = req.clone({ setHeaders: { Authorization: `Bearer ${authToken}` } });

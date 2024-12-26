@@ -17,7 +17,7 @@ export class SidebarComponent {
   constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
-    // this.isAdmin = localStorage.getItem('role') === 'admin';
+    // this.isAdmin = localStorage.getItem('userRole') === 'admin';
     this.isAdmin = true; // TODO Remover isso depois
   }
 
@@ -26,10 +26,11 @@ export class SidebarComponent {
   }
 
   logout() {
-    localStorage.removeItem("user_id");
-    localStorage.removeItem("name");
-    localStorage.removeItem("role");
-    localStorage.removeItem("auth-token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userAvatarUrl");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("authToken");
 
     this.router.navigate(['/auth/login']);
   }

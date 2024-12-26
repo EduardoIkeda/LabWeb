@@ -29,6 +29,7 @@ export class MedicoComponent implements OnInit {
   isLoading = true;
   errorMessage: string | null = null;
   specialties: Especialidade[] = [];
+  avatarUrl: string | null = '';
 
   constructor(
     private readonly doctorService: DoctorService,
@@ -36,6 +37,8 @@ export class MedicoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.avatarUrl = localStorage.getItem("userAvatarUrl");
+
     const doctorId = this.route.snapshot.paramMap.get('id');
     console.log('ID do médico:', doctorId);
 
@@ -66,9 +69,11 @@ export class MedicoComponent implements OnInit {
 
   private loadDoctorAndSpecialties(id: string): void {
     this.isLoading = true;
+
     this.doctorService.getSpecialties().subscribe({
       next: (specialties) => {
         this.specialties = specialties;
+
         this.doctorService.getDoctorById(id).subscribe({
           next: (doctor) => {
             // Mapear IDs das especialidades para seus nomes
@@ -78,7 +83,7 @@ export class MedicoComponent implements OnInit {
               );
               return {
                 ...especialidade,
-                name: specialty?.name || 'Desconhecida',
+                name: specialty?.name ?? 'Desconhecida'
               };
             });
             this.doctor = doctor;
@@ -90,6 +95,7 @@ export class MedicoComponent implements OnInit {
             this.isLoading = false;
           },
         });
+
       },
       error: (err) => {
         this.errorMessage = 'Erro ao carregar especialidades.';
@@ -97,11 +103,5 @@ export class MedicoComponent implements OnInit {
         this.isLoading = false;
       },
     });
-  }
-
-  get avatarUrl(): string {
-    return (
-      this.doctor?.avatarUrl || 'https://material.angular.io/assets/img/examples/shiba1.jpg'
-    );
   }
 }

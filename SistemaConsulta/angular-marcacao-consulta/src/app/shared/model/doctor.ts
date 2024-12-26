@@ -7,7 +7,6 @@ export interface Doctor {
   crm: string;
   startWork: string;
   endWork: string;
-  avatarUrl: string;
   workingDays: string[];
   specialties: Especialidade[];
   doctorAppointments: Consulta[];

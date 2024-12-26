@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 
 public record UserPartialDTO(
+        @Length(min = 5, max = 400)
+        String avatarUrl,
+
         @Pattern(regexp = "^(55)?\\d{10,11}$") // Ex: 5571982345678, 557136485678, 71982345678, 7136485678 
         String phone,
 

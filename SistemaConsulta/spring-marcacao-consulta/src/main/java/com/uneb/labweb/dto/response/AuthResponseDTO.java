@@ -11,6 +11,9 @@ public record AuthResponseDTO(
         String name,
 
         @NotBlank
+        String avatarUrl,
+
+        @NotBlank
         String role,
         
         @NotBlank

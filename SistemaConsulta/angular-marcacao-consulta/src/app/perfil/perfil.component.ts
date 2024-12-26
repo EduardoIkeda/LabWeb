@@ -53,7 +53,7 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userId = localStorage.getItem("user_id");
+    const userId = localStorage.getItem("userId");
     if (!userId) {
       throw new Error("Usuário não encontrado no localStorage.");
     }

@@ -21,7 +21,7 @@ export class ConsultasService {
 
   listByUser() {
     if (isPlatformBrowser(inject(PLATFORM_ID))) {
-      const userId = localStorage.getItem("user_id");
+      const userId = localStorage.getItem("userId");
 
       if (!userId) {
         throw new Error("Usuário não encontrado no localStorage.");

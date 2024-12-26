@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first, Observable, of, tap, throwError } from 'rxjs';
+import { first, tap } from 'rxjs';
 
 import { AuthResponse } from '../model/auth-response';
 import { User } from '../model/user';
@@ -12,20 +12,16 @@ export class UsersService {
   private readonly API = 'api/users';
   private readonly noAuthHeader = new HttpHeaders({ 'No-Auth': 'True' });
 
-  constructor(private httpClient: HttpClient) { }
-
-  // Testando se a autenticação com Token JWT está funcionando
-  teste() {
-    return this.httpClient.get<{ message: string }>(`${this.API}/teste`);
-  }
+  constructor(private readonly httpClient: HttpClient) { }
 
   login(record: Partial<User>) {
     return this.httpClient.post<AuthResponse>(`${this.API}/login`, record, { headers: this.noAuthHeader }).pipe(
       tap((value) => {
-        localStorage.setItem("user_id", value.id)
-        localStorage.setItem("name", value.name)
-        localStorage.setItem("role", value.role)
-        localStorage.setItem("auth-token", value.token)
+        localStorage.setItem("userId", value.id)
+        localStorage.setItem("userName", value.name)
+        localStorage.setItem("userAvatarUrl", value.avatarUrl)
+        localStorage.setItem("userRole", value.role)
+        localStorage.setItem("authToken", value.token)
       })
     )
   }
@@ -33,10 +29,11 @@ export class UsersService {
   signup(record: Partial<User>) {
     return this.httpClient.post<AuthResponse>(`${this.API}/register`, record, { headers: this.noAuthHeader }).pipe(
       tap((value) => {
-        localStorage.setItem("user_id", record.id!)
-        localStorage.setItem("name", value.name)
-        localStorage.setItem("role", value.role)
-        localStorage.setItem("auth-token", value.token)
+        localStorage.setItem("userId", record.id!)
+        localStorage.setItem("userName", value.name)
+        localStorage.setItem("userAvatarUrl", value.avatarUrl)
+        localStorage.setItem("userRole", value.role)
+        localStorage.setItem("authToken", value.token)
       })
     )
   }

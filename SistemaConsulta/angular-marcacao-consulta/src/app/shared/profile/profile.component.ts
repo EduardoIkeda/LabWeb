@@ -32,7 +32,7 @@ export class ProfileComponent {
     private readonly userService: UserService,
     private readonly router: Router
   ) {
-    const userId = localStorage.getItem("user_id");
+    const userId = localStorage.getItem("userId");
     if (!userId) {
       throw new Error("Usuário não encontrado no localStorage.");
     }

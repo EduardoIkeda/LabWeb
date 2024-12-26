@@ -46,6 +46,7 @@ export class DoctorService {
       })
     );
   }
+
   getSpecialties(): Observable<Especialidade[]> {
     return this.httpClient.get<Especialidade[]>(this.specialtiesApi).pipe(first());
   }
