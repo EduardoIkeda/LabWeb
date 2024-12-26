@@ -52,12 +52,15 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
   onSelectConsulta(consulta: Consulta) {
     this.consulta = consulta;
 
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      throw new Error("Usuário não encontrado no localStorage.");
-    }
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const userId = localStorage.getItem("userId");
 
-    this.consulta.patientId = userId;
+      if (!userId) {
+        throw new Error("Usuário não encontrado no localStorage.");
+      }
+
+      this.consulta.patientId = userId;
+    }
 
     console.log(this.consulta);
   }

@@ -9,8 +9,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { AdvancePieChartComponent } from '../../components/advance-pie-chart/advance-pie-chart.component';
 import { LineChartComponent } from '../../components/line-chart/line-chart.component';
 import { RankingChartComponent } from '../../components/ranking-chart/ranking-chart.component';
-import { AnosComConsultas } from '../../model/consultas-report';
+import { AnosComConsultas, EspecialidadeReport } from '../../model/consultas-report';
 import { ConsultasReportService } from '../../service/consultas-report.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,16 +41,20 @@ export class DashboardComponent implements OnInit {
   lineChartTitle = 'Consultas canceladas por mês';
   lineChartxAxisLabel = 'Mês';
   lineChartyAxisLabel = 'Número de consultas';
-  lineChartData: any[] = [];
+  // lineChartData: any[] = [];
+  lineChartData$: Observable<any[]> = new Observable<any[]>();
   lineChartView: [number, number] = [700, 400];
 
   pieChartTitle = 'Consultas no mês';
-  pieChartData: any[] = [];
+  //pieChartData: any[] = [];
+  pieChartData$: Observable<any[]> = new Observable<any[]>();
 
   rankingTitle: string = 'Especialidades mais consultadas';
-  rankingData: any[] = [];
+  rankingData$: Observable<EspecialidadeReport[]> = new Observable<EspecialidadeReport[]>();
 
-  constructor(private readonly consultasService: ConsultasReportService) {}
+  constructor(
+    private readonly consultasService: ConsultasReportService
+  ) { }
 
   ngOnInit(): void {
     this.consultasService.getAnosComConsultas().subscribe((data) => {
@@ -63,23 +68,13 @@ export class DashboardComponent implements OnInit {
   }
 
   loadConsultasData(year: number): void {
-    this.consultasService
-      .getConsultasCanceladasNoAno(year)
-      .subscribe((data) => {
-        this.lineChartData = data;
-      });
-    this.consultasService
-      .getConsultasMarcadasPorMes(this.selectedMonth)
-      .subscribe((data) => {
-        this.pieChartData = data;
-      });
+    this.lineChartData$ = this.consultasService.getConsultasCanceladasNoAno(year);
+
+    this.pieChartData$ = this.consultasService.getConsultasMarcadasPorMes(this.selectedMonth);
+
     this.months = this.getAvailableMonths(year);
 
-    this.consultasService
-      .getEspecialidadesMaisConsultadas()
-      .subscribe((data) => {
-        this.rankingData = data;
-      });
+    this.rankingData$ = this.consultasService.getEspecialidadesMaisConsultadas(year);
   }
 
   onYearChange(year: number): void {

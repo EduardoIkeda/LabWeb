@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.uneb.labweb.dto.mapper.SpecialtyMapper;
 import com.uneb.labweb.dto.request.SpecialtyDTO;
+import com.uneb.labweb.dto.response.SpecialtyCountDTO;
 import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.repository.SpecialtyRepository;
 
@@ -39,6 +40,10 @@ public class SpecialtyService {
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    public List<SpecialtyCountDTO> getSpecialtyAppointmentsCountByYear(@NotNull @Positive Long year) {
+        return specialtyRepository.findSpecialtiesWithAppointmentsCountByYear(year);
+    }
+
     public SpecialtyDTO createSpecialty(@Valid @NotNull SpecialtyDTO specialtyDTO) {
         return specialtyMapper.toDTO(specialtyRepository.save(specialtyMapper.toEntity(specialtyDTO)));
     }
@@ -49,7 +54,6 @@ public class SpecialtyService {
                     recordFound.setName(specialtyDTO.name());
 
                     // ...
-                    
                     return specialtyMapper.toDTO(specialtyRepository.save(recordFound));
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));

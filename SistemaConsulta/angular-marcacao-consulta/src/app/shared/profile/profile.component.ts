@@ -32,14 +32,16 @@ export class ProfileComponent {
     private readonly userService: UserService,
     private readonly router: Router
   ) {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      throw new Error("Usuário não encontrado no localStorage.");
-    }
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        throw new Error("Usuário não encontrado no localStorage.");
+      }
 
-    this.userService.get(userId).subscribe((user) => {
-      this.user = user;
-    });
+      this.userService.get(userId).subscribe((user) => {
+        this.user = user;
+      });
+    }
   }
 
   onProfileClick() {

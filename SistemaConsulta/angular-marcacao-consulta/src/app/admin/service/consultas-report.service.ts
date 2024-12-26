@@ -48,15 +48,16 @@ export class ConsultasReportService {
       .pipe(map((data) => data['AnosComConsultas']));
   }
 
-  getEspecialidadesMaisConsultadas(): Observable<EspecialidadeReport[]> {
-    return this.http.get<any>(this.API).pipe(
-      map((data) =>
-        data['EspecialidadesMaisConsultadas'].map((especialidade: any) => ({
-          nome: especialidade.name,
-          quantidade: especialidade.value,
-        }))
-      )
-    );
+  getEspecialidadesMaisConsultadas(year: number): Observable<EspecialidadeReport[]> {
+    // return this.http.get<EspecialidadeReport>(this.API).pipe(
+    //   map((data) =>
+    //     data['EspecialidadesMaisConsultadas'].map((especialidade: any) => ({
+    //       nome: especialidade.name,
+    //       quantidade: especialidade.value,
+    //     }))
+    //   )
+    // );
+    return this.http.get<EspecialidadeReport[]>(`/api/specialties/count/${year}`);
   }
   getEspecialidadesMaisConsultadasPorPosto(): Observable<
     EspecialidadeReport[]

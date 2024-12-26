@@ -26,12 +26,14 @@ export class SidebarComponent {
   }
 
   logout() {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("userAvatarUrl");
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("authToken");
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      localStorage.removeItem("userId");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userAvatarUrl");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("authToken");
 
-    this.router.navigate(['/auth/login']);
+      this.router.navigate(['/auth/login']);
+    }
   }
 }

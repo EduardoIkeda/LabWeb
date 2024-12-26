@@ -9,8 +9,8 @@ export interface Report {
 }
 
 export interface EspecialidadeReport {
-  nome: string;
-  quantidade: number;
+  specialtyName: string;
+  appointmentsCount: number;
 }
 
 export interface AnosComConsultas {
