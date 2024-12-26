@@ -27,7 +27,7 @@ import { PostosComponent } from './postos/postos.component';
 export class MarcarConsultaComponent implements OnInit, OnDestroy {
   consulta!: Consulta | null;
   speciality!: Especialidade | null;
-  posto!: HealthCenter | null;
+  healthCenter!: HealthCenter | null;
   page: string = "especialidade";
 
   constructor(
@@ -44,8 +44,8 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
     this.page = "posto";
   }
 
-  onSelectPosto(posto: HealthCenter) {
-    this.posto = posto;
+  onSelectHealthCenter(healthCenter: HealthCenter) {
+    this.healthCenter = healthCenter;
     this.page = "consulta";
   }
 
@@ -68,8 +68,8 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
       data: `Deseja realmente marcar a consulta?
 
             Especialidade: ${this.speciality?.name}
-            Posto: ${this.posto?.name}
-            Endereço: ${this.posto?.address}
+            Posto: ${this.healthCenter?.name}
+            Endereço: ${this.healthCenter?.address}
             Profissional: ${this.consulta?.doctorName}
             Data e hora: ${this.consulta?.appointmentDateTime}`,
     });
@@ -109,7 +109,7 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
       this.speciality = null;
     } else {
       this.page = "posto";
-      this.posto = null;
+      this.healthCenter = null;
       this.consulta = null;
     }
   }
@@ -117,12 +117,12 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.consulta = null;
     this.speciality = null;
-    this.posto = null;
+    this.healthCenter = null;
   }
 
   ngOnDestroy(): void {
     this.consulta = null;
     this.speciality = null;
-    this.posto = null;
+    this.healthCenter = null;
   }
 }

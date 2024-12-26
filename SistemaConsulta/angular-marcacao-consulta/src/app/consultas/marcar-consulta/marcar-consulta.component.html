@@ -9,12 +9,12 @@
         ></app-especialidades>
         <app-postos
         [speciality]="speciality"
-        (selectPosto)="onSelectPosto($event)"
+        (selectHealthCenter)="onSelectHealthCenter($event)"
         *ngIf="page.includes('posto')"
         ></app-postos>
         <app-consultas
         [speciality]="speciality"
-        [posto]="posto"
+        [healthCenter]="healthCenter"
         (selectConsulta)="onSelectConsulta($event)"
         *ngIf="page.includes('consulta')"
         ></app-consultas>
@@ -32,16 +32,16 @@
               <p><span class="subtitle">Especialidade:</span> {{ speciality.name }}</p>
             </div>
 
-            <div *ngIf="speciality != null && posto == null">
+            <div *ngIf="speciality != null && healthCenter == null">
               <p class="select">Selecione o posto de saúde</p>
             </div>
 
-            <div *ngIf="posto">
-              <p><span class="subtitle">Posto:</span> {{ posto.name }}</p>
-              <p><span class="subtitle">Endereço:</span> {{ posto.address }}</p>
+            <div *ngIf="healthCenter">
+              <p><span class="subtitle">Posto:</span> {{ healthCenter.name }}</p>
+              <p><span class="subtitle">Endereço:</span> {{ healthCenter.address }}</p>
             </div>
 
-            <div *ngIf="speciality != null && posto != null && consulta == null">
+            <div *ngIf="speciality != null && healthCenter != null && consulta == null">
               <p class="select">Selecione a consulta</p>
             </div>
 
@@ -50,7 +50,7 @@
               <p><span class="subtitle">Data e hora da Consulta:</span> {{ consulta.appointmentDateTime }}</p>
             </div>
           </div>
-          <button mat-flat-button [disabled]="!speciality || !posto || !consulta" (click)="onMarcarConsulta()">Marcar consulta</button>
+          <button mat-flat-button [disabled]="!speciality || !healthCenter || !consulta" (click)="onMarcarConsulta()">Marcar consulta</button>
         </mat-card>
       </div>
     </div>

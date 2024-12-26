@@ -1,17 +1,18 @@
-import { DoctorService } from './../../../shared/service/doctor.service';
-import { HealthCenterService } from './../../../shared/service/health-center.service';
 import { CommonModule, Location } from '@angular/common';
-import { HealthCenter } from '../../../shared/model/health-center';
 import { Component, OnInit } from '@angular/core';
-import { Doctor } from '../../../shared/model/doctor';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { Doctor } from '../../../shared/model/doctor';
+import { HealthCenter } from '../../../shared/model/health-center';
+import { DoctorService } from './../../../shared/service/doctor.service';
+import { HealthCenterService } from './../../../shared/service/health-center.service';
 
 @Component({
   selector: 'app-medico-form',

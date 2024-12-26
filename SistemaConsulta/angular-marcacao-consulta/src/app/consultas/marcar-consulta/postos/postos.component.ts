@@ -17,26 +17,26 @@ import { PostoItemComponent } from './posto-item/posto-item.component';
   styleUrl: './postos.component.scss'
 })
 export class PostosComponent implements OnInit {
-  @Output() selectPosto = new EventEmitter<HealthCenter>();
+  @Output() selectHealthCenter = new EventEmitter<HealthCenter>();
   @Input() speciality!: Especialidade | null;
-  postos: HealthCenter[] = [];
-  displayedPostos: HealthCenter[] = [];
+  healthCenters: HealthCenter[] = [];
+  displayedHealthCenters: HealthCenter[] = [];
   query!: string;
 
   constructor(private readonly healthCenterService: HealthCenterService) {
   }
 
   ngOnInit(): void {
-    this.loadPostos();
+    this.loadHealthCenters();
   }
 
-  loadPostos() {
+  loadHealthCenters() {
     this.healthCenterService.listBySpecialty(this.speciality!.id).subscribe({
-      next: (postos) => {
-        this.postos = postos.map(
-          (posto) => ({ ...posto })
+      next: (healthCenters) => {
+        this.healthCenters = healthCenters.map(
+          (healthCenter) => ({ ...healthCenter })
         );
-        this.displayedPostos = this.postos.sort((a, b) => (b.availableAppointmentsCount ?? 0) - (a.availableAppointmentsCount ?? 0));
+        this.displayedHealthCenters = this.healthCenters.sort((a, b) => (b.availableAppointmentsCount ?? 0) - (a.availableAppointmentsCount ?? 0));
       },
       error: (error: any) => console.error('Error:', error),
     });
@@ -46,18 +46,18 @@ export class PostosComponent implements OnInit {
     this.query = event.target.value.trim().toLowerCase();
 
     if (this.query != "") {
-      this.displayedPostos = [];
-      for (let healthCenter of this.postos) {
+      this.displayedHealthCenters = [];
+      for (let healthCenter of this.healthCenters) {
         if (healthCenter.name.toLowerCase().includes(this.query)) {
-          this.displayedPostos.push(healthCenter);
+          this.displayedHealthCenters.push(healthCenter);
         }
       }
     } else {
-      this.displayedPostos = this.postos.sort((a, b) => (b.availableAppointmentsCount ?? 0) - (a.availableAppointmentsCount ?? 0));
+      this.displayedHealthCenters = this.healthCenters.sort((a, b) => (b.availableAppointmentsCount ?? 0) - (a.availableAppointmentsCount ?? 0));
     }
   }
 
-  onSelectPosto(posto: HealthCenter) {
-    this.selectPosto.emit(posto);
+  onSelectHealthCenter(healthCenter: HealthCenter) {
+    this.selectHealthCenter.emit(healthCenter);
   }
 }

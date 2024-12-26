@@ -1,4 +1,3 @@
-import { Especialidade } from './../../../shared/model/especialidade';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,9 +8,9 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { AdvancePieChartComponent } from '../../components/advance-pie-chart/advance-pie-chart.component';
 import { LineChartComponent } from '../../components/line-chart/line-chart.component';
-import { ConsultasReportService } from '../../service/consultas-report.service';
-import { AnosComConsultas } from '../../model/consultas-report';
 import { RankingChartComponent } from '../../components/ranking-chart/ranking-chart.component';
+import { AnosComConsultas } from '../../model/consultas-report';
+import { ConsultasReportService } from '../../service/consultas-report.service';
 
 @Component({
   selector: 'app-dashboard',

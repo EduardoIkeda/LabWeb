@@ -1,9 +1,9 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { map, of } from 'rxjs';
 
 import { Consulta } from '../../shared/model/consulta';
-import { isPlatformBrowser } from '@angular/common';
-import { of, throwError } from 'rxjs';
 import { ConsultaPorData } from '../model/consulta_por_data';
 
 @Injectable({
@@ -34,17 +34,19 @@ export class ConsultasService {
     }
   }
 
+  listByDoctor(doctorName: string) {
+    // Aqui estamos assumindo que o nome do médico está no JSON ou API
+    return this.http.get<Consulta[]>(this.API_test).pipe(
+      map((consultas) => consultas.filter((consulta) => consulta.doctorName === doctorName))
+    );
+  }
+
   listGroup(specialty_id: string, posto_id: string) {
     const params = new HttpParams()
       .set('healthCenterId', posto_id)
       .set('specialtyId', specialty_id);
 
     return this.http.get<ConsultaPorData[]>(`${this.API}/group`, { params });
-  }
-
-  listGroupTeste(specialty_id: string, posto_id: string) {
-    //return this.http.get<ConsultaPorData[]>(`${this.API}/group`, { params });
-    return this.http.get<ConsultaPorData[]>('assets/lista_consultas_especialidade_posto.json', { params: { specialty_id, posto_id } });
   }
 
   loadById(id: string) {

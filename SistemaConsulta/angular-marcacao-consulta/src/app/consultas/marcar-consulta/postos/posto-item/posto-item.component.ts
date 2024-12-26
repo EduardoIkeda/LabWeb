@@ -14,11 +14,11 @@ import { HealthCenter } from '../../../../shared/model/health-center';
   styleUrl: './posto-item.component.scss'
 })
 export class PostoItemComponent {
-  @Input() posto!: HealthCenter;
+  @Input() healthCenter!: HealthCenter;
   @Output() select = new EventEmitter<HealthCenter>();
 
   onSelect(event: Event){
     event.stopPropagation();
-    this.select.emit(this.posto);
+    this.select.emit(this.healthCenter);
   }
 }

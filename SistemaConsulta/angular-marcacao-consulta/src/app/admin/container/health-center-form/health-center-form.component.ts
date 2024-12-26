@@ -1,22 +1,18 @@
-import { HealthCenterService } from '../../../shared/service/health-center.service';
-import { horarios } from '../../../../assets/horarios';
-import { Component, OnInit } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+
+import { horarios } from '../../../../assets/horarios';
 import { EspecialidadesService } from '../../../consultas/marcar-consulta/especialidades/services/especialidades.service';
 import { Especialidade } from '../../../shared/model/especialidade';
+import { HealthCenterService } from '../../../shared/service/health-center.service';
 
 @Component({
   selector: 'app-health-center-form',
