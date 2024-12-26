@@ -18,7 +18,6 @@ export class ConsultasReportService {
 
   constructor(private readonly http: HttpClient) {}
 
-  // TODO Fazer a requisição selecionando ano pro backend
   getConsultasCanceladasNoAno(ano: number): Observable<ConsultasReport[]> {
     return this.http.get<any>(this.API).pipe(
       map((data) => {
@@ -36,29 +35,22 @@ export class ConsultasReportService {
     );
   }
 
-  getConsultasMarcadasPorMes(ano: number): Observable<any[]> {
+  getConsultasMarcadasPorMes(year: number, month: number): Observable<Report[]> {
     return this.http
       .get<any>(this.API)
       .pipe(map((data) => data['ConsultasMarcadasPorMes']));
   }
 
+  // Pronto
   getAnosComConsultas(): Observable<AnosComConsultas[]> {
-    return this.http
-      .get<any>(this.API)
-      .pipe(map((data) => data['AnosComConsultas']));
+    return this.http.get<AnosComConsultas[]>('api/appointments/years-with-appointments');
   }
 
+  // Pronto
   getEspecialidadesMaisConsultadas(year: number): Observable<EspecialidadeReport[]> {
-    // return this.http.get<EspecialidadeReport>(this.API).pipe(
-    //   map((data) =>
-    //     data['EspecialidadesMaisConsultadas'].map((especialidade: any) => ({
-    //       nome: especialidade.name,
-    //       quantidade: especialidade.value,
-    //     }))
-    //   )
-    // );
     return this.http.get<EspecialidadeReport[]>(`/api/specialties/count/${year}`);
   }
+
   getEspecialidadesMaisConsultadasPorPosto(): Observable<
     EspecialidadeReport[]
   > {

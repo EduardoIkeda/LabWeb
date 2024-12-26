@@ -69,4 +69,24 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             @Param("specialtyId") Long specialtyId,
             @Param("healthCenterId") Long healthCenterId
     );
+
+    @Query(value = "SELECT DISTINCT EXTRACT(YEAR FROM a.APPOINTMENT_DATE_TIME) FROM APPOINTMENT a ORDER BY EXTRACT(YEAR FROM a.APPOINTMENT_DATE_TIME)", nativeQuery = true)
+    List<Integer> findDistinctYears();
+
+    @Query(value = "SELECT DISTINCT EXTRACT(MONTH FROM a.APPOINTMENT_DATE_TIME) FROM APPOINTMENT a WHERE EXTRACT(YEAR FROM a.APPOINTMENT_DATE_TIME) = :year ORDER BY EXTRACT(MONTH FROM a.APPOINTMENT_DATE_TIME)", nativeQuery = true)
+    List<Integer> findMonthsByYear(@Param("year") int year);
+
+    @Query(value = "SELECT CAST(EXTRACT(MONTH FROM a.appointment_date_time) AS INTEGER), CAST(COUNT(*) AS INTEGER) " +
+               "FROM appointment a " +
+               "WHERE EXTRACT(YEAR FROM a.appointment_date_time) = :year " +
+               "AND a.appointment_status = :status " +
+               "GROUP BY CAST(EXTRACT(MONTH FROM a.appointment_date_time) AS INTEGER)", nativeQuery = true)
+    List<Object[]> countAppointmentsByStatusAndMonth(@Param("year") int year, @Param("status") String status);
+
+    @Query(value = "SELECT CAST(EXTRACT(MONTH FROM a.appointment_date_time) AS INTEGER), CAST(SUM(a.cancellation_count) AS INTEGER) " +
+               "FROM appointment a " +
+               "WHERE EXTRACT(YEAR FROM a.appointment_date_time) = :year " +
+               "GROUP BY CAST(EXTRACT(MONTH FROM a.appointment_date_time) AS INTEGER)", nativeQuery = true)
+    List<Object[]> countCancelledAppointmentsByMonth(@Param("year") int year);
+
 }

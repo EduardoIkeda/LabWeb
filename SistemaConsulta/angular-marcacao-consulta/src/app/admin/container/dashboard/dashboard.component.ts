@@ -32,7 +32,7 @@ import { Observable } from 'rxjs';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  selectedYear: number = 2022;
+  selectedYear: number = 2025;
   selectedMonth: number = 2;
   months: number[] = [];
   years: number[] = [];
@@ -41,12 +41,10 @@ export class DashboardComponent implements OnInit {
   lineChartTitle = 'Consultas canceladas por mês';
   lineChartxAxisLabel = 'Mês';
   lineChartyAxisLabel = 'Número de consultas';
-  // lineChartData: any[] = [];
   lineChartData$: Observable<any[]> = new Observable<any[]>();
   lineChartView: [number, number] = [700, 400];
 
   pieChartTitle = 'Consultas no mês';
-  //pieChartData: any[] = [];
   pieChartData$: Observable<any[]> = new Observable<any[]>();
 
   rankingTitle: string = 'Especialidades mais consultadas';
@@ -60,47 +58,59 @@ export class DashboardComponent implements OnInit {
     this.consultasService.getAnosComConsultas().subscribe((data) => {
       this.anosComConsultas = data;
     });
+
     this.years = this.getYears();
     this.selectedYear = this.getLastStoredYear();
     this.selectedMonth = this.getLastStoredMonth(this.selectedYear);
 
-    this.loadConsultasData(this.selectedYear);
+    this.loadConsultasData();
   }
 
-  loadConsultasData(year: number): void {
-    this.lineChartData$ = this.consultasService.getConsultasCanceladasNoAno(year);
+  loadConsultasData(): void {
+    this.pieChartData$ = this.consultasService.getConsultasMarcadasPorMes(this.selectedYear, this.selectedMonth);
+    this.lineChartData$ = this.consultasService.getConsultasCanceladasNoAno(this.selectedYear);
+    this.rankingData$ = this.consultasService.getEspecialidadesMaisConsultadas(this.selectedYear);
 
-    this.pieChartData$ = this.consultasService.getConsultasMarcadasPorMes(this.selectedMonth);
-
-    this.months = this.getAvailableMonths(year);
-
-    this.rankingData$ = this.consultasService.getEspecialidadesMaisConsultadas(year);
+    this.months = this.getAvailableMonths(this.selectedYear);
   }
 
   onYearChange(year: number): void {
-    this.loadConsultasData(year);
+    this.selectedYear = year;
+    this.loadConsultasData();
   }
 
   onMonthChange(month: number): void {
-    console.log('Month changed', month);
+    this.selectedMonth = month;
+    this.loadConsultasData();
   }
 
   getYears(): number[] {
     return this.anosComConsultas.map((ano) => ano.year);
   }
 
-  getLastStoredMonth(year: number): number {
-    const ano = this.anosComConsultas.find((ano) => ano.year === year);
-    return ano ? Math.max(...ano.month) : new Date().getMonth() + 1;
-  }
-
-  getAvailableMonths(year: number): number[] {
-    return this.anosComConsultas.find((ano) => ano.year === year)?.month || [];
-  }
-
   getLastStoredYear(): number {
     return this.anosComConsultas.length
       ? Math.max(...this.anosComConsultas.map((ano) => ano.year))
       : new Date().getFullYear();
+  }
+
+  getAvailableMonths(year: number): number[] {
+    const ano = this.anosComConsultas.find((ano) => ano.year === year);
+
+    if (ano) {
+      return ano.monthlyStats.map((month) => month.month);
+    }
+
+    return [];
+  }
+
+  getLastStoredMonth(year: number): number {
+    const ano = this.anosComConsultas.find((ano) => ano.year === year);
+
+    if (ano) {
+      return Math.max(...ano.monthlyStats.map((month) => month.month));
+    }
+
+    return new Date().getMonth() + 1;
   }
 }

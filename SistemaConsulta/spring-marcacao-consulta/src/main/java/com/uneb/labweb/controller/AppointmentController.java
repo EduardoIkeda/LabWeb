@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uneb.labweb.dto.request.AppointmentDTO;
 import com.uneb.labweb.dto.response.AppointmentResponseDTO;
 import com.uneb.labweb.dto.response.AppointmentsByDateDTO;
+import com.uneb.labweb.dto.response.YearsWithAppointmentsDTO;
 import com.uneb.labweb.service.AppointmentService;
 
 import jakarta.validation.Valid;
@@ -47,6 +48,11 @@ public class AppointmentController {
         @RequestParam @NotNull @Positive Long specialtyId
     ) {
         return appointmentService.findAppointmentsGroup(healthCenterId, specialtyId);
+    }
+
+    @GetMapping("/years-with-appointments")
+    public List<YearsWithAppointmentsDTO> getYearsWithAppointments() {
+        return appointmentService.getYearsWithAppointments();
     }
 
     @GetMapping("/by-user/{id}")
@@ -85,6 +91,4 @@ public class AppointmentController {
     public void deleteAppointment(@PathVariable @NotNull @Positive Long id) {
         appointmentService.deleteAppointment(id);
     }
-
-
 }

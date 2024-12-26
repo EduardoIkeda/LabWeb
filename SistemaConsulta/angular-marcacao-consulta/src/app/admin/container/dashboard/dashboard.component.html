@@ -7,7 +7,7 @@
 
       <mat-select
         [(value)]="selectedYear"
-        (selectionChange)="loadConsultasData(selectedYear)"
+        (selectionChange)="onYearChange(selectedYear)"
       >
         <mat-option *ngFor="let year of getYears()" [value]="year">
           {{ year }}
@@ -24,6 +24,7 @@
           [data]="pieChartData"
           [title]="pieChartTitle"
           [months]="months"
+          [selectedMonth]="selectedMonth"
           (monthChange)="onMonthChange($event)"
         ></app-advance-pie-chart>
       </div>
