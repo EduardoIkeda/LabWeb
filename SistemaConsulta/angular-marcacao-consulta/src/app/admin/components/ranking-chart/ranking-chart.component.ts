@@ -14,16 +14,16 @@ import { MatListModule } from '@angular/material/list';
 export class RankingChartComponent implements OnInit {
   @Input() title: string = 'Especialidades mais consultadas';
   @Input() rankingItems: EspecialidadeReport[] = [
-    { nome: 'Nome 1', quantidade: 100 },
-    { nome: 'Nome 2', quantidade: 200 },
-    { nome: 'Nome 3', quantidade: 300 },
-    { nome: 'Nome 4', quantidade: 400 },
-    { nome: 'Nome 5', quantidade: 500 },
-    { nome: 'Nome 6', quantidade: 600 },
-    { nome: 'Nome 7', quantidade: 700 },
-    { nome: 'Nome 8', quantidade: 800 },
-    { nome: 'Nome 9', quantidade: 900 },
-    { nome: 'Nome 10', quantidade: 1000 },
+    { specialtyName: 'Nome 1', appointmentsCount: 100 },
+    { specialtyName: 'Nome 2', appointmentsCount: 200 },
+    { specialtyName: 'Nome 3', appointmentsCount: 300 },
+    { specialtyName: 'Nome 4', appointmentsCount: 400 },
+    { specialtyName: 'Nome 5', appointmentsCount: 500 },
+    { specialtyName: 'Nome 6', appointmentsCount: 600 },
+    { specialtyName: 'Nome 7', appointmentsCount: 700 },
+    { specialtyName: 'Nome 8', appointmentsCount: 800 },
+    { specialtyName: 'Nome 9', appointmentsCount: 900 },
+    { specialtyName: 'Nome 10', appointmentsCount: 1000 }
   ];
 
   column1: EspecialidadeReport[] = [];
@@ -35,7 +35,10 @@ export class RankingChartComponent implements OnInit {
 
   private sortAndSplitRankingItems(): void {
     // Ordenar a lista pela pontuação (maior para menor)
-    this.rankingItems.sort((a, b) => b.quantidade - a.quantidade);
+    this.rankingItems.sort((a, b) => b.appointmentsCount - a.appointmentsCount);
+
+    console.log('sortAndSplitRankingItems');
+    console.log(this.rankingItems);
 
     // Pegar até 10 elementos
     const topItems = this.rankingItems.slice(0, 10);
@@ -46,10 +49,10 @@ export class RankingChartComponent implements OnInit {
 
     // Garantir que cada coluna tenha pelo menos 5 elementos
     while (this.column1.length < 5) {
-      this.column1.push({ nome: '', quantidade: 0 });
+      this.column1.push({ specialtyName: '', appointmentsCount: 0 });
     }
     while (this.column2.length < 5) {
-      this.column2.push({ nome: '', quantidade: 0 });
+      this.column2.push({ specialtyName: '', appointmentsCount: 0 });
     }
   }
 

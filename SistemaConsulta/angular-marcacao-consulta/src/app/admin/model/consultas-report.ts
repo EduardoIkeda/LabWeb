@@ -1,3 +1,15 @@
+export interface AnosComConsultas {
+  year: number;
+  monthlyStats: MonthlyAppointmentStats[];
+}
+
+export interface MonthlyAppointmentStats {
+  month: number;
+  attendedCount: number;
+  missedCount: number;
+  cancelledCount: number;
+}
+
 export interface ConsultasReport {
   name: string; // Consultas marcadas, canceladas, etc
   series: Report[];
@@ -9,11 +21,6 @@ export interface Report {
 }
 
 export interface EspecialidadeReport {
-  nome: string;
-  quantidade: number;
-}
-
-export interface AnosComConsultas {
-  year: number;
-  month: number[];
+  specialtyName: string;
+  appointmentsCount: number;
 }

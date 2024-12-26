@@ -15,6 +15,8 @@ import com.uneb.labweb.dto.request.AppointmentDTO;
 import com.uneb.labweb.dto.response.AppointmentResponseDTO;
 import com.uneb.labweb.dto.response.AppointmentsByDateDTO;
 import com.uneb.labweb.dto.response.DoctorResponseDTO;
+import com.uneb.labweb.dto.response.MonthlyAppointmentStatsDTO;
+import com.uneb.labweb.dto.response.YearsWithAppointmentsDTO;
 import com.uneb.labweb.enums.AppointmentStatus;
 import com.uneb.labweb.exception.AppointmentCancelException;
 import com.uneb.labweb.exception.RecordNotFoundException;
@@ -115,6 +117,52 @@ public class AppointmentService {
         return AppointmentsByDateDTOList;
     }
 
+    public List<YearsWithAppointmentsDTO> getYearsWithAppointments() {
+        List<YearsWithAppointmentsDTO> yearsWithAppointmentsDTOList = new ArrayList<>();
+        List<Integer> years = appointmentRepository.findDistinctYears();
+
+        for (Integer year : years) {
+            List<MonthlyAppointmentStatsDTO> monthlyStats = new ArrayList<>();
+
+            List<Object[]> attendedResults = appointmentRepository.countAppointmentsByStatusAndMonth(year, "attended");
+            List<Object[]> missedResults = appointmentRepository.countAppointmentsByStatusAndMonth(year, "missed");
+            List<Object[]> cancelledResults = appointmentRepository.countCancelledAppointmentsByMonth(year);
+
+            for (int month = 1; month <= 12; month++) {
+                int attendedCount = 0; 
+                int missedCount = 0; 
+                int cancelledCount = 0;
+
+                for (Object[] result : attendedResults) {
+                    if ((Integer) result[0] == month) {
+                        attendedCount = (Integer) result[1];
+                        break;
+                    }
+                }
+
+                for (Object[] result : missedResults) {
+                    if ((Integer) result[0] == month) {
+                        missedCount = (Integer) result[1];
+                        break;
+                    }
+                }
+
+                for (Object[] result : cancelledResults) {
+                    if ((Integer) result[0] == month) {
+                        cancelledCount = (Integer) result[1];
+                        break;
+                    }
+                }
+
+                monthlyStats.add(new MonthlyAppointmentStatsDTO(month, attendedCount, missedCount, cancelledCount));
+            }
+
+            yearsWithAppointmentsDTOList.add(new YearsWithAppointmentsDTO(year, monthlyStats));
+        }
+
+        return yearsWithAppointmentsDTOList;
+    }
+
     public List<AppointmentResponseDTO> findAppointmentsByUser(@NotNull @Positive Long userId) {
         return userRepository.findById(userId)
                 .map(recordFound -> {
@@ -170,6 +218,7 @@ public class AppointmentService {
                     if (recordFound.getAppointmentStatus() == AppointmentStatus.SCHEDULED) {
                         recordFound.setUser(null);
                         recordFound.setAppointmentStatus(AppointmentStatus.PENDING);
+                        recordFound.setCancellationCount(recordFound.getCancellationCount() + 1);
                     } else {
                         throw new AppointmentCancelException("Não é possível desmarcar uma consulta com o estado: " + recordFound.getAppointmentStatus());
                     }

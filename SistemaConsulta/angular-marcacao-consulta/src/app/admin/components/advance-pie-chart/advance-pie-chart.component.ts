@@ -21,12 +21,11 @@ import { Month } from '../../../shared/enum/month-enum';
 })
 export class AdvancePieChartComponent {
   @Input() data: any[] = data;
-  @Input() months: number[] = Array.from({ length: 12 }, (_, i) => i + 1);
   @Input() title: string = 'Consultas por mês';
+  @Input() months: number[] = Array.from({ length: 12 }, (_, i) => i + 1);
+  @Input() selectedMonth: number = 12;
   @Output() monthChange = new EventEmitter<number>();
   view: [number, number] = [600, 250];
-
-  selectedMonth: number = 12;
 
   onMonthChange(month: number): void {
     this.monthChange.emit(month);

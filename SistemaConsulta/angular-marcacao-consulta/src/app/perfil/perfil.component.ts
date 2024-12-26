@@ -53,19 +53,21 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      throw new Error("Usuário não encontrado no localStorage.");
-    }
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        throw new Error("Usuário não encontrado no localStorage.");
+      }
 
-    this.userService.get(userId).subscribe((user) => {
-      this.user = user;
-      this.formulario.patchValue({
-        name: user.name,
-        email: user.email,
-        phone: user.phone
+      this.userService.get(userId).subscribe((user) => {
+        this.user = user;
+        this.formulario.patchValue({
+          name: user.name,
+          email: user.email,
+          phone: user.phone
+        });
       });
-    });
+    }
   }
 
   onProfileClick() {

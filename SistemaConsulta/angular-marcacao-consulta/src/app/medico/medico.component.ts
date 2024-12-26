@@ -37,7 +37,9 @@ export class MedicoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.avatarUrl = localStorage.getItem("userAvatarUrl");
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      this.avatarUrl = localStorage.getItem("userAvatarUrl");
+    }
 
     const doctorId = this.route.snapshot.paramMap.get('id');
     console.log('ID do médico:', doctorId);

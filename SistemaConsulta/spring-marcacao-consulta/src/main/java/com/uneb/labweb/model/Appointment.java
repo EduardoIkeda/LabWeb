@@ -68,6 +68,10 @@ public class Appointment {
     private User user;
     
     @NotNull
+    @Column(nullable = false)
+    private int cancellationCount = 0;
+
+    @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)
     private Status status = Status.ACTIVE;

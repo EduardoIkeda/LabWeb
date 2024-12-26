@@ -17,11 +17,13 @@ export class UsersService {
   login(record: Partial<User>) {
     return this.httpClient.post<AuthResponse>(`${this.API}/login`, record, { headers: this.noAuthHeader }).pipe(
       tap((value) => {
-        localStorage.setItem("userId", value.id)
-        localStorage.setItem("userName", value.name)
-        localStorage.setItem("userAvatarUrl", value.avatarUrl)
-        localStorage.setItem("userRole", value.role)
-        localStorage.setItem("authToken", value.token)
+        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+          localStorage.setItem("userId", value.id)
+          localStorage.setItem("userName", value.name)
+          localStorage.setItem("userAvatarUrl", value.avatarUrl)
+          localStorage.setItem("userRole", value.role)
+          localStorage.setItem("authToken", value.token)
+        }
       })
     )
   }
@@ -29,11 +31,13 @@ export class UsersService {
   signup(record: Partial<User>) {
     return this.httpClient.post<AuthResponse>(`${this.API}/register`, record, { headers: this.noAuthHeader }).pipe(
       tap((value) => {
-        localStorage.setItem("userId", record.id!)
-        localStorage.setItem("userName", value.name)
-        localStorage.setItem("userAvatarUrl", value.avatarUrl)
-        localStorage.setItem("userRole", value.role)
-        localStorage.setItem("authToken", value.token)
+        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+          localStorage.setItem("userId", record.id!)
+          localStorage.setItem("userName", value.name)
+          localStorage.setItem("userAvatarUrl", value.avatarUrl)
+          localStorage.setItem("userRole", value.role)
+          localStorage.setItem("authToken", value.token)
+        }
       })
     )
   }

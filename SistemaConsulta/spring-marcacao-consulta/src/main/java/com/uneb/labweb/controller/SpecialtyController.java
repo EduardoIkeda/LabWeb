@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uneb.labweb.dto.request.SpecialtyDTO;
+import com.uneb.labweb.dto.response.SpecialtyCountDTO;
 import com.uneb.labweb.service.SpecialtyService;
 
 import jakarta.validation.Valid;
@@ -40,6 +41,11 @@ public class SpecialtyController {
     @GetMapping("/{id}")
     public SpecialtyDTO findSpecialtyById(@PathVariable @NotNull @Positive Long id) {
         return specialtyService.findSpecialtyById(id); 
+    }
+
+    @GetMapping("/count/{year}")
+    public List<SpecialtyCountDTO> getSpecialtyAppointmentsCountByYear(@PathVariable @NotNull @Positive Long year) {
+        return specialtyService.getSpecialtyAppointmentsCountByYear(year); 
     }
 
     @PostMapping
