@@ -5,13 +5,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { firstValueFrom, Observable, of } from 'rxjs';
 
 import { AdvancePieChartComponent } from '../../components/advance-pie-chart/advance-pie-chart.component';
 import { LineChartComponent } from '../../components/line-chart/line-chart.component';
 import { RankingChartComponent } from '../../components/ranking-chart/ranking-chart.component';
-import { AnosComConsultas, EspecialidadeReport } from '../../model/consultas-report';
+import { AnosComConsultas, ConsultasReport, EspecialidadeReport, Report } from '../../model/consultas-report';
 import { ConsultasReportService } from '../../service/consultas-report.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,13 +32,14 @@ import { Observable } from 'rxjs';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  selectedYear: number = 2025;
-  selectedMonth: number = 2;
-  months: number[] = [];
   years: number[] = [];
+  months: number[] = [];
+  selectedYear: number = 2024;
+  selectedMonth: number = 12;
+
   anosComConsultas: AnosComConsultas[] = [];
 
-  lineChartTitle = 'Consultas canceladas por mês';
+  lineChartTitle = 'Consultas marcadas e canceladas por mês';
   lineChartxAxisLabel = 'Mês';
   lineChartyAxisLabel = 'Número de consultas';
   lineChartData$: Observable<any[]> = new Observable<any[]>();
@@ -54,24 +55,75 @@ export class DashboardComponent implements OnInit {
     private readonly consultasService: ConsultasReportService
   ) { }
 
-  ngOnInit(): void {
-    this.consultasService.getAnosComConsultas().subscribe((data) => {
-      this.anosComConsultas = data;
-    });
+  async ngOnInit(): Promise<void> {
+    this.anosComConsultas = await firstValueFrom(this.consultasService.getAnosComConsultas());
 
     this.years = this.getYears();
-    this.selectedYear = this.getLastStoredYear();
-    this.selectedMonth = this.getLastStoredMonth(this.selectedYear);
+    //this.selectedYear = this.getLastStoredYear();
+    //this.selectedMonth = this.getLastStoredMonth(this.selectedYear);
 
     this.loadConsultasData();
   }
 
   loadConsultasData(): void {
-    this.pieChartData$ = this.consultasService.getConsultasMarcadasPorMes(this.selectedYear, this.selectedMonth);
-    this.lineChartData$ = this.consultasService.getConsultasCanceladasNoAno(this.selectedYear);
+    this.pieChartData$ = this.transformDataForPieChart();
+    this.lineChartData$ = this.transformDataForLineChart();
     this.rankingData$ = this.consultasService.getEspecialidadesMaisConsultadas(this.selectedYear);
 
     this.months = this.getAvailableMonths(this.selectedYear);
+  }
+
+  transformDataForPieChart(): Observable<Report[]> {
+    const yearData = this.anosComConsultas.find((entry) => entry.year === this.selectedYear);
+    if (!yearData) {
+      console.error(`Ano ${this.selectedYear} não encontrado.`);
+      return of([]);
+    }
+
+    const monthData = yearData.monthlyStats.find((month) => month.month === this.selectedMonth);
+    if (!monthData) {
+      console.error(`Mês ${this.selectedMonth} não encontrado para o ano ${this.selectedYear}.`);
+      return of([]);
+    }
+
+    const transformedData: Report[] = [
+      { name: "Comparecido", value: monthData.attendedCount },
+      { name: "Não comparecido", value: monthData.missedCount },
+      { name: "Cancelado", value: monthData.cancelledCount }
+    ];
+
+    return of(transformedData);
+  }
+
+  transformDataForLineChart(): Observable<ConsultasReport[]> {
+    const yearData = this.anosComConsultas.find((entry) => entry.year === this.selectedYear);
+    if (!yearData) {
+      console.error(`Ano ${this.selectedYear} não encontrado.`);
+      return of([]);
+    }
+
+    const consultasMarcadas = yearData.monthlyStats.map((month) => ({
+      name: month.month.toString(),
+      value: month.scheduledCount
+    }));
+
+    const consultasCanceladas = yearData.monthlyStats.map((month) => ({
+      name: month.month.toString(),
+      value: month.cancelledCount
+    }));
+
+    const transformedData = [
+      {
+        name: "Consultas marcadas",
+        series: consultasMarcadas
+      },
+      {
+        name: "Consultas canceladas",
+        series: consultasCanceladas
+      }
+    ];
+
+    return of(transformedData);
   }
 
   onYearChange(year: number): void {

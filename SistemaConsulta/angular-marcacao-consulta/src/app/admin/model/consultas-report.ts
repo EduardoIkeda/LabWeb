@@ -5,6 +5,7 @@ export interface AnosComConsultas {
 
 export interface MonthlyAppointmentStats {
   month: number;
+  scheduledCount: number;
   attendedCount: number;
   missedCount: number;
   cancelledCount: number;

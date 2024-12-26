@@ -18,6 +18,7 @@ export class ConsultasReportService {
 
   constructor(private readonly http: HttpClient) {}
 
+  // Não está sendo usado
   getConsultasCanceladasNoAno(ano: number): Observable<ConsultasReport[]> {
     return this.http.get<any>(this.API).pipe(
       map((data) => {
@@ -35,7 +36,8 @@ export class ConsultasReportService {
     );
   }
 
-  getConsultasMarcadasPorMes(year: number, month: number): Observable<Report[]> {
+  // Não está sendo usado
+  getConsultasMarcadasPorMes(): Observable<Report[]> {
     return this.http
       .get<any>(this.API)
       .pipe(map((data) => data['ConsultasMarcadasPorMes']));
@@ -51,6 +53,7 @@ export class ConsultasReportService {
     return this.http.get<EspecialidadeReport[]>(`/api/specialties/count/${year}`);
   }
 
+  // Não está sendo usado
   getEspecialidadesMaisConsultadasPorPosto(): Observable<
     EspecialidadeReport[]
   > {
