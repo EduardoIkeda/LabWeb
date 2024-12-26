@@ -23,9 +23,8 @@ public record RegisterDTO(
         @Length(min = 11, max = 11) 
         String cpf,
 
-        @Pattern(regexp = "^(55)?\\d{10,11}$") // Ex: 5571982345678, 557136485678, 71982345678, 7136485678
+        @Pattern(regexp = "^\\d{10,12}$") // Ex: 71982345678, 7136485678
         @NotBlank 
-        @Length(min = 10, max = 13) 
         String phone,
 
         @Email 

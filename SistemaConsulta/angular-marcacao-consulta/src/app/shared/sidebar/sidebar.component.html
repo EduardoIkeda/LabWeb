@@ -15,6 +15,14 @@
       <mat-icon>calendar_today</mat-icon> Marcar consulta
     </button>
 
+    <!-- Botões personalizados para doctor -->
+    <button mat-button class="sidebar-button" *ngIf="isDoctor" (click)="goToPage('/medico/perfil')">
+      <mat-icon>perm_identity</mat-icon> Minhas especialidades
+    </button>
+    <button mat-button class="sidebar-button" *ngIf="isDoctor" (click)="goToPage('/medico/consultas')">
+      <mat-icon>healing</mat-icon> Consultas
+    </button>
+
     <!-- Botões personalizados para admin -->
     <button mat-button class="sidebar-button" *ngIf="isAdmin" (click)="goToPage('/admin/dashboard')">
       <mat-icon>dashboard</mat-icon> Dashboard Admin

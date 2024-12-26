@@ -47,7 +47,13 @@ public class UserService {
                 .map(user -> {
                     if (passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
                         String token = this.tokenService.generateToken(user);
-                        return new AuthResponseDTO(user.getId(), user.getName(), user.getAvatarUrl(), user.getRole().getValue(), token);
+                        return new AuthResponseDTO(
+                            user.getId(), 
+                            user.getName(), 
+                            user.getAvatarUrl(), 
+                            user.getRole().getValue(), 
+                            token
+                        );
                     }
 
                     throw new WrongPasswordException();
@@ -68,10 +74,16 @@ public class UserService {
             newUser.setPassword(passwordEncoder.encode(registerDTO.password()));
             newUser.setAvatarUrl("https://i.imgur.com/7WymxTr.png");
             newUser.setRole(Role.CITIZEN);
-            userRepository.save(newUser);
+            User registeredUser = userRepository.save(newUser);
 
             String token = this.tokenService.generateToken(newUser);
-            return new AuthResponseDTO(newUser.getId(), newUser.getName(), newUser.getAvatarUrl(), newUser.getRole().getValue(), token);
+            return new AuthResponseDTO(
+                registeredUser.getId(), 
+                registeredUser.getName(), 
+                registeredUser.getAvatarUrl(), 
+                registeredUser.getRole().getValue(), 
+                token
+            );
         }
 
         throw new RecordAlreadyExistsException(user.get().getId());

@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, Location } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,37 +8,38 @@ import { Observable } from 'rxjs';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    private readonly router: Router,
+    private readonly location: Location,
+    @Inject(PLATFORM_ID) private readonly platformId: Object
+  ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (isPlatformBrowser(this.platformId)) {
-      // console.log("Execução no navegador")
       const authToken = localStorage.getItem('authToken');
 
       if (authToken) {
-        // console.log("Passou pelo authToken")
-        const expectedRole = route.data['role'] as string;
+        console.log("Passou pelo authToken")
+        const expectedRoles = route.data['roles'] as string[];
 
-        if (expectedRole) {
-          // console.log("Passou pelo expectedRole")
+        if (expectedRoles && expectedRoles.length > 0) {
           const userRole = localStorage.getItem('userRole');
 
-          if (userRole) {
-            // console.log("Passou pelo userRole")
-
-            if (userRole === expectedRole) {
-              // console.log("Passou pela comparação")
-              return true;
-            }
+          if (userRole && expectedRoles.includes(userRole)) {
+            console.log("Permissão total")
+            return true;
           }
+
+          this.router.navigate(['/consultas']);
           return false;
         }
+
         return true;
       }
-      this.router.navigate(['/login']);
+
+      this.router.navigate(['auth/login']);
       return false;
     }
-    // console.log("Execução no servidor")
     return false;
   }
 }
