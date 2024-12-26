@@ -27,7 +27,7 @@ export class DoctorService {
       first(),
       map(doctors => doctors.map(doctor => ({
       ...doctor,
-      name: doctor.name || 'placeholder'
+      name: doctor.doctorName || 'placeholder'
       })))
     );
   }
@@ -46,6 +46,7 @@ export class DoctorService {
       })
     );
   }
+
   getSpecialties(): Observable<Especialidade[]> {
     return this.httpClient.get<Especialidade[]>(this.specialtiesApi).pipe(first());
   }

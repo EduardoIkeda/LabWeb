@@ -6,7 +6,7 @@
           <div
           mat-card-avatar
           class="custom-avatar"
-          [ngStyle]="{ 'background-image': 'url(' + avatarUrl + ')' }"
+          [ngStyle]="{ 'background-image': 'url(' + user.avatarUrl + ')' }"
         ></div>          <mat-card-title>{{ user.name }}</mat-card-title>
           <mat-card-subtitle *ngIf="!isEditing">{{ user.email }}</mat-card-subtitle>
         </mat-card-header>
@@ -39,7 +39,7 @@
                 <mat-error *ngIf="formulario.get('phone')?.invalid && formulario.get('phone')?.touched">
                   <span *ngIf="formulario.get('phone')?.hasError('required')">Numero de telefone é obrigatorio</span>
                   <span *ngIf="formulario.get('phone')?.hasError('pattern')">Telefone deve ser numerico</span>
-                  <span *ngIf="formulario.get('phone')?.hasError('minlength')">PTelefone muito curto</span>
+                  <span *ngIf="formulario.get('phone')?.hasError('minlength')">Telefone muito curto</span>
                 </mat-error>
               </mat-form-field>
               <p class="cardtext"><strong>Status:</strong> {{ user.status }}</p>
@@ -52,6 +52,9 @@
         <mat-card-actions>
           <button class="cardbtn" mat-raised-button color="primary" (click)="toggleEditMode()">
             {{ isEditing ? 'Salvar' : 'Editar Perfil' }}
+          </button>
+          <button class="cardbtn" mat-raised-button color="primary" (click)="onBack()">
+            Voltar
           </button>
         </mat-card-actions>
       </mat-card>

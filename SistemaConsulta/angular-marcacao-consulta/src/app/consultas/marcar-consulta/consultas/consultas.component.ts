@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule } from '@angular/material/core'; // Para suporte nativo de datas
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -36,7 +36,7 @@ export class ConsultasComponent implements OnInit {
   displayedListaPorData: ConsultaPorData[] = [];
   @Output() selectConsulta = new EventEmitter<Consulta>();
   @Input() speciality!: Especialidade | null;
-  @Input() posto!: HealthCenter | null;
+  @Input() healthCenter!: HealthCenter | null;
   selectedDate: Date | null = null;
 
   constructor(private readonly consultasService: ConsultasService) { }
@@ -47,10 +47,10 @@ export class ConsultasComponent implements OnInit {
 
   loadConsultas() {
     const specialityId = this.speciality?.id ?? '';
-    const postoId = this.posto?.id ?? '';
+    const healthCenterId = this.healthCenter?.id ?? '';
 
-    if (this.speciality && this.posto) {
-      this.consultasService.listGroup(specialityId, postoId).subscribe({
+    if (this.speciality && this.healthCenter) {
+      this.consultasService.listGroup(specialityId, healthCenterId).subscribe({
         next: (data) => {
           this.listaPorData = data;
           this.displayedListaPorData = this.listaPorData;

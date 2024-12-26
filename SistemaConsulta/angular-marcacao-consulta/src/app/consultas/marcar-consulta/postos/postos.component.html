@@ -6,12 +6,12 @@
     <input matInput (input)="onChange($event)">
   </mat-form-field>
 
-  <p *ngIf="displayedPostos.length == 0">Nenhum posto correspondente</p>
+  <p *ngIf="displayedHealthCenters.length == 0">Nenhum posto correspondente</p>
 
-  <div *ngFor="let posto of displayedPostos">
+  <div *ngFor="let healthCenter of displayedHealthCenters">
     <app-posto-item
-      [posto]="posto"
-      (select)="onSelectPosto(posto)"
+      [healthCenter]="healthCenter"
+      (select)="onSelectHealthCenter(healthCenter)"
     ></app-posto-item>
   </div>
 </div>

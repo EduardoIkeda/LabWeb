@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uneb.labweb.dto.request.LoginDTO;
 import com.uneb.labweb.dto.request.RegisterDTO;
-import com.uneb.labweb.dto.request.TesteDTO;
 import com.uneb.labweb.dto.request.UserDTO;
 import com.uneb.labweb.dto.request.UserPartialDTO;
 import com.uneb.labweb.dto.response.AuthResponseDTO;
@@ -38,12 +37,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/teste")
-    public TesteDTO teste(){
-        return new TesteDTO("Usuário autenticado!");
-    }
-
-    
     @PostMapping("/login")
     public AuthResponseDTO login(@RequestBody @Valid @NotNull LoginDTO loginDTO) {
         return userService.login(loginDTO);

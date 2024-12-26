@@ -2,19 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
-import {
-  MatCalendarCellClassFunction,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
-
-import { ConsultaItemComponent } from '../../components/consulta-item/consulta-item.component';
-import { Consulta } from '../../../shared/model/consulta';
-import { ConsultasService } from './../../service/consultas.service';
-import { firstValueFrom } from 'rxjs';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
 import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
+import { Consulta } from '../../../shared/model/consulta';
+import { ConsultaItemComponent } from '../../components/consulta-item/consulta-item.component';
+import { ConsultasService } from './../../service/consultas.service';
 
 @Component({
   selector: 'app-consultas',
@@ -61,8 +57,7 @@ export class ConsultasComponent {
               consulta.healthCenterName,
               consulta.healthCenterAddress,
               consulta.isTomorrow,
-              consulta.isFinalized,
-              consulta.postoId
+              consulta.isFinalized
             )
         );
         this.dateList = this.getDateList();

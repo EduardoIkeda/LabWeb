@@ -1,10 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Especialidade } from '../../../shared/model/especialidade';
-import { MatInputModule } from '@angular/material/input';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { EspecialidadeItemComponent } from "./especialidade-item/especialidade-item.component";
+import { MatInputModule } from '@angular/material/input';
+
+import { Especialidade } from '../../../shared/model/especialidade';
+import { EspecialidadeItemComponent } from './especialidade-item/especialidade-item.component';
 import { EspecialidadesService } from './services/especialidades.service';
 
 @Component({

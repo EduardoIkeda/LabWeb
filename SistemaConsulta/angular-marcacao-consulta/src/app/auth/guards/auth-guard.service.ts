@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (isPlatformBrowser(this.platformId)) {
       // console.log("Execução no navegador")
-      const authToken = localStorage.getItem('auth-token');
+      const authToken = localStorage.getItem('authToken');
 
       if (authToken) {
         // console.log("Passou pelo authToken")
@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
 
         if (expectedRole) {
           // console.log("Passou pelo expectedRole")
-          const userRole = localStorage.getItem('role');
+          const userRole = localStorage.getItem('userRole');
 
           if (userRole) {
             // console.log("Passou pelo userRole")

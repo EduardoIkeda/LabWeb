@@ -21,7 +21,17 @@ public class UserMapper {
             return null;
         }
 
-        return new UserDTO(user.getId(), user.getSusCardNumber(), user.getName(), user.getCpf(), user.getPhone(), user.getEmail(), user.getPassword(), user.getRole().getValue());
+        return new UserDTO(
+            user.getId(), 
+            user.getSusCardNumber(), 
+            user.getName(), 
+            user.getCpf(), 
+            user.getPhone(), 
+            user.getEmail(), 
+            user.getPassword(),
+            user.getAvatarUrl(),
+            user.getUserStatus().getValue(),
+            user.getRole().getValue());
     }
 
     public User toEntity(UserDTO userDTO) {
@@ -40,6 +50,7 @@ public class UserMapper {
         user.setPhone(userDTO.phone());
         user.setEmail(userDTO.email());
         user.setPassword(passwordEncoder.encode(userDTO.password()));
+        user.setAvatarUrl(userDTO.avatarUrl());
         user.setRole(convertRoleValue(userDTO.role()));        
         
         return user;

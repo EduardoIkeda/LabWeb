@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { HealthCenter } from '../../../shared/model/health-center';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+
+import { HealthCenter } from '../../../shared/model/health-center';
 
 @Component({
   selector: 'app-health-center-list',

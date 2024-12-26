@@ -2,7 +2,7 @@
   {
     "id": "1",
     "patientId": "1",
-    "doctor": "Dr. Carlos",
+    "doctorName": "Dr. Carlos",
     "appointmentDateTime": "2021-12-25T10:30:00",
     "specialtyName": "Cardiologia",
     "isTomorrow": false,

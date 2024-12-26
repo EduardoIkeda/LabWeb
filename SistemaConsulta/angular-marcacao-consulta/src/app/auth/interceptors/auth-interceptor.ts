@@ -15,15 +15,15 @@ export function AuthInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Obs
 
   if (isPlatformBrowser(inject(PLATFORM_ID))) {
     // console.log("Execução no navegador")
-    const authToken = localStorage.getItem('auth-token');
+    const authToken = localStorage.getItem('authToken');
 
     if (authToken) {
       const clonedRequest = req.clone({ setHeaders: { Authorization: `Bearer ${authToken}` } });
       return next(clonedRequest);
     }
   } else {
-    // console.log("Execução no servidor")
-    return throwError(() => new Error('Execução no servidor. Acesso ao localStorage não é permitido.'));
+    console.log("Execução no servidor. Acesso ao localStorage não é permitido.");
+    return next(req);
   }
 
   setTimeout(() => router.navigate(['/login']), 0);

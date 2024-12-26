@@ -1,12 +1,13 @@
-import { HealthCenterService } from '../../../shared/service/health-center.service';
-import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { Component } from '@angular/core';
-import { HealthCenter } from '../../../shared/model/health-center';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { PageEvent } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { HealthCenter } from '../../../shared/model/health-center';
+import { HealthCenterService } from '../../../shared/service/health-center.service';
 import { HealthCenterListComponent } from '../../components/health-center-list/health-center-list.component';
 
 @Component({

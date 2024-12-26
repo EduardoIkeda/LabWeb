@@ -1,14 +1,15 @@
 <div class="container">
   <div class="content">
     <div class="userProfile">
+
       <mat-card class="profile-card custom-card" *ngIf="!isLoading && doctor">
         <mat-card-header>
           <div
           mat-card-avatar
           class="custom-avatar"
-          [ngStyle]="{ 'background-image': 'url(' + avatarUrl + ')' }"
+          [ngStyle]="{ 'background-image': 'url(' + this.avatarUrl + ')' }"
         ></div>
-          <mat-card-title>{{ doctor.name }}</mat-card-title>
+          <mat-card-title>{{ doctor.doctorName }}</mat-card-title>
           <mat-card-subtitle>CRM: {{ doctor.crm }}</mat-card-subtitle>
         </mat-card-header>
 
@@ -16,7 +17,7 @@
           <div>
             <mat-card-title>Especialidades</mat-card-title>
             <ul>
-              <li *ngFor="let especialidade of doctor.especialidade">
+              <li *ngFor="let especialidade of doctor.specialties">
                 {{ especialidade.name }}
               </li>
             </ul>
@@ -27,6 +28,7 @@
       <div *ngIf="isLoading" class="loading">
         <p>Carregando dados do médico...</p>
       </div>
+
       <div *ngIf="errorMessage && !isLoading" class="error">
         <p>{{ errorMessage }}</p>
       </div>

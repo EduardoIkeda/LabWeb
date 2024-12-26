@@ -96,6 +96,7 @@ public class SpringMarcacaoConsultaApplication {
             user1.setPhone("5571982345678");
             user1.setEmail("email1@gmail.com");
             user1.setPassword(this.passwordEncoder.encode(this.password));
+            user1.setAvatarUrl("https://i.imgur.com/m9rfeek.png");
             user1.setRole(Role.ADMIN);
             this.userRepository.save(user1);
 
@@ -106,6 +107,7 @@ public class SpringMarcacaoConsultaApplication {
             user2.setPhone("5571982345679");
             user2.setEmail("email2@gmail.com");
             user2.setPassword(this.passwordEncoder.encode(this.password));
+            user2.setAvatarUrl("https://i.imgur.com/GWD83vj.png");
             user2.setRole(Role.ADMIN);
             this.userRepository.save(user2);
 
@@ -116,6 +118,7 @@ public class SpringMarcacaoConsultaApplication {
             user3.setPhone("5571982345670");
             user3.setEmail("email3@gmail.com");
             user3.setPassword(this.passwordEncoder.encode(this.password));
+            user3.setAvatarUrl("https://i.imgur.com/PRNTYxH.png");
             user3.setRole(Role.ADMIN);
             this.userRepository.save(user3);
 
@@ -126,6 +129,7 @@ public class SpringMarcacaoConsultaApplication {
             user4.setPhone("5571982345671");
             user4.setEmail("email4@gmail.com");
             user4.setPassword(this.passwordEncoder.encode(this.password));
+            user4.setAvatarUrl("https://i.imgur.com/OdjyMRI.jpeg");
             user4.setRole(Role.ADMIN);
             this.userRepository.save(user4);
 
@@ -136,6 +140,7 @@ public class SpringMarcacaoConsultaApplication {
             user5.setPhone("5571982345672");
             user5.setEmail("email5@gmail.com");
             user5.setPassword(this.passwordEncoder.encode(this.password));
+            user5.setAvatarUrl("https://i.imgur.com/deNyPdX.png");
             user5.setRole(Role.DOCTOR);
             this.userRepository.save(user5);
 
@@ -146,6 +151,7 @@ public class SpringMarcacaoConsultaApplication {
             user6.setPhone("5571982345673");
             user6.setEmail("email6@gmail.com");
             user6.setPassword(this.passwordEncoder.encode(this.password));
+            user6.setAvatarUrl("https://i.imgur.com/LooAP9k.png");
             user6.setRole(Role.DOCTOR);
             this.userRepository.save(user6);
 
@@ -156,6 +162,7 @@ public class SpringMarcacaoConsultaApplication {
             user7.setPhone("5571982345674");
             user7.setEmail("email7@gmail.com");
             user7.setPassword(this.passwordEncoder.encode(this.password));
+            user7.setAvatarUrl("https://i.imgur.com/JIKT5Wq.png");
             user7.setRole(Role.DOCTOR);
             this.userRepository.save(user7);
 

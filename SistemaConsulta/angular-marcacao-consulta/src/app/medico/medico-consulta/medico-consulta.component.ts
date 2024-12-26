@@ -1,20 +1,18 @@
-import { PostoService } from './../../shared/service/posto.service';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
-import {
-  MatCalendarCellClassFunction,
-  MatDatepickerModule,
-} from '@angular/material/datepicker';
-import { ActivatedRoute } from '@angular/router';
-import { ConsultaItemComponent } from '../../consultas/components/consulta-item/consulta-item.component';
-import { Consulta } from '../../shared/model/consulta';
-import { ConsultasService } from '../../consultas/service/consultas.service';
-import { Posto } from '../../shared/model/posto';
+import { MatCalendarCellClassFunction, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
-import { UserService } from '../../shared/service/user.service';
+import { ActivatedRoute } from '@angular/router';
+
+import { ConsultaItemComponent } from '../../consultas/components/consulta-item/consulta-item.component';
+import { ConsultasService } from '../../consultas/service/consultas.service';
+import { Consulta } from '../../shared/model/consulta';
+import { HealthCenter } from '../../shared/model/health-center';
 import { DoctorService } from '../../shared/service/doctor.service';
+import { HealthCenterService } from '../../shared/service/health-center.service';
+import { UserService } from '../../shared/service/user.service';
 
 @Component({
   selector: 'app-medico-consulta',
@@ -35,7 +33,7 @@ export class MedicoConsultaComponent implements OnInit {
   month: number = new Date().getMonth();
   dateList: Date[] = [];
   consultas: Consulta[] = [];
-  postos: Posto[] = [];
+  healthCenters: HealthCenter[] = [];
   doctorName: string = '';
   userNames: { [key: string]: string } = {};
   @Input() consulta!: Consulta;
@@ -57,7 +55,7 @@ export class MedicoConsultaComponent implements OnInit {
 
   constructor(
     private readonly consultasService: ConsultasService,
-    private readonly postoService: PostoService,
+    private readonly healthCenterService: HealthCenterService,
     private readonly userService: UserService,
     private readonly doctorService: DoctorService,
     private readonly route: ActivatedRoute
@@ -66,7 +64,7 @@ export class MedicoConsultaComponent implements OnInit {
   ngOnInit(): void {
     const doctorId = this.route.snapshot.paramMap.get('id');
     if (doctorId) {
-      this.loadPostos();
+      this.loadHealthCenters();
       this.loadDoctorName(doctorId);
     } else {
       console.error('ID do médico não encontrado na rota.');
@@ -77,18 +75,18 @@ export class MedicoConsultaComponent implements OnInit {
     this.doctorService.getDoctorById(doctorId).subscribe({
       next: (doctor) => {
         if (doctor) {
-          this.doctorName = doctor.name;
-          this.loadConsultas(doctor.name);
+          this.doctorName = doctor.doctorName;
+          this.loadConsultas(doctor.doctorName);
         }
       },
       error: (error) => console.error('Erro ao carregar o médico:', error),
     });
   }
 
-  loadPostos(): void {
-    this.postoService.list().subscribe({
-      next: (postos) => {
-        this.postos = postos;
+  loadHealthCenters(): void {
+    this.healthCenterService.list().subscribe({
+      next: (healthCenters) => {
+        this.healthCenters = healthCenters;
       },
       error: (error) => console.error('Erro ao carregar postos:', error),
     });
@@ -122,18 +120,18 @@ export class MedicoConsultaComponent implements OnInit {
   }
 
 
-  getPostoName(postoId: string): string {
-    if (!postoId) {
+  getHealthCenterName(healthCenterId: string): string {
+    if (!healthCenterId) {
       return 'ID do posto não fornecido';
     }
 
-    const posto = this.postos.find((posto) => posto.id === postoId);
-    return posto ? posto.name : 'Posto não encontrado';
+    const healthCenter = this.healthCenters.find((healthCenter) => healthCenter.id === healthCenterId);
+    return healthCenter ? healthCenter.name : 'Posto não encontrado';
   }
 
-  getPostoAddress(postoId: string): string {
-    const posto = this.postos.find((posto) => posto.id === postoId);
-    return posto ? posto.address : 'Endereço não disponível';
+  getHealthCenterAddress(healthCenterId: string): string {
+    const healthCenter = this.healthCenters.find((healthCenter) => healthCenter.id === healthCenterId);
+    return healthCenter ? healthCenter.address : 'Endereço não disponível';
   }
 
   onYearSelected(date: Date): void {

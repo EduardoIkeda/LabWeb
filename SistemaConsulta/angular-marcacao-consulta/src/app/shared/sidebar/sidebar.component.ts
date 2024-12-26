@@ -14,14 +14,24 @@ import { Router } from '@angular/router';
 export class SidebarComponent {
   isAdmin: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
-    // this.isAdmin = localStorage.getItem('role') === 'admin';
+    // this.isAdmin = localStorage.getItem('userRole') === 'admin';
     this.isAdmin = true; // TODO Remover isso depois
   }
 
   goToPage(page: string) {
     this.router.navigate([page]);
+  }
+
+  logout() {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userAvatarUrl");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("authToken");
+
+    this.router.navigate(['/auth/login']);
   }
 }

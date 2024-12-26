@@ -1,19 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { Doctor } from '../shared/model/doctor';
-import { DoctorService } from '../shared/service/doctor.service';
 import { ActivatedRoute } from '@angular/router';
+
+import { Doctor } from '../shared/model/doctor';
 import { Especialidade } from '../shared/model/especialidade';
+import { DoctorService } from '../shared/service/doctor.service';
 
 @Component({
   selector: 'app-medico',
@@ -34,12 +29,16 @@ export class MedicoComponent implements OnInit {
   isLoading = true;
   errorMessage: string | null = null;
   specialties: Especialidade[] = [];
+  avatarUrl: string | null = '';
 
   constructor(
     private readonly doctorService: DoctorService,
     private readonly route: ActivatedRoute
-  ) {}
+  ) { }
+
   ngOnInit(): void {
+    this.avatarUrl = localStorage.getItem("userAvatarUrl");
+
     const doctorId = this.route.snapshot.paramMap.get('id');
     console.log('ID do médico:', doctorId);
 
@@ -67,21 +66,24 @@ export class MedicoComponent implements OnInit {
       },
     });
   }
+
   private loadDoctorAndSpecialties(id: string): void {
     this.isLoading = true;
+
     this.doctorService.getSpecialties().subscribe({
       next: (specialties) => {
         this.specialties = specialties;
+
         this.doctorService.getDoctorById(id).subscribe({
           next: (doctor) => {
             // Mapear IDs das especialidades para seus nomes
-            doctor.especialidade = doctor.especialidade.map((especialidade) => {
+            doctor.specialties = doctor.specialties.map((especialidade) => {
               const specialty = this.specialties.find(
                 (s) => s.id === especialidade.id
               );
               return {
                 ...especialidade,
-                name: specialty?.name || 'Desconhecida',
+                name: specialty?.name ?? 'Desconhecida'
               };
             });
             this.doctor = doctor;
@@ -93,6 +95,7 @@ export class MedicoComponent implements OnInit {
             this.isLoading = false;
           },
         });
+
       },
       error: (err) => {
         this.errorMessage = 'Erro ao carregar especialidades.';
@@ -100,11 +103,5 @@ export class MedicoComponent implements OnInit {
         this.isLoading = false;
       },
     });
-  }
-  get avatarUrl(): string {
-    return (
-      this.doctor?.avatarUrl ||
-      'https://material.angular.io/assets/img/examples/shiba1.jpg'
-    );
   }
 }

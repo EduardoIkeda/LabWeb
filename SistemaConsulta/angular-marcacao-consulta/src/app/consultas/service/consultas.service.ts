@@ -1,9 +1,9 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { map, of } from 'rxjs';
 
 import { Consulta } from '../../shared/model/consulta';
-import { isPlatformBrowser } from '@angular/common';
-import { map, throwError } from 'rxjs';
 import { ConsultaPorData } from '../model/consulta_por_data';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class ConsultasService {
 
   listByUser() {
     if (isPlatformBrowser(inject(PLATFORM_ID))) {
-      const userId = localStorage.getItem("user_id");
+      const userId = localStorage.getItem("userId");
 
       if (!userId) {
         throw new Error("Usuário não encontrado no localStorage.");
@@ -29,7 +29,8 @@ export class ConsultasService {
 
       return this.http.get<Consulta[]>(`${this.API}/by-user/${userId}`);
     } else {
-      return throwError(() => new Error('Execução no servidor. Acesso ao localStorage não é permitido.'));
+      console.log("Execução no servidor. Acesso ao localStorage não é permitido.");
+      return of([]);
     }
   }
 
@@ -39,17 +40,13 @@ export class ConsultasService {
       map((consultas) => consultas.filter((consulta) => consulta.doctorName === doctorName))
     );
   }
+
   listGroup(specialty_id: string, posto_id: string) {
     const params = new HttpParams()
       .set('healthCenterId', posto_id)
       .set('specialtyId', specialty_id);
 
     return this.http.get<ConsultaPorData[]>(`${this.API}/group`, { params });
-  }
-
-  listGroupTeste(specialty_id: string, posto_id: string) {
-    //return this.http.get<ConsultaPorData[]>(`${this.API}/group`, { params });
-    return this.http.get<ConsultaPorData[]>('assets/lista_consultas_especialidade_posto.json', { params: { specialty_id, posto_id } });
   }
 
   loadById(id: string) {

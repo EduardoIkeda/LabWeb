@@ -11,8 +11,6 @@ export class Consulta {
   healthCenterAddress: string;
   isTomorrow: boolean = false;
   isFinalized: boolean = false;
-  postoId: string;
-
 
   constructor(
     id: string,
@@ -26,9 +24,7 @@ export class Consulta {
     healthCenterName: string,
     healthCenterAddress: string,
     isTomorrow: boolean,
-    isFinalized: boolean,
-    postoId: string
-
+    isFinalized: boolean
   ) {
     this.id = id;
     this.appointmentDateTime = appointmentDateTime;
@@ -42,6 +38,5 @@ export class Consulta {
     this.healthCenterAddress = healthCenterAddress;
     this.isTomorrow = isTomorrow;
     this.isFinalized = isFinalized;
-    this.postoId = postoId;
   }
 }
