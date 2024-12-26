@@ -1,0 +1,54 @@
+<mat-card class="card-content">
+  <mat-card-header>
+    <mat-card-title class="card-title">Dashboard</mat-card-title>
+
+    <mat-form-field class="form-field">
+      <mat-label>Ano</mat-label>
+
+      <mat-select
+        [(value)]="selectedYear"
+        (selectionChange)="onYearChange(selectedYear)"
+      >
+        <mat-option *ngFor="let year of getYears()" [value]="year">
+          {{ year }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-card-header>
+
+  <mat-card-content class="card-content">
+    <div class="card-left">
+      <div class="chart">
+        <app-advance-pie-chart
+          *ngIf="pieChartData$ | async as pieChartData"
+          [data]="pieChartData"
+          [title]="pieChartTitle"
+          [months]="months"
+          [selectedMonth]="selectedMonth"
+          (monthChange)="onMonthChange($event)"
+        ></app-advance-pie-chart>
+      </div>
+
+      <div class="chart">
+        <app-line-chart
+          *ngIf="lineChartData$ | async as lineChartData"
+          [data]="lineChartData"
+          [title]="lineChartTitle"
+          [view]="lineChartView"
+          [xAxisLabel]="lineChartxAxisLabel"
+          [yAxisLabel]="lineChartyAxisLabel"
+        ></app-line-chart>
+      </div>
+    </div>
+
+    <div class="card-right">
+      <div class="chart">
+        <app-ranking-chart
+        *ngIf="rankingData$ | async as rankingData"
+        [title]="rankingTitle"
+        [rankingItems]="rankingData"
+        ></app-ranking-chart>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

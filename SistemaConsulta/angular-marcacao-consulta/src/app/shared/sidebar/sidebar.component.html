@@ -1,0 +1,33 @@
+<div class="sidebar">
+  <nav>
+    <img
+      src="prefeitura-de-salvador.jpg"
+      alt="Logo da Prefeitura de Salvador"
+      class="logo"
+    />
+    <button mat-button class="sidebar-button" (click)="goToPage('/consultas/list')">
+      <mat-icon>home</mat-icon> Início
+    </button>
+    <button mat-button class="sidebar-button" (click)="goToPage('/perfil')">
+      <mat-icon>person</mat-icon> Meu perfil
+    </button>
+    <button mat-button class="sidebar-button" (click)="goToPage('/consultas/create')">
+      <mat-icon>calendar_today</mat-icon> Marcar consulta
+    </button>
+
+    <!-- Botões personalizados para admin -->
+    <button mat-button class="sidebar-button" *ngIf="isAdmin" (click)="goToPage('/admin/dashboard')">
+      <mat-icon>dashboard</mat-icon> Dashboard Admin
+    </button>
+    <button mat-button class="sidebar-button" *ngIf="isAdmin" (click)="goToPage('/admin/posto-saude')">
+      <mat-icon> local_hospital </mat-icon> Postos de saúde
+    </button>
+
+
+    <button mat-button class="sidebar-button-logout" (click)="logout()">
+      <mat-icon>home</mat-icon> Sair
+    </button>
+
+
+  </nav>
+</div>

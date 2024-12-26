@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "patientId": "1",
+    "doctorName": "Dr. Carlos",
+    "appointmentDateTime": "2021-12-25T10:30:00",
+    "specialtyName": "Cardiologia",
+    "isTomorrow": false,
+    "isFinalized": true,
+    "postoId":"1"
+  },
+  {
+    "id": "2",
+    "patientId": "1",
+    "doctorName":"Dr. João Silva",
+    "appointmentDateTime": "2024-12-01T20:00:00",
+    "specialtyName": "Oftalmologia",
+    "isTomorrow": false,
+    "isFinalized": false,
+    "postoId":"2"
+
+  },
+  {
+    "id": "3",
+    "patientId": "1",
+    "doctorName": "Dr. Pedro",
+    "appointmentDateTime": "2024-12-26T08:00:00",
+    "specialtyName": "Pediatria",
+    "isTomorrow": false,
+    "isFinalized": false,
+    "postoId":"1"
+
+  }
+]

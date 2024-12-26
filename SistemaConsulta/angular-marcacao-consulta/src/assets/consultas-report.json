@@ -1,0 +1,107 @@
+{
+  "ConsultaCanceladaNoAno": [
+    {
+      "name": "Consultas Marcadas",
+      "series": [
+        { "name": "1", "value": 1251 },
+        { "name": "2", "value": 1341 },
+        { "name": "3", "value": 1432 },
+        { "name": "4", "value": 1523 },
+        { "name": "5", "value": 1644 },
+        { "name": "6", "value": 2762 },
+        { "name": "7", "value": 3245 },
+        { "name": "8", "value": 5123 },
+        { "name": "9", "value": 5235 },
+        { "name": "10", "value": 5554 },
+        { "name": "11", "value": 1242 },
+        { "name": "12", "value": 1242 }
+      ]
+    },
+    {
+      "name": "Consultas canceladas",
+      "series": [
+        { "name": "1", "value": 234 },
+        { "name": "2", "value": 523 },
+        { "name": "3", "value": 124 },
+        { "name": "4", "value": 123 },
+        { "name": "5", "value": 12 },
+        { "name": "6", "value": 124 },
+        { "name": "7", "value": 123 },
+        { "name": "8", "value": 452 },
+        { "name": "9", "value": 1233 },
+        { "name": "10", "value": 123 },
+        { "name": "11", "value": 15 },
+        { "name": "12", "value": 12 }
+      ]
+    }
+  ],
+
+  "ConsultasMarcadasPorMes": [
+    {
+      "name": "Comparecido",
+      "value": 40632
+    },
+    {
+      "name": "Não comparecido",
+      "value": 50000
+    },
+    {
+      "name": "Cancelado",
+      "value": 36745
+    }
+  ],
+  "AnosComConsultas": [
+    {
+      "year": 2023,
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    },
+    {
+      "year": 2024,
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    },
+    {
+      "year": 2025,
+      "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    }
+  ],
+  "NomesPostosDeSaude": [
+    "Posto de Saúde 1",
+    "Posto de Saúde 2",
+    "Posto de Saúde 3",
+    "Posto de Saúde 4"
+  ],
+  "EspecialidadesMaisConsultadasPorPosto": [
+    { "name": "Cardiologia", "value": 1234 },
+    { "name": "Dermatologia", "value": 2345 },
+    { "name": "Ginecologia", "value": 3456 },
+    { "name": "Ortopedia", "value": 4567 },
+    { "name": "Pediatria", "value": 5678 },
+    { "name": "Psiquiatria", "value": 6789 }
+  ],
+  "EspecialidadesMaisConsultadas": [
+    {
+      "name": "Cardiologia",
+      "value": 40632
+    },
+    {
+      "name": "Dermatologia",
+      "value": 50000
+    },
+    {
+      "name": "Ginecologia",
+      "value": 36745
+    },
+    {
+      "name": "Ortopedia",
+      "value": 36745
+    },
+    {
+      "name": "Pediatria",
+      "value": 36745
+    },
+    {
+      "name": "Psiquiatria",
+      "value": 36745
+    }
+  ]
+}

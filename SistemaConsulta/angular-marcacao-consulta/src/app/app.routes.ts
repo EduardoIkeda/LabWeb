@@ -1,10 +1,29 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [
-  {path: '', pathMatch: 'full', redirectTo: 'auth', },
+export const APP_ROUTES: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'admin' },
   {
     path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    loadChildren: () => import('./auth/auth.routes').then((m) => m.AUTH_ROUTES),
+  },
+  {
+    path: 'consultas',
+    loadChildren: () =>
+      import('./consultas/consultas.routes').then((m) => m.CONSULTAS_ROUTES),
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.routes').then((m) => m.ADMIN_ROUTES),
+  },
+  {
+    path: 'perfil',
+    loadChildren: () =>
+      import('./perfil/perfil.routes').then((m) => m.PERFIL_ROUTES),
+  },
+  {
+    path: 'medico',
+    loadChildren: () =>
+      import('./medico/medico.routes').then((m) => m.MEDICO_ROUTES),
   },
 ];
-

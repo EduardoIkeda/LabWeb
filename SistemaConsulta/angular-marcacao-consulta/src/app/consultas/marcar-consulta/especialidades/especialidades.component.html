@@ -1,0 +1,18 @@
+<div class="speciality-container">
+  <h1 class="title">Selecione a especialidade</h1>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label> <mat-icon class="mat-18">search</mat-icon> Digite para filtrar</mat-label>
+    <input matInput (input)="onChange($event)" placeholder="Digite para filtrar">
+  </mat-form-field>
+
+  <p *ngIf="displayedSpeciality.length == 0">Nenhuma especialidade correspondente</p>
+
+  <div *ngFor="let especialidade of displayedSpeciality">
+    <app-especialidade-item
+      [especialidade]="especialidade"
+      (select)="onSelectSpeciality(especialidade)"
+    ></app-especialidade-item>
+  </div>
+</div>
+

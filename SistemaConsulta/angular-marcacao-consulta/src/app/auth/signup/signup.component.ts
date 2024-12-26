@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -19,21 +19,14 @@ import { UsersService } from '../services/users.service';
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    CommonModule,
-  ],
+  imports: [MatFormFieldModule, MatButtonModule, MatInputModule, ReactiveFormsModule, MatSnackBarModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent implements OnInit {
   form: FormGroup;
   constructor(
-    private service: UsersService,
+    private userService: UsersService,
     private formBuilder: NonNullableFormBuilder,
     private snackBar: MatSnackBar,
     private location: Location,
@@ -41,7 +34,7 @@ export class SignupComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       id: [''],
-      sus: ['',
+      susCardNumber: ['',
         [Validators.required,
         Validators.minLength(15),
         Validators.maxLength(15),
@@ -92,10 +85,10 @@ export class SignupComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.service.save(this.form.value).subscribe(
-        result => this.onSuccess(),
-        error => this.onError()
-      );
+      this.userService.signup(this.form.value).subscribe({
+        next: () => this.onSuccess(),
+        error: () => this.onError()
+      });
     } else {
       this.formUtils.validateAllFormFields(this.form);
     }

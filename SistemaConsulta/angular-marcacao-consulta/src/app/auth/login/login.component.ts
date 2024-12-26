@@ -1,4 +1,4 @@
-import { CommonModule, Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { UsersService } from '../services/users.service';
 import { FormUtilsService } from '../../shared/form/form-utils.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,24 +17,24 @@ import { FormUtilsService } from '../../shared/form/form-utils.service';
     MatButtonModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatSnackBarModule,
-    CommonModule
-  ],
+    MatSnackBarModule
+],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
   constructor(
-    private service: UsersService,
-    private formBuilder: NonNullableFormBuilder,
-    private snackBar: MatSnackBar,
-    private location: Location,
+    private readonly userService: UsersService,
+    private readonly formBuilder: NonNullableFormBuilder,
+    private readonly snackBar: MatSnackBar,
+    private readonly location: Location,
+    private readonly router: Router,
     public formUtils: FormUtilsService
   ) {
     this.form = this.formBuilder.group({
       id: [''],
-      sus: ['',
+      susCardNumber: ['',
         [Validators.required,
         Validators.minLength(15),
         Validators.maxLength(15),
@@ -48,7 +49,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.onSuccess()
+      this.userService.login(this.form.value).subscribe({
+        next: () => this.onSuccess(),
+        error: () => this.onError()
+      });
     } else {
       this.formUtils.validateAllFormFields(this.form);
     }
@@ -61,12 +65,11 @@ export class LoginComponent implements OnInit {
   private onSuccess() {
     this.snackBar.open('Login efetuado com sucesso', '',
       { duration : 5000, });
-    //this.onCancel();
+    this.router.navigate(['/consultas']);
   }
 
   private onError() {
     this.snackBar.open('Erro ao efetuar login', '',
       { duration : 5000, });
-    //this.onCancel();
   }
 }

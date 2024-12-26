@@ -1,4 +1,21 @@
-:host{
+@import "../styles.scss";
+
+:host {
   display: block;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  height: 100vh;
+}
+
+.sidenav {
+  border-radius: 0;
+  height: 100vh;
+}
+
+.sidenav-content {
+  height: 100vh;
 }

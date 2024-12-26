@@ -1,0 +1,17 @@
+<div class="postos-container">
+  <h1 class="title">Selecione o posto de saúde</h1>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label> <mat-icon class="mat-18">search</mat-icon> Digite para filtrar</mat-label>
+    <input matInput (input)="onChange($event)">
+  </mat-form-field>
+
+  <p *ngIf="displayedHealthCenters.length == 0">Nenhum posto correspondente</p>
+
+  <div *ngFor="let healthCenter of displayedHealthCenters">
+    <app-posto-item
+      [healthCenter]="healthCenter"
+      (select)="onSelectHealthCenter(healthCenter)"
+    ></app-posto-item>
+  </div>
+</div>

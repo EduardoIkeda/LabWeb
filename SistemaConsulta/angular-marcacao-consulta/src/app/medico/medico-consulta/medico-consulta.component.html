@@ -1,0 +1,67 @@
+<mat-card class="card-content">
+  <mat-card-header>
+    <mat-card-title class="card-title">Suas Consultas</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content class="grid-container">
+    <div class="consultas-section">
+      <div *ngIf="consultas.length > 0; else noConsultas">
+        <div *ngFor="let consulta of consultas" class="consulta-card">
+          <div class="consulta-header">
+            <div>
+              <span
+                ><strong>Especialidade:</strong>
+                {{ consulta.specialtyName }}</span
+              >
+              <br />
+              <span
+                ><strong>Paciente:</strong>
+                {{ getPatientName(consulta.patientId) }}</span
+              >
+            </div>
+          </div>
+
+          <div class="consulta-details">
+            <span
+              ><strong>Posto:</strong>
+              {{ getHealthCenterName(consulta.healthCenterId) }}</span
+            >
+            <span class="centered"
+              ><strong>Data:</strong>
+              {{ consulta.appointmentDateTime | date : "dd/MM/yyyy" }}</span
+            >
+            <span class="right-aligned"
+              ><strong>Hora:</strong>
+              {{ consulta.appointmentDateTime | date : "HH:mm" }}</span
+            >
+          </div>
+
+          <div
+            class="consulta-address-and-actions"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <p>
+              <strong>Endereço:</strong> {{ getHealthCenterAddress(consulta.healthCenterId) }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noConsultas>
+        <p>Você não tem consultas agendadas.</p>
+      </ng-template>
+    </div>
+
+    <div class="calendar-section">
+      <mat-calendar
+        ngSkipHydration
+        [dateClass]="dateClass"
+        (monthSelected)="onMonthSelected($event)"
+        (yearSelected)="onYearSelected($event)"
+      ></mat-calendar>
+    </div>
+  </mat-card-content>
+</mat-card>

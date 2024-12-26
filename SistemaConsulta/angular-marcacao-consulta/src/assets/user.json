@@ -1,0 +1,12 @@
+{
+  "id": "1",
+  "susCardNumber": "333333333",
+  "name": "Eduardo Ikeda",
+  "cpf": "123.456.789-00",
+  "phone": "(11) 98765-4321",
+  "email": "johndoe@example.com",
+  "password": "password123",
+  "avatarUrl": "https://media.licdn.com/dms/image/v2/D4D03AQEfjGCRTQkhhA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1696256934872?e=1738195200&v=beta&t=GAOImfq2Nrm3lOqIdbpGf0E289L4pBxtTuwjj1i0U0s",
+  "status": "Bloqueado",
+  "role": "admin"
+}
