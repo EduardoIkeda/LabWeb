@@ -37,9 +37,6 @@ export class RankingChartComponent implements OnInit {
     // Ordenar a lista pela pontuação (maior para menor)
     this.rankingItems.sort((a, b) => b.appointmentsCount - a.appointmentsCount);
 
-    console.log('sortAndSplitRankingItems');
-    console.log(this.rankingItems);
-
     // Pegar até 10 elementos
     const topItems = this.rankingItems.slice(0, 10);
 

@@ -1,7 +1,7 @@
 {
   "ConsultaCanceladaNoAno": [
     {
-      "name": "Consultas Marcadas",
+      "name": "Consultas marcadas",
       "series": [
         { "name": "1", "value": 1251 },
         { "name": "2", "value": 1341 },
