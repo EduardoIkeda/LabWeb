@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { MedicoComponent } from './medico.component';
+
 import { MedicoConsultaComponent } from './medico-consulta/medico-consulta.component';
-import { AuthGuard } from '../auth/guards/auth-guard.service';
+import { MedicoComponent } from './medico.component';
 
 export const MEDICO_ROUTES: Routes = [
   {
@@ -11,17 +11,14 @@ export const MEDICO_ROUTES: Routes = [
   },
   {
     path: 'perfil',
-    component: MedicoComponent,
-    canActivate: [AuthGuard], data: { roles: ['doctor', 'admin'] }
+    component: MedicoComponent
   },
   {
     path: 'perfil/:id',
-    component: MedicoComponent,
-    canActivate: [AuthGuard], data: { roles: ['doctor', 'admin'] }
+    component: MedicoComponent
   },
   {
     path: 'consultas/:id',
-    component: MedicoConsultaComponent,
-    canActivate: [AuthGuard], data: { roles: ['doctor', 'admin'] }
+    component: MedicoConsultaComponent
   }
 ];

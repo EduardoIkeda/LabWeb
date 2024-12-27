@@ -1,25 +1,25 @@
 package com.uneb.labweb.dto.request;
 
-import org.hibernate.validator.constraints.Length;
-
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public record PenaltyDTO(
         Long id,
 
-        @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$") // Ex: dd/MM/yyyy
-        @NotBlank
-        @Length(min = 10, max = 10)
+        /**
+         * Data de início da penalidade. O formato esperado é "dd/MM/yyyy" (exemplo: 01/01/2024).
+         */
+        @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$")
         String penaltyStartDate,
 
-        @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$") // Ex: dd/MM/yyyy
-        @NotBlank
-        @Length(min = 10, max = 10)
-        String penaltyEndDate//,
+        /**
+         * Data de término da penalidade. O formato esperado é "dd/MM/yyyy" (exemplo: 01/01/2024).
+         */
+        @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$") 
+        String penaltyEndDate
 
         // @NotNull
         // Long userId
 ) {
 
 }
+

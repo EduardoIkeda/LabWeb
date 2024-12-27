@@ -26,6 +26,10 @@ public class PenaltyService {
         this.penaltyMapper = penaltyMapper;
     }
 
+    /**
+     * Retorna todas as penalidades cadastradas.
+     * @return Lista de DTOs de penalidades
+     */
     public List<PenaltyDTO> findAllPenalties() {
         return penaltyRepository.findAll()
                 .stream()
@@ -33,19 +37,38 @@ public class PenaltyService {
                 .toList();
     }
 
+    /**
+     * Retorna uma penalidade pelo ID.
+     * @param id ID da penalidade
+     * @return DTO da penalidade
+     * @throws RecordNotFoundException Se a penalidade não for encontrada
+     */
     public PenaltyDTO findPenaltyById(@NotNull @Positive Long id) {
         return penaltyRepository.findById(id)
                 .map(penaltyMapper::toDTO)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    /**
+     * Cria uma nova penalidade.
+     * @param penaltyDTO Dados da nova penalidade
+     * @return DTO da penalidade criada
+     */
     public PenaltyDTO createPenalty(@Valid @NotNull PenaltyDTO penaltyDTO) {
         return penaltyMapper.toDTO(penaltyRepository.save(penaltyMapper.toEntity(penaltyDTO)));
     }
 
+    /**
+     * Atualiza uma penalidade existente.
+     * @param id ID da penalidade
+     * @param penaltyDTO Dados atualizados da penalidade
+     * @return DTO da penalidade atualizada
+     * @throws RecordNotFoundException Se a penalidade não for encontrada
+     */
     public PenaltyDTO updatePenalty(@NotNull @Positive Long id, @Valid @NotNull PenaltyDTO penaltyDTO) {
         return penaltyRepository.findById(id)
                 .map(recordFound -> {
+                    // Atualiza as datas de início e fim da penalidade
                     recordFound.setPenaltyStartDate(penaltyMapper.parseDate(penaltyDTO.penaltyStartDate()));
                     recordFound.setPenaltyEndDate(penaltyMapper.parseDate(penaltyDTO.penaltyEndDate()));
 
@@ -54,6 +77,11 @@ public class PenaltyService {
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    /**
+     * Exclui uma penalidade pelo ID.
+     * @param id ID da penalidade
+     * @throws RecordNotFoundException Se a penalidade não for encontrada
+     */
     public void deletePenalty(@NotNull @Positive Long id) {
         penaltyRepository.delete(penaltyRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id)));

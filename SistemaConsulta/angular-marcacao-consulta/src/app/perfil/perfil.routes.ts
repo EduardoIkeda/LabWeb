@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
+
 import { PerfilComponent } from './perfil.component';
-import { AuthGuard } from '../auth/guards/auth-guard.service';
 
 
 export const PERFIL_ROUTES: Routes = [
@@ -11,8 +11,7 @@ export const PERFIL_ROUTES: Routes = [
   },
   {
     path: 'perfil',
-    component: PerfilComponent,
-    canActivate: [AuthGuard], data: { roles: ['citizen', 'doctor', 'admin'] }
+    component: PerfilComponent
   },
 
 ];

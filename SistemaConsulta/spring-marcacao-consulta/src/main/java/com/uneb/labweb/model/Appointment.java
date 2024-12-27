@@ -33,44 +33,51 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    //@FutureOrPresent
+    // Data e hora da consulta (não pode ser nula)
     @NotNull
     @Column(length = 25, nullable = false)
     private LocalDateTime appointmentDateTime;
 
+    // Status da consulta (não pode ser nulo)
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = AppointmentStatusConverter.class)
     private AppointmentStatus appointmentStatus;
 
+    // Relacionamento com o médico (consulta pertence a um médico)
     // @NotNull
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)//, optional = false)
     @JoinColumn(name = "doctor_id")//, nullable = false)
     private Doctor doctor;
 
+    // Relacionamento com o posto de saúde (consulta é associada a um posto de saúde)
     // @NotNull
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)//, optional = false)
     @JoinColumn(name = "health_center_id")//, nullable = false)
     private HealthCenter healthCenter;
 
+    // Relacionamento com a especialidade (consulta é associada a uma especialidade)
     // @NotNull
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)//, optional = false)
     @JoinColumn(name = "specialty_id")//, nullable = false)
     private Specialty specialty;
 
+    // Relacionamento com o usuário (consulta pertence a um usuário/cidadão)
     // @NotNull
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)//, optional = false)
     @JoinColumn(name = "user_id")//, nullable = false)
     private User user;
     
+    // Contador de cancelamentos (não pode ser nulo)
     @NotNull
     @Column(nullable = false)
     private int cancellationCount = 0;
 
+    // Status de exclusão lógica da consulta (Ativo/Inativo)
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)
