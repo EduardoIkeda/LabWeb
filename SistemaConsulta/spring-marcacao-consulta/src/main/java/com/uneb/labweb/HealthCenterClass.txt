@@ -1,0 +1,83 @@
+@startuml
+
+    class HealthCenterController {
+        - HealthCenterService healthCenterService
+        + findAllHealthCenters(): List<HealthCenterResponseDTO>
+        + findHealthCentersBySpecialty(id: Long): List<HealthCenterResponseDTO>
+        + findHealthCenterById(id: Long): HealthCenterResponseDTO
+        + createHealthCenter(healthCenterDTO: HealthCenterDTO): HealthCenterResponseDTO
+        + updateHealthCenter(id: Long, healthCenterDTO: HealthCenterDTO): HealthCenterResponseDTO
+        + addDoctors(id: Long, healthCenterDTO: HealthCenterDTO): HealthCenterResponseDTO
+        + deleteHealthCenter(id: Long): void
+    }
+
+    class HealthCenterDTO {
+        Long id
+        String name
+        String address
+        String openingHour
+        String closingHour
+        List<Long> specialtyIds
+        List<Long> doctorIds
+    }
+
+    class HealthCenterResponseDTO {
+        Long id
+        String name
+        String address
+        String openingHour
+        String closingHour
+        List<SpecialtyResponseDTO> specialties
+        long availableAppointmentsCount
+    }
+
+
+    class HealthCenter {
+        Long id
+        String name
+        String address
+        LocalTime openingHour
+        LocalTime closingHour
+        List<Appointment> appointments
+        List<Doctor> doctors
+        List<Specialty> specialties
+        Status status
+        + isOpeningBeforeClosing(): boolean
+    }
+
+
+    interface HealthCenterRepository {
+        + findBySpecialtyId(specialtyId: Long): List<HealthCenter>
+    
+}
+
+    class HealthCenterService {
+        - HealthCenterRepository healthCenterRepository
+        - HealthCenterMapper healthCenterMapper
+        - SpecialtyRepository specialtyRepository
+        - DoctorRepository doctorRepository
+        + findAllHealthCenters(): List<HealthCenterResponseDTO>
+        + findHealthCentersBySpecialty(specialtyId: Long): List<HealthCenterResponseDTO>
+        + findHealthCenterById(id: Long): HealthCenterResponseDTO
+        + createHealthCenter(healthCenterDTO: HealthCenterDTO): HealthCenterResponseDTO
+        + updateHealthCenter(id: Long, healthCenterDTO: HealthCenterDTO): HealthCenterResponseDTO
+        + addDoctors(id: Long, healthCenterDTO: HealthCenterDTO): HealthCenterResponseDTO
+        + deleteHealthCenter(id: Long): void
+    
+}
+
+HealthCenterController --> HealthCenterService
+HealthCenterService --> HealthCenterRepository
+HealthCenterService --> HealthCenterMapper
+HealthCenterService --> SpecialtyRepository
+HealthCenterService --> DoctorRepository
+HealthCenterRepository --> HealthCenter
+HealthCenter --> Appointment
+HealthCenter --> Doctor
+HealthCenter --> Specialty
+HealthCenterController --> HealthCenterDTO
+HealthCenterController --> HealthCenterResponseDTO
+HealthCenterService --> HealthCenterDTO
+HealthCenterService --> HealthCenterResponseDTO
+
+@enduml

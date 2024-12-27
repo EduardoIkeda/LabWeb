@@ -1,0 +1,72 @@
+@startuml
+
+class SpecialtyController {
+    - SpecialtyService specialtyService
+    + List<SpecialtyDTO> findAllSpecialties()
+    + SpecialtyDTO findSpecialtyById(Long id)
+    + List<SpecialtyCountDTO> getSpecialtyAppointmentsCountByYear(Long year)
+    + SpecialtyDTO createSpecialty(SpecialtyDTO specialtyDTO)
+    + SpecialtyDTO updateSpecialty(Long id, SpecialtyDTO specialtyDTO)
+    + void deleteSpecialty(Long id)
+}
+
+
+class SpecialtyDTO {
+    - Long id
+    - String name
+}
+
+
+class SpecialtyCountDTO {
+    - String specialtyName
+    - Long appointmentsCount
+}
+class SpecialtyResponseDTO {
+    - Long id
+    - String name
+}
+
+
+class Specialty {
+    - Long id
+    - String name
+    - List<Appointment> appointments
+    - List<Doctor> doctors
+    - List<HealthCenter> healthCenters
+    - Status status
+}
+
+
+interface SpecialtyRepository {
+    + List<Specialty> findByHealthCenterId(Long healthCenterId)
+    + List<SpecialtyCountDTO> findSpecialtiesWithAppointmentsCountByYear(Long year)
+}
+
+
+class SpecialtyService {
+    - SpecialtyRepository specialtyRepository
+    - SpecialtyMapper specialtyMapper
+    + List<SpecialtyDTO> findAllSpecialties()
+    + SpecialtyDTO findSpecialtyById(Long id)
+    + List<SpecialtyCountDTO> getSpecialtyAppointmentsCountByYear(Long year)
+    + SpecialtyDTO createSpecialty(SpecialtyDTO specialtyDTO)
+    + SpecialtyDTO updateSpecialty(Long id, SpecialtyDTO specialtyDTO)
+    + void deleteSpecialty(Long id)
+}
+
+SpecialtyController --> SpecialtyService
+SpecialtyService --> SpecialtyRepository
+SpecialtyService --> SpecialtyMapper
+SpecialtyRepository --> Specialty
+Specialty --> Appointment
+Specialty --> Doctor
+Specialty --> HealthCenter
+SpecialtyController --> SpecialtyDTO
+SpecialtyController --> SpecialtyCountDTO
+SpecialtyController --> SpecialtyResponseDTO
+SpecialtyService --> SpecialtyDTO
+SpecialtyService --> SpecialtyCountDTO
+SpecialtyService --> SpecialtyResponseDTO
+SpecialtyRepository --> SpecialtyCountDTO
+
+@enduml

@@ -1,0 +1,126 @@
+@startuml
+
+class AppointmentController {
+    - AppointmentService appointmentService
+
+    + List<AppointmentResponseDTO> findAllAppointments()
+    + List<AppointmentsByDateDTO> findAppointmentsGroup(Long healthCenterId, Long specialtyId)
+    + List<YearsWithAppointmentsDTO> getYearsWithAppointments()
+    + List<AppointmentResponseDTO> findAppointmentsByUser(Long id)
+    + AppointmentResponseDTO findAppointmentById(Long id)
+    + AppointmentResponseDTO createAppointment(AppointmentDTO appointmentDTO)
+    + AppointmentResponseDTO updateAppointment(Long id, AppointmentDTO appointmentDTO)
+    + AppointmentResponseDTO scheduleAppointment(Long id, AppointmentDTO appointmentDTO)
+    + AppointmentResponseDTO cancelAppointment(Long id)
+    + void deleteAppointment(Long id)
+}
+
+class AppointmentDTO {
+    Long id
+    String appointmentDateTime
+    String appointmentStatus
+    Long doctorId
+    Long healthCenterId
+    Long specialtyId
+    Long patientId
+}
+
+
+class AppointmentResponseDTO {
+    Long id
+    String appointmentDateTime
+    String appointmentStatus
+    Long patientId
+    Long healthCenterId
+    Long specialtyId
+    String doctorName
+    String specialtyName
+    String healthCenterName
+    String healthCenterAddress
+    boolean isTomorrow
+    boolean isFinalized
+}
+
+class AppointmentsByDateDTO {
+    String date
+    List<DoctorResponseDTO> doctors
+}
+
+class YearsWithAppointmentsDTO {
+    int year
+    List<MonthlyAppointmentStatsDTO> monthlyStats
+}
+
+class PartialAppointmentDTO {
+    Long patientId
+    Long healthCenterId
+    Long specialtyId
+    String doctorName
+    String specialtyName
+    String healthCenterName
+    String healthCenterAddress
+}
+
+class MonthlyAppointmentStatsDTO {
+    int month
+    int attendedCount
+    int missedCount
+    int cancelledCount
+}
+
+class AppointmentService {
+    - static DateTimeFormatter dateFormatter
+    - AppointmentRepository appointmentRepository
+    - UserRepository userRepository
+    - HealthCenterRepository healthCenterRepository
+    - SpecialtyRepository specialtyRepository
+    - AppointmentMapper appointmentMapper
+    - DoctorMapper doctorMapper
+
+    + List<AppointmentResponseDTO> findAllAppointments()
+    + List<AppointmentsByDateDTO> findAppointmentsGroup(Long healthCenterId, Long specialtyId)
+    + List<YearsWithAppointmentsDTO> getYearsWithAppointments()
+    + List<AppointmentResponseDTO> findAppointmentsByUser(Long userId)
+    + AppointmentResponseDTO findAppointmentById(Long id)
+    + AppointmentResponseDTO createAppointment(AppointmentDTO appointmentDTO)
+    + AppointmentResponseDTO updateAppointment(Long id, AppointmentDTO appointmentDTO)
+    + AppointmentResponseDTO scheduleAppointment(Long id, AppointmentDTO appointmentDTO)
+    + AppointmentResponseDTO cancelAppointment(Long id)
+    + void deleteAppointment(Long id)
+}
+
+interface AppointmentRepository {
+    + PartialAppointmentDTO getAppointmentData(Long appointmentId)
+    + List<Appointment> findBySpecialtyAndHealthCenter(Long specialtyId, Long healthCenterId)
+    + List<Appointment> findByUserId(Long userId)
+    + List<java.sql.Date> findDistinctDates(Long specialtyId, Long healthCenterId)
+    + List<Doctor> findDoctorsByDate(LocalDate date, Long specialtyId, Long healthCenterId)
+    + List<Appointment> findByDateAndDoctor(LocalDate date, Long doctorId, Long specialtyId, Long healthCenterId)
+    + List<Integer> findDistinctYears()
+    + List<Integer> findMonthsByYear(int year)
+    + List<Object[]> countAppointmentsByStatusAndMonth(int year, String status)
+    + List<Object[]> countCancelledAppointmentsByMonth(int year)
+}
+
+AppointmentController --> AppointmentService
+
+AppointmentService --> AppointmentRepository
+
+AppointmentController --> AppointmentResponseDTO
+AppointmentController --> AppointmentsByDateDTO
+AppointmentController --> YearsWithAppointmentsDTO
+AppointmentController --> AppointmentDTO
+
+AppointmentService --> AppointmentResponseDTO
+AppointmentService --> AppointmentsByDateDTO
+AppointmentService --> YearsWithAppointmentsDTO
+AppointmentService --> AppointmentDTO
+
+AppointmentRepository --> PartialAppointmentDTO
+AppointmentRepository --> Appointment
+AppointmentRepository --> Doctor
+
+AppointmentsByDateDTO --> DoctorResponseDTO
+YearsWithAppointmentsDTO --> MonthlyAppointmentStatsDTO
+
+@enduml

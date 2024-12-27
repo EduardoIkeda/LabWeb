@@ -1,0 +1,68 @@
+@startuml
+
+    class DoctorController {
+        - DoctorService doctorService
+        + findAllDoctors(): List<DoctorResponseDTO>
+        + findDoctorsByHealthCenter(id: Long): List<DoctorResponseDTO>
+        + findDoctorById(id: Long): DoctorResponseDTO
+        + createDoctor(doctorDTO: DoctorDTO): DoctorResponseDTO
+        + updateDoctor(id: Long, doctorDTO: DoctorDTO): DoctorResponseDTO
+        + deleteDoctor(id: Long): void
+    }
+
+
+    class DoctorDTO {
+        Long id
+        String crm
+        String startWork
+        String endWork
+        List<String> workingDays
+    }
+
+    class DoctorResponseDTO {
+        Long id
+        String doctorName
+        String crm
+        String startWork
+        String endWork
+        List<String> workingDays
+        List<AppointmentResponseDTO> doctorAppointments
+    }
+
+    class DoctorRepository {
+        + getDoctorName(doctorId: Long): String
+        + findByHealthCenterId(healthCenterId: Long): List<Doctor>
+    }
+
+    class DoctorService {
+        + findAllDoctors(): List<DoctorResponseDTO>
+        + findDoctorsByHealthCenter(healthCenterId: Long): List<DoctorResponseDTO>
+        + findDoctorById(id: Long): DoctorResponseDTO
+        + createDoctor(doctorDTO: DoctorDTO): DoctorResponseDTO
+        + updateDoctor(id: Long, doctorDTO: DoctorDTO): DoctorResponseDTO
+        + deleteDoctor(id: Long): void
+    }
+
+    class Doctor {
+        Long id
+        String crm
+        LocalTime startWork
+        LocalTime endWork
+        Set<DayOfWeek> workingDays
+        List<Appointment> appointments
+        List<HealthCenter> healthCenters
+        List<Specialty> specialties
+        User user
+        Status status
+    }
+
+    DoctorController --> DoctorService
+    DoctorService --> DoctorRepository
+    DoctorRepository --> Doctor
+    DoctorResponseDTO --> Doctor
+    DoctorDTO --> Doctor
+    Doctor --> Appointment
+    Doctor --> HealthCenter
+    Doctor --> Specialty
+    Doctor --> User
+@enduml

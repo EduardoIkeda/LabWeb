@@ -1,0 +1,197 @@
+@startuml
+
+package services{
+    class DoctorService {
+        List<DoctorResponseDTO> findAllDoctors()
+        List<DoctorResponseDTO> findDoctorsByHealthCenter(Long healthCenterId)
+        DoctorResponseDTO findDoctorById(Long id)
+        DoctorResponseDTO createDoctor(DoctorDTO doctorDTO)
+        DoctorResponseDTO updateDoctor(Long id, DoctorDTO doctorDTO)
+        void deleteDoctor(Long id)
+    }
+
+    DoctorService --> DoctorRepository : doctorRepository
+    DoctorService --> DoctorDTO : doctorDTO
+    DoctorService --> DoctorResponseDTO : doctorResponseDTO
+
+    class AppointmentService {
+        List<AppointmentResponseDTO> findAllAppointments()
+        List<AppointmentsByDateDTO> findAppointmentsGroup(Long healthCenterId, Long specialtyId)
+        List<YearsWithAppointmentsDTO> getYearsWithAppointments()
+        List<AppointmentResponseDTO> findAppointmentsByUser(Long userId)
+        AppointmentResponseDTO findAppointmentById(Long id)
+        AppointmentResponseDTO createAppointment(AppointmentDTO appointmentDTO)
+        AppointmentResponseDTO updateAppointment(Long id, AppointmentDTO appointmentDTO)
+        AppointmentResponseDTO scheduleAppointment(Long id, AppointmentDTO appointmentDTO)
+        AppointmentResponseDTO cancelAppointment(Long id)
+        void deleteAppointment(Long id)
+    }
+
+    AppointmentService --> AppointmentRepository : appointmentRepository
+    AppointmentService --> AppointmentDTO : appointmentDTO
+    AppointmentService --> AppointmentResponseDTO : appointmentResponseDTO
+    AppointmentService --> AppointmentsByDateDTO : appointmentsByDateDTO
+    AppointmentService --> YearsWithAppointmentsDTO : yearsWithAppointmentsDTO
+
+    class HealthCenterService {
+        List<HealthCenterResponseDTO> findAllHealthCenters()
+        List<HealthCenterResponseDTO> findHealthCentersBySpecialty(Long specialtyId)
+        HealthCenterResponseDTO findHealthCenterById(Long id)
+        HealthCenterResponseDTO createHealthCenter(HealthCenterDTO healthCenterDTO)
+        HealthCenterResponseDTO updateHealthCenter(Long id, HealthCenterDTO healthCenterDTO)
+        HealthCenterResponseDTO addDoctors(Long id, HealthCenterDTO healthCenterDTO)
+        void deleteHealthCenter(Long id)
+    }
+
+    HealthCenterService --> HealthCenterRepository : healthCenterRepository
+    HealthCenterService --> HealthCenterDTO : healthCenterDTO
+    HealthCenterService --> HealthCenterResponseDTO : healthCenterResponseDTO
+
+    class PenaltyService {
+        List<PenaltyResponseDTO> findAllPenalties()
+        PenaltyResponseDTO findPenaltyById(Long id)
+        PenaltyResponseDTO createPenalty(PenaltyDTO penaltyDTO)
+        PenaltyResponseDTO updatePenalty(Long id, PenaltyDTO penaltyDTO)
+        void deletePenalty(Long id)
+    }
+
+    PenaltyService --> PenaltyDTO : penaltyDTO
+    PenaltyService --> PenaltyResponseDTO : penaltyResponseDTO
+    PenaltyService --> PenaltyRepository : penaltyRepository
+
+    class SpecialtyService {
+        List<SpecialtyDTO> findAllSpecialties()
+        SpecialtyDTO findSpecialtyById(Long id)
+        List<SpecialtyCountDTO> getSpecialtyAppointmentsCountByYear(Long year)
+        SpecialtyDTO createSpecialty(SpecialtyDTO specialtyDTO)
+        SpecialtyDTO updateSpecialty(Long id, SpecialtyDTO specialtyDTO)
+        void deleteSpecialty(Long id)
+    }
+
+    SpecialtyService --> SpecialtyRepository : specialtyRepository
+    SpecialtyService --> SpecialtyDTO : specialtyDTO
+    SpecialtyService --> SpecialtyResponseDTO : specialtyResponseDTO
+    SpecialtyService --> SpecialtyCountDTO : specialtyCountDTO
+
+    class UserService {
+        AuthResponseDTO login(LoginDTO loginDTO)
+        AuthResponseDTO register(RegisterDTO registerDTO)
+        List<UserDTO> findAllUsers()
+        UserDTO findUserById(Long id)
+        UserDTO createUser(UserDTO userDTO)
+        UserDTO updateUser(Long id, UserDTO userDTO)
+        UserDTO patchUser(Long id, UserPartialDTO userDTO)
+        void deleteUser(Long id)
+    }
+
+    UserService --> UserRepository : userRepository
+    UserService --> UserDTO : userDTO
+    UserService --> UserPartialDTO : userPartialDTO
+    UserService --> AuthResponseDTO : authResponseDTO
+    UserService --> LoginDTO : loginDTO
+    UserService --> RegisterDTO : registerDTO
+}
+
+package repository {
+    interface AppointmentRepository {}
+    interface DoctorRepository{}
+    interface HealthCenterRepository{}
+    interface PenaltyRepository{}
+    interface SpecialtyRepository{}
+    interface UserRepository{}
+
+    AppointmentRepository --> model.Appointment : appointments
+    DoctorRepository --> model.Doctor : doctors
+    HealthCenterRepository --> model.HealthCenter : healthCenters
+    PenaltyRepository --> model.Penalty : penalties
+    SpecialtyRepository --> model.Specialty : specialties
+    UserRepository --> model.User : users
+}
+
+
+package model {
+
+    class User {
+        Long id
+        String susCardNumber
+        String name
+        String cpf
+        String phone
+        String email
+        String password
+        String avatarUrl
+        UserStatus userStatus
+        Role role
+        List<Appointment> appointments
+        Doctor doctor
+        List<Penalty> penalties
+        Status status
+    }
+
+    class Appointment {
+        Long id
+        LocalDateTime appointmentDateTime
+        AppointmentStatus appointmentStatus
+        Doctor doctor
+        HealthCenter healthCenter
+        Specialty specialty
+        User user
+        int cancellationCount
+        Status status
+    }
+
+    class Doctor {
+        Long id
+        String crm
+        LocalTime startWork
+        LocalTime endWork
+        Set<DayOfWeek> workingDays
+        List<Appointment> appointments
+        List<HealthCenter> healthCenters
+        List<Specialty> specialties
+        User user
+        Status status
+    }
+
+    class HealthCenter {
+        Long id
+        String name
+        String address
+        LocalTime openingHour
+        LocalTime closingHour
+        List<Appointment> appointments
+        List<Doctor> doctors
+        List<Specialty> specialties
+        Status status
+    }
+
+    class Penalty {
+        Long id
+        LocalDate penaltyStartDate
+        LocalDate penaltyEndDate
+        User user
+        Status status
+    }
+
+    class Specialty {
+        Long id
+        String name
+        List<Appointment> appointments
+        List<Doctor> doctors
+        List<HealthCenter> healthCenters
+        Status status
+    }
+
+    Penalty --> User : user
+    Appointment --> Doctor : doctor
+    Appointment --> HealthCenter : healthCenter
+    Appointment --> Specialty : specialty
+    Appointment --> User : user
+    Doctor --> User : user
+    HealthCenter --> Doctor : doctors
+    HealthCenter --> Specialty : specialties
+    Specialty --> Doctor : doctors
+    Specialty --> HealthCenter : healthCenters
+}
+
+@enduml

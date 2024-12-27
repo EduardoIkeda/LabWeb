@@ -1,0 +1,135 @@
+@startuml
+
+class UserService {
+        AuthResponseDTO login(LoginDTO loginDTO)
+        AuthResponseDTO register(RegisterDTO registerDTO)
+        List<UserDTO> findAllUsers()
+        UserDTO findUserById(Long id)
+        UserDTO createUser(UserDTO userDTO)
+        UserDTO updateUser(Long id, UserDTO userDTO)
+        UserDTO patchUser(Long id, UserPartialDTO userDTO)
+        void deleteUser(Long id)
+    }
+
+class User {
+        Long id
+        String susCardNumber
+        String name
+        String cpf
+        String phone
+        String email
+        String password
+        String avatarUrl
+        UserStatus userStatus
+        Role role
+        List<Appointment> appointments
+        Doctor doctor
+        List<Penalty> penalties
+        Status status
+    }
+
+class Appointment {
+        Long id
+        LocalDateTime appointmentDateTime
+        AppointmentStatus appointmentStatus
+        Doctor doctor
+        HealthCenter healthCenter
+        Specialty specialty
+        User user
+        int cancellationCount
+        Status status
+    }
+    
+class Penalty {
+        Long id
+        LocalDate penaltyStartDate
+        LocalDate penaltyEndDate
+        User user
+        Status status
+    }
+
+class UserRepository {
+        Optional<User> findBySusCardNumber(String susCardNumber)
+}
+    
+    enum UserStatus {
+        ACTIVE
+        BLOCKED
+    }
+
+    enum Role {
+        ADMIN
+        DOCTOR
+        CITIZEN
+    }
+
+    enum Status{
+        ACTIVE,
+        INACTIVE
+    }
+
+
+    class UserDTO {
+        Long id
+        String susCardNumber
+        String name
+        String cpf
+        String phone
+        String email
+        String password
+        String avatarUrl
+        String status
+        String role
+    }
+
+    class UserPartialDTO{
+        String avatarUrl
+        String phone
+        String email
+        String password
+    }
+
+    class UserController {
+        AuthResponseDTO login(LoginDTO loginDTO)
+        AuthResponseDTO register(RegisterDTO registerDTO)
+        List<UserDTO> findAllUsers()
+        UserDTO findUserById(Long id)
+        UserDTO createUser(UserDTO userDTO)
+        UserDTO updateUser(Long id, UserDTO userDTO)
+        UserDTO partialUpdateUser(Long id, UserPartialDTO userDTO)
+        void deleteUser(Long id)
+    }
+
+    UserService --> UserRepository
+    UserService --> User
+    UserService --> UserDTO
+    UserService --> UserPartialDTO
+    UserService --> AuthResponseDTO
+    UserService --> LoginDTO
+    UserService --> RegisterDTO
+
+    User --> Appointment
+    User --> Penalty
+    User --> Role
+    User --> UserStatus
+    User --> Status
+
+    Appointment --> Doctor
+    Appointment --> HealthCenter
+    Appointment --> Specialty
+    Appointment --> User
+    Appointment --> AppointmentStatus
+    Appointment --> Status
+
+    Penalty --> User
+    Penalty --> Status
+
+    UserRepository --> User
+
+    UserController --> UserService
+    UserController --> AuthResponseDTO
+    UserController --> LoginDTO
+    UserController --> RegisterDTO
+    UserController --> UserDTO
+    UserController --> UserPartialDTO
+    @enduml

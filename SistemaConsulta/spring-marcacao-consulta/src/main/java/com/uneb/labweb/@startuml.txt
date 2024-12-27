@@ -1,0 +1,10 @@
+@startuml
+
+class DoctorService {
+        List<DoctorResponseDTO> findAllDoctors()
+        List<DoctorResponseDTO> findDoctorsByHealthCenter(Long healthCenterId)
+        DoctorResponseDTO findDoctorById(Long id)
+        DoctorResponseDTO createDoctor(DoctorDTO doctorDTO)
+        DoctorResponseDTO updateDoctor(Long id, DoctorDTO doctorDTO)
+        void deleteDoctor(Long id)
+    }
