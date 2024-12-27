@@ -47,7 +47,7 @@ export class PostoSaudeComponent {
 
   onRemove(healthCenter: HealthCenter) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'Deseja realmente excluir o curso ' + healthCenter.name + '?',
+      data: 'Deseja realmente excluir o posto de saúde ' + healthCenter.name + '?',
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -55,7 +55,7 @@ export class PostoSaudeComponent {
         this.healthCenterService.remove(healthCenter.id).subscribe({
           next: () => {
             this.refresh();
-            this.snackBar.open('Curso removido com sucesso', 'X', {
+            this.snackBar.open('Posto de saúde removido com sucesso!', 'X', {
               duration: 5000,
               verticalPosition: 'top',
               horizontalPosition: 'center',

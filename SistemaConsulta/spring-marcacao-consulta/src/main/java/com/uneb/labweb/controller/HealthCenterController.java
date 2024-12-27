@@ -34,37 +34,58 @@ public class HealthCenterController {
         this.healthCenterService = healthCenterService;
     }
 
+    /**
+     * Retorna a lista de todos os postos de saúde.
+     */
     @GetMapping
     public List<HealthCenterResponseDTO> findAllHealthCenters() {
         return healthCenterService.findAllHealthCenters();
     }
 
+    /**
+     * Retorna os postos de saúde que oferecem uma especialidade específica.
+     */
     @GetMapping("/by-specialty/{id}")
     public List<HealthCenterResponseDTO> findHealthCentersBySpecialty(@PathVariable @NotNull @Positive Long id) {
         return healthCenterService.findHealthCentersBySpecialty(id);
     }
 
+    /**
+     * Retorna os detalhes de um posto de saúde específico pelo ID.
+     */
     @GetMapping("/{id}")
     public HealthCenterResponseDTO findHealthCenterById(@PathVariable @NotNull @Positive Long id) {
         return healthCenterService.findHealthCenterById(id);
     }
 
+    /**
+     * Cria um novo posto de saúde.
+     */
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public HealthCenterResponseDTO createHealthCenter(@RequestBody @Valid @NotNull HealthCenterDTO healthCenterDTO) {
         return healthCenterService.createHealthCenter(healthCenterDTO);
     }
 
+    /**
+     * Atualiza os dados de um posto de saúde existente pelo ID.
+     */
     @PutMapping("/{id}")
     public HealthCenterResponseDTO updateHealthCenter(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull HealthCenterDTO healthCenterDTO) {
         return healthCenterService.updateHealthCenter(id, healthCenterDTO);
     }
 
+    /**
+     * Adiciona médicos a um posto de saúde específico.
+     */
     @PatchMapping("/{id}")
     public HealthCenterResponseDTO addDoctors(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull HealthCenterDTO healthCenterDTO) {
         return healthCenterService.addDoctors(id, healthCenterDTO);
     }
 
+    /**
+     * Exclui um posto de saúde específico pelo ID.
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteHealthCenter(@PathVariable @NotNull @Positive Long id) {

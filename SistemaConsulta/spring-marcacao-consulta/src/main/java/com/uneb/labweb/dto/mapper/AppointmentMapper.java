@@ -25,14 +25,23 @@ public class AppointmentMapper {
         this.appointmentRepository = appointmentRepository;
     }
 
+    /**
+     * Converte uma entidade Appointment para um DTO de resposta (AppointmentResponseDTO).
+     * @param appointment A entidade Appointment a ser convertida.
+     * @return O AppointmentResponseDTO correspondente.
+     */
     public AppointmentResponseDTO toDTO(Appointment appointment) {
         if (appointment == null) {
             return null;
         }
 
+        // Formata a data e hora do agendamento
         String appointmentDateTime = appointment.getAppointmentDateTime().format(FORMATTER_BR);
+        
+        // Recupera dados adicionais relacionados ao agendamento
         PartialAppointmentDTO appointmentData = appointmentRepository.getAppointmentData(appointment.getId());
 
+        // Extrai dados do agendamento (caso existam)
         Long patientId = appointmentData != null ? appointmentData.patientId() : null;
         Long healthCenterId = appointmentData != null ? appointmentData.healthCenterId() : null;
         Long specialtyId = appointmentData != null ? appointmentData.specialtyId() : null;
@@ -41,6 +50,7 @@ public class AppointmentMapper {
         String healthCenterName = appointmentData != null ? appointmentData.healthCenterName() : null;
         String healthCenterAddress = appointmentData != null ? appointmentData.healthCenterAddress() : null;
 
+        // Determina se o agendamento é amanhã e se já foi finalizado
         boolean isTomorrow = false;
         boolean isFinalized = false;
 
@@ -54,6 +64,7 @@ public class AppointmentMapper {
             isFinalized = true;
         }
 
+        // Retorna o DTO com os dados processados
         return new AppointmentResponseDTO(
                 appointment.getId(),
                 appointmentDateTime,
@@ -70,6 +81,11 @@ public class AppointmentMapper {
         );
     }
 
+    /**
+     * Converte um DTO de agendamento (AppointmentDTO) para a entidade Appointment.
+     * @param appointmentDTO O DTO de agendamento a ser convertido.
+     * @return A entidade Appointment correspondente.
+     */
     public Appointment toEntity(AppointmentDTO appointmentDTO) {
         if (appointmentDTO == null) {
             return null;
@@ -86,6 +102,12 @@ public class AppointmentMapper {
         return appointment;
     }
 
+    /**
+     * Converte uma string de data/hora no formato "dd/MM/yyyy HH:mm" para LocalDateTime.
+     * @param dateTimeString A string de data/hora a ser convertida.
+     * @return O LocalDateTime correspondente.
+     * @throws InvalidDateTimeException Se a conversão falhar.
+     */
     public LocalDateTime parseDateTime(String dateTimeString) {
         try {
             return LocalDateTime.parse(dateTimeString, FORMATTER_BR);
@@ -94,21 +116,22 @@ public class AppointmentMapper {
         }
     }
 
+    /**
+     * Converte o valor de status de agendamento para o enum AppointmentStatus.
+     * @param value O valor de status a ser convertido.
+     * @return O enum AppointmentStatus correspondente.
+     * @throws IllegalArgumentException Se o valor de status for inválido.
+     */
     public AppointmentStatus convertAppointmentStatusValue(String value) {
         if (value == null) {
             return null;
         }
         return switch (value) {
-            case "pending" ->
-                AppointmentStatus.PENDING;
-            case "scheduled" ->
-                AppointmentStatus.SCHEDULED;
-            case "attended" ->
-                AppointmentStatus.ATTENDED;
-            case "missed" ->
-                AppointmentStatus.MISSED;
-            default ->
-                throw new IllegalArgumentException("Status inválido: " + value);
+            case "pending" -> AppointmentStatus.PENDING;
+            case "scheduled" -> AppointmentStatus.SCHEDULED;
+            case "attended" -> AppointmentStatus.ATTENDED;
+            case "missed" -> AppointmentStatus.MISSED;
+            default -> throw new IllegalArgumentException("Status inválido: " + value);
         };
     }
 }

@@ -10,6 +10,12 @@ import jakarta.persistence.Converter;
 @Converter(autoApply = true)
 public class StatusConverter implements AttributeConverter<Status, String> {
 
+    /**
+     * Converte o valor do atributo Status para o formato de banco de dados (String).
+     * 
+     * @param status O status a ser convertido.
+     * @return O valor do status como uma String.
+     */
     @Override
     public String convertToDatabaseColumn(Status status) {
         if (status == null) {
@@ -18,6 +24,13 @@ public class StatusConverter implements AttributeConverter<Status, String> {
         return status.getValue();
     }
 
+    /**
+     * Converte o valor do banco de dados (String) de volta para o tipo Status.
+     * 
+     * @param value O valor do status como String a ser convertido.
+     * @return O status correspondente do tipo Status.
+     * @throws IllegalArgumentException Se o valor fornecido não corresponder a um valor válido do enum.
+     */
     @Override
     public Status convertToEntityAttribute(String value) {
         if (value == null) {

@@ -39,6 +39,7 @@ public class SpringMarcacaoConsultaApplication {
     @Value("${api.database.password}")
     private String password;
 
+    // Repositórios para acesso a dados
     private AppointmentRepository appointmentRepository;
     private DoctorRepository doctorRepository;
     private HealthCenterRepository healthCenterRepository;
@@ -47,10 +48,30 @@ public class SpringMarcacaoConsultaApplication {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Método principal da aplicação. Inicializa a aplicação Spring Boot.
+     *
+     * @param args Argumentos de linha de comando
+     */
     public static void main(String[] args) {
         SpringApplication.run(SpringMarcacaoConsultaApplication.class, args);
     }
 
+    /**
+     * Inicializa o banco de dados com dados de teste, como usuários, especialidades,
+     * postos de saúde, médicos e penalidades.
+     * Executado apenas no perfil de teste ("test").
+     *
+     * @param self Instância atual da aplicação
+     * @param appointmentRepository Repositório de consultas
+     * @param doctorRepository Repositório de médicos
+     * @param healthCenterRepository Repositório de postos de saúde
+     * @param penaltyRepository Repositório de penalidades
+     * @param specialtyRepository Repositório de especialidades
+     * @param userRepository Repositório de usuários
+     * @param passwordEncoder Codificador de senha
+     * @return CommandLineRunner para inicializar dados
+     */
     @Bean
     @Profile("test")
     CommandLineRunner initDatabase(
@@ -72,8 +93,7 @@ public class SpringMarcacaoConsultaApplication {
             this.userRepository = userRepository;
             this.passwordEncoder = passwordEncoder;
 
-            // Limpando todas as entidades
-
+            // Limpeza das tabelas no banco de dados
             this.userRepository.deleteAll();
             this.specialtyRepository.deleteAll();
             this.healthCenterRepository.deleteAll();
@@ -81,14 +101,12 @@ public class SpringMarcacaoConsultaApplication {
             this.penaltyRepository.deleteAll();
             this.appointmentRepository.deleteAll();
 
-            // Formatadores
-
+            // Definindo formatadores para data e hora
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-            // Inicialização dos usuários
-
+            // Criação e persistência de usuários
             User user1 = new User();
             user1.setSusCardNumber("012345678901234");
             user1.setName("Washington");
@@ -199,8 +217,7 @@ public class SpringMarcacaoConsultaApplication {
             user10.setRole(Role.CITIZEN);
             this.userRepository.save(user10);
 
-            // Inicialização das especialidades
-
+            // Criação e persistência de especialidades
             Specialty specialty1 = new Specialty();
             specialty1.setName("Cardiologia");
             this.specialtyRepository.save(specialty1);
@@ -221,8 +238,7 @@ public class SpringMarcacaoConsultaApplication {
             specialty5.setName("Psiquiatria");
             this.specialtyRepository.save(specialty5);
 
-            // Inicialização dos postos de saúde
-
+            // Criação e persistência de postos de saúde
             HealthCenter healthCenter1 = new HealthCenter();
             healthCenter1.setName("Pituba");
             healthCenter1.setAddress("Av. Num sei das quantas");
@@ -255,8 +271,7 @@ public class SpringMarcacaoConsultaApplication {
             healthCenter3.getSpecialties().add(specialty5);
             this.healthCenterRepository.save(healthCenter3);
 
-            // Inicialização dos médicos
-
+            // Criação e persistência de médicos
             Doctor doctor1 = new Doctor();
             doctor1.setCrm("12345-BA");
             doctor1.setStartWork(LocalTime.parse("08:00", timeFormatter));
@@ -309,8 +324,7 @@ public class SpringMarcacaoConsultaApplication {
             doctor3.setUser(user7);
             this.doctorRepository.save(doctor3);
 
-            // Inicialização das penalidades
-
+            // Criação e persistência de penalidades
             Penalty penalty1 = new Penalty();
             penalty1.setPenaltyStartDate(LocalDate.parse("14/12/2025", dateFormatter));
             penalty1.setPenaltyEndDate(LocalDate.parse("21/12/2025", dateFormatter));
@@ -323,8 +337,7 @@ public class SpringMarcacaoConsultaApplication {
             penalty2.setUser(user2);
             this.penaltyRepository.save(penalty2);
 
-            // Inicialização das consultas
-
+            // Criação e persistência de consultas
             Appointment appointment1 = new Appointment();
             appointment1.setAppointmentDateTime(LocalDateTime.parse("10/10/2024 14:30", dateTimeFormatter));
             appointment1.setAppointmentStatus(AppointmentStatus.MISSED);

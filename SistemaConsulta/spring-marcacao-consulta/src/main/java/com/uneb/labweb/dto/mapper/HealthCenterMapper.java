@@ -30,24 +30,33 @@ public class HealthCenterMapper {
         this.specialtyRepository = specialtyRepository;
     }
 
+    /**
+     * Converte uma entidade HealthCenter para um DTO de resposta (HealthCenterResponseDTO).
+     * @param healthCenter A entidade HealthCenter a ser convertida.
+     * @return O HealthCenterResponseDTO correspondente.
+     */
     public HealthCenterResponseDTO toDTO(HealthCenter healthCenter) {
         if (healthCenter == null) {
             return null;
         }
 
+        // Formata o horário de abertura e fechamento do posto de saúde
         String openingTime = healthCenter.getOpeningHour().format(FORMATTER_BR);
         String closingTime = healthCenter.getClosingHour().format(FORMATTER_BR);
 
+        // Recupera as especialidades oferecidas pelo posto de saúde
         List<SpecialtyResponseDTO> specialties = specialtyRepository.findByHealthCenterId(healthCenter.getId())
                 .stream()
                 .map(specialty -> new SpecialtyResponseDTO(specialty.getId(), specialty.getName()))
                 .toList();
 
+        // Conta o número de agendamentos pendentes e disponíveis (sem usuário associado)
         long availableAppointmentsCount = healthCenter.getAppointments()
                 .stream()
                 .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.PENDING && appointment.getUser() == null)
                 .count();
 
+        // Retorna o DTO com os dados do posto de saúde
         return new HealthCenterResponseDTO(
                 healthCenter.getId(),
                 healthCenter.getName(),
@@ -59,6 +68,11 @@ public class HealthCenterMapper {
         );
     }
 
+    /**
+     * Converte um DTO de HealthCenter (HealthCenterDTO) para a entidade HealthCenter.
+     * @param healthCenterDTO O DTO de HealthCenter a ser convertido.
+     * @return A entidade HealthCenter correspondente.
+     */
     public HealthCenter toEntity(HealthCenterDTO healthCenterDTO) {
         if (healthCenterDTO == null) {
             return null;
@@ -74,6 +88,7 @@ public class HealthCenterMapper {
         healthCenter.setOpeningHour(parseTime(healthCenterDTO.openingHour()));
         healthCenter.setClosingHour(parseTime(healthCenterDTO.closingHour()));
 
+        // Associa as especialidades ao posto de saúde
         healthCenterDTO.specialtyIds().forEach(specialtyId -> {
             Specialty specialty = specialtyRepository.findById(specialtyId)
                     .orElseThrow(() -> new RecordNotFoundException("Especialidade não encontrada com o id: " + specialtyId));
@@ -83,6 +98,12 @@ public class HealthCenterMapper {
         return healthCenter;
     }
 
+    /**
+     * Converte uma string de horário no formato "HH:mm" para LocalTime.
+     * @param timeString A string de horário a ser convertida.
+     * @return O LocalTime correspondente.
+     * @throws InvalidDateTimeException Se a conversão falhar.
+     */
     public LocalTime parseTime(String timeString) {
         try {
             return LocalTime.parse(timeString, FORMATTER_BR);
@@ -91,24 +112,34 @@ public class HealthCenterMapper {
         }
     }
 
+    /**
+     * Converte uma entidade HealthCenter para um DTO de resposta (HealthCenterResponseDTO) com filtro de agendamentos por especialidade.
+     * @param healthCenter A entidade HealthCenter a ser convertida.
+     * @param specialtyId O ID da especialidade para filtrar os agendamentos.
+     * @return O HealthCenterResponseDTO correspondente, com a quantidade de agendamentos disponíveis filtrados.
+     */
     public HealthCenterResponseDTO toDTOwithAppointmentFilter(HealthCenter healthCenter, Long specialtyId) {
         if (healthCenter == null) {
             return null;
         }
 
+        // Formata o horário de abertura e fechamento do posto de saúde
         String openingTime = healthCenter.getOpeningHour().format(FORMATTER_BR);
         String closingTime = healthCenter.getClosingHour().format(FORMATTER_BR);
 
+        // Recupera as especialidades oferecidas pelo posto de saúde
         List<SpecialtyResponseDTO> specialties = specialtyRepository.findByHealthCenterId(healthCenter.getId())
                 .stream()
                 .map(specialty -> new SpecialtyResponseDTO(specialty.getId(), specialty.getName()))
                 .toList();
 
+        // Conta o número de agendamentos pendentes e disponíveis (sem usuário associado) para uma especialidade específica
         long availableAppointmentsCount = appointmentRepository.findBySpecialtyAndHealthCenter(specialtyId, healthCenter.getId())
                 .stream()
                 .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.PENDING && appointment.getUser() == null)
-                .count();
+                .count(); 
 
+        // Retorna o DTO com os dados do posto de saúde e o número de agendamentos disponíveis
         return new HealthCenterResponseDTO(
                 healthCenter.getId(),
                 healthCenter.getName(),

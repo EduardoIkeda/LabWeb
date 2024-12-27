@@ -11,13 +11,15 @@ import com.uneb.labweb.model.Doctor;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
-    
+
+    // Consulta para obter o nome do médico baseado no seu ID
     @Query("SELECT u.name " +
        "FROM Doctor d " +
        "JOIN d.user u " +
        "WHERE d.id = :doctorId")
     String getDoctorName(@Param("doctorId") Long doctorId);
 
+    // Consulta para encontrar todos os médicos associados a um posto de saúde específico
     @Query("SELECT d FROM Doctor d JOIN d.healthCenters hc WHERE hc.id = :healthCenterId")
     List<Doctor> findByHealthCenterId(@Param("healthCenterId") Long healthCenterId);
 }

@@ -34,6 +34,10 @@ public class DoctorService {
         this.healthCenterRepository = healthCenterRepository;
     }
 
+    /**
+     * Retorna todos os médicos cadastrados.
+     * @return Lista de DTOs de médicos
+     */
     public List<DoctorResponseDTO> findAllDoctors() {
         return doctorRepository.findAll()
                 .stream()
@@ -41,27 +45,49 @@ public class DoctorService {
                 .toList();
     }
 
+    /**
+     * Retorna médicos de um posto de saúde específico.
+     * @param healthCenterId ID do posto de saúde
+     * @return Lista de médicos
+     * @throws RecordNotFoundException Se o posto de saúde não for encontrado
+     */
     public List<DoctorResponseDTO> findDoctorsByHealthCenter(@NotNull @Positive Long healthCenterId) {
         return healthCenterRepository.findById(healthCenterId)
-                .map(recordFound -> {
-                    return doctorRepository.findByHealthCenterId(healthCenterId)
-                            .stream()
-                            .map(doctorMapper::toDTO)
-                            .toList();
-                })
+                .map(recordFound -> doctorRepository.findByHealthCenterId(healthCenterId)
+                        .stream()
+                        .map(doctorMapper::toDTO)
+                        .toList())
                 .orElseThrow(() -> new RecordNotFoundException("Posto de saúde não encontrado com o id: " + healthCenterId));
     }
 
+    /**
+     * Retorna um médico pelo ID.
+     * @param id ID do médico
+     * @return DTO do médico
+     * @throws RecordNotFoundException Se o médico não for encontrado
+     */
     public DoctorResponseDTO findDoctorById(@NotNull @Positive Long id) { 
         return doctorRepository.findById(id)
                 .map(doctorMapper::toDTO)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    /**
+     * Cria um novo médico.
+     * @param doctorDTO Dados do novo médico
+     * @return DTO do médico criado
+     */
     public DoctorResponseDTO createDoctor(@Valid @NotNull DoctorDTO doctorDTO) {
         return doctorMapper.toDTO(doctorRepository.save(doctorMapper.toEntity(doctorDTO)));
     }
 
+    /**
+     * Atualiza um médico existente.
+     * @param id ID do médico
+     * @param doctorDTO Dados atualizados do médico
+     * @return DTO do médico atualizado
+     * @throws RecordNotFoundException Se o médico não for encontrado
+     */
     public DoctorResponseDTO updateDoctor(@NotNull @Positive Long id, @Valid @NotNull DoctorDTO doctorDTO) {
         return doctorRepository.findById(id)
                 .map(recordFound -> {
@@ -69,12 +95,16 @@ public class DoctorService {
                     recordFound.setStartWork(doctorMapper.parseTime(doctorDTO.startWork()));
                     recordFound.setEndWork(doctorMapper.parseTime(doctorDTO.endWork()));
                     recordFound.setWorkingDays(doctorMapper.convertToDayOfWeekSet(doctorDTO.workingDays()));
-
                     return doctorMapper.toDTO(doctorRepository.save(recordFound));
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    /**
+     * Exclui um médico pelo ID.
+     * @param id ID do médico a ser excluído
+     * @throws RecordNotFoundException Se o médico não for encontrado
+     */
     public void deleteDoctor(@NotNull @Positive Long id) {
         doctorRepository.delete(doctorRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id)));
