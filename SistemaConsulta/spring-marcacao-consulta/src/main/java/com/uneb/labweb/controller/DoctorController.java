@@ -33,32 +33,50 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
+    /**
+     * Retorna a lista de todos os médicos.
+     */
     @GetMapping
     public List<DoctorResponseDTO> findAllDoctors() {
         return doctorService.findAllDoctors();
     }
 
+    /**
+     * Retorna a lista de médicos de um posto de saúde específico.
+     */
     @GetMapping("/by-health-center/{id}")
     public List<DoctorResponseDTO> findDoctorsByHealthCenter(@PathVariable @NotNull @Positive Long id) {
         return doctorService.findDoctorsByHealthCenter(id);
     }
 
+    /**
+     * Retorna os detalhes de um médico específico pelo ID.
+     */
     @GetMapping("/{id}")
     public DoctorResponseDTO findDoctorById(@PathVariable @NotNull @Positive Long id) {
         return doctorService.findDoctorById(id);
     }
 
+    /**
+     * Cria um novo médico.
+     */
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public DoctorResponseDTO createDoctor(@RequestBody @Valid @NotNull DoctorDTO doctorDTO) {
         return doctorService.createDoctor(doctorDTO);
     }
 
+    /**
+     * Atualiza os dados de um médico existente pelo ID.
+     */
     @PutMapping("/{id}")
     public DoctorResponseDTO updateDoctor(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull DoctorDTO doctorDTO) {
         return doctorService.updateDoctor(id, doctorDTO);  
     }
 
+    /**
+     * Exclui um médico específico pelo ID.
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteDoctor(@PathVariable @NotNull @Positive Long id) {

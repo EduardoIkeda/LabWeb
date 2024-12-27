@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 import { FormUtilsService } from '../../shared/form/form-utils.service';
 import { UsersService } from '../services/users.service';
@@ -26,10 +27,11 @@ import { UsersService } from '../services/users.service';
 export class SignupComponent implements OnInit {
   form: FormGroup;
   constructor(
-    private userService: UsersService,
-    private formBuilder: NonNullableFormBuilder,
-    private snackBar: MatSnackBar,
-    private location: Location,
+    private readonly userService: UsersService,
+    private readonly formBuilder: NonNullableFormBuilder,
+    private readonly snackBar: MatSnackBar,
+    private readonly location: Location,
+    private readonly router: Router,
     public formUtils: FormUtilsService
   ) {
     this.form = this.formBuilder.group({
@@ -92,12 +94,6 @@ export class SignupComponent implements OnInit {
     } else {
       this.formUtils.validateAllFormFields(this.form);
     }
-
-    /*
-    if (this.form.get('password')?.value != this.form.get('confirmPassword')?.value) {
-      alert("Senhas diferentes")
-    }
-    */
   }
 
   onCancel() {
@@ -107,12 +103,12 @@ export class SignupComponent implements OnInit {
   private onSuccess() {
     this.snackBar.open('Novo usuário salvo com sucesso', '',
       { duration : 5000, });
-    //this.onCancel();
+
+    this.router.navigate(['/consultas/list']);
   }
 
   private onError() {
     this.snackBar.open('Erro ao salvar novo usuário', '',
       { duration : 5000, });
-    //this.onCancel();
   }
 }

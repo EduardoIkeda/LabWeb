@@ -9,30 +9,44 @@ import jakarta.validation.constraints.Pattern;
 public record RegisterDTO(
         Long id,
 
-        @Pattern(regexp = "^\\d{15}$") // Ex: 012345678901234
-        @NotBlank 
+        /**
+         * Número do Cartão do SUS. Deve ter exatamente 15 dígitos (exemplo: 012345678901234).
+         */
+        @Pattern(regexp = "^\\d{15}$")
         @Length(min = 15, max = 15) 
         String susCardNumber,
 
+        /**
+         * Nome completo do usuário. Deve ter entre 5 e 100 caracteres.
+         */
         @NotBlank 
         @Length(min = 5, max = 100) 
         String name,
 
-        @Pattern(regexp = "^\\d{11}$") // Ex: 01234567890
-        @NotBlank 
+        /**
+         * CPF do usuário. Deve ter exatamente 11 dígitos (exemplo: 01234567890).
+         */
+        @Pattern(regexp = "^\\d{11}$")
         @Length(min = 11, max = 11) 
         String cpf,
 
-        @Pattern(regexp = "^(55)?\\d{10,11}$") // Ex: 5571982345678, 557136485678, 71982345678, 7136485678
-        @NotBlank 
-        @Length(min = 10, max = 13) 
+        /**
+         * Número de telefone do usuário. Pode ter entre 10 e 12 dígitos (exemplos: 71982345678, 7136485678).
+         */
+        @Pattern(regexp = "^\\d{10,12}$")
         String phone,
 
+        /**
+         * E-mail do usuário. Deve ser um endereço de e-mail válido e ter entre 6 e 100 caracteres.
+         */
         @Email 
         @NotBlank 
         @Length(min = 6, max = 100) 
         String email,
 
+        /**
+         * Senha do usuário. Deve ter entre 5 e 100 caracteres.
+         */
         @NotBlank 
         @Length(min = 5, max = 100) 
         String password

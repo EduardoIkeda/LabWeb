@@ -35,7 +35,7 @@ export class ConsultasComponent {
     private readonly consultasService: ConsultasService,
     private readonly router: Router,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar
   ) {
     this.loadConsultas();
   }
@@ -143,7 +143,7 @@ export class ConsultasComponent {
       horizontalPosition: 'center',
     });
 
-    this.router.navigate(['/consultas']);
+    this.router.navigate(['/consultas']).then(() => { window.location.reload(); });
   }
 
   private onError(error: any) {

@@ -11,7 +11,8 @@ import com.uneb.labweb.model.HealthCenter;
 
 @Repository
 public interface HealthCenterRepository extends JpaRepository<HealthCenter, Long> {
-    
+
+    // Consulta para encontrar postos de saúde associados a uma especialidade específica
     @Query("SELECT hc FROM HealthCenter hc JOIN hc.specialties s WHERE s.id = :specialtyId")
     List<HealthCenter> findBySpecialtyId(@Param("specialtyId") Long specialtyId);
 }

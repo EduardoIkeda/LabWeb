@@ -47,73 +47,87 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    // Número do cartão SUS (válido se tiver 15 dígitos)
     @Pattern(regexp = "^\\d{15}$") // Ex: 012345678901234
     @NotBlank
     @Length(min = 15, max = 15)
     @Column(length = 15, nullable = false)
     private String susCardNumber;
 
+    // Nome do usuário
     @NotBlank
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String name;
 
+    // CPF do usuário (válido se tiver 11 dígitos)
     @Pattern(regexp = "^\\d{11}$") // Ex: 01234567890
     @NotBlank
     @Length(min = 11, max = 11)
     @Column(length = 11, nullable = false)
     private String cpf;
 
-    @Pattern(regexp = "^(55)?\\d{10,11}$") // Ex: 5571982345678, 557136485678, 71982345678, 7136485678
+    // Telefone do usuário (válido se tiver entre 10 e 12 dígitos)
+    @Pattern(regexp = "^\\d{10,12}$") // Ex: 71982345678, 7136485678
     @NotBlank
-    @Length(min = 10, max = 13)
-    @Column(length = 13, nullable = false)
+    @Length(min = 10, max = 12)
+    @Column(length = 12, nullable = false)
     private String phone;
 
+    // E-mail do usuário
     @Email
     @NotBlank
     @Length(min = 6, max = 100)
     @Column(length = 100, nullable = false)
     private String email;
 
+    // Senha do usuário
     @NotBlank
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String password;
 
+    // URL do avatar do usuário
     @Length(min = 5, max = 400)
     @Column(length = 400, nullable = false)
     private String avatarUrl;
 
+    // Status do usuário (Ativo/Inativo)
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = UserStatusConverter.class)
     private UserStatus userStatus = UserStatus.ACTIVE;
 
+    // Papel do usuário (Admin, Doutor, Cidadão)
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = RoleConverter.class)
     private Role role;
 
+    // Relacionamento com consultas
     @Valid
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Appointment> appointments = new ArrayList<>();
 
+    // Relacionamento com médico (caso o usuário seja um doutor)
     @JsonManagedReference
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = true)
     private Doctor doctor;
 
+    // Relacionamento com penalidades
     @Valid
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Penalty> penalties = new ArrayList<>();
 
+    // Status de exclusão lógica (Ativo/Inativo)
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)
     private Status status = Status.ACTIVE;
 
+    // Métodos da interface UserDetails
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

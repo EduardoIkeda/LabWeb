@@ -12,15 +12,25 @@ public class UserMapper {
 
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Construtor para injeção de dependência do PasswordEncoder.
+     * @param passwordEncoder O PasswordEncoder utilizado para codificar senhas.
+     */
     public UserMapper(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Converte uma entidade User para um DTO de UserDTO.
+     * @param user A entidade User a ser convertida.
+     * @return O UserDTO correspondente.
+     */
     public UserDTO toDTO(User user) {
         if (user == null) {
             return null;
         }
 
+        // Cria e retorna o DTO com os dados do usuário
         return new UserDTO(
             user.getId(), 
             user.getSusCardNumber(), 
@@ -34,6 +44,11 @@ public class UserMapper {
             user.getRole().getValue());
     }
 
+    /**
+     * Converte um DTO de UserDTO para a entidade User.
+     * @param userDTO O DTO de User a ser convertido.
+     * @return A entidade User correspondente.
+     */
     public User toEntity(UserDTO userDTO) {
         if (userDTO == null) {
             return null;
@@ -56,6 +71,11 @@ public class UserMapper {
         return user;
     }
     
+    /**
+     * Converte um valor de String para um enum Role.
+     * @param value O valor da role a ser convertido.
+     * @return O enum Role correspondente.
+     */
     public Role convertRoleValue(String value) {
         if (value == null) {
             return null;

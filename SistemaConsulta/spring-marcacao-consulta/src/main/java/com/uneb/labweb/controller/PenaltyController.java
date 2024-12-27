@@ -32,27 +32,42 @@ public class PenaltyController {
         this.penaltyService = penaltyService;
     }
 
+    /**
+     * Retorna a lista de todas as penalidades.
+     */
     @GetMapping
     public List<PenaltyDTO> findAllPenalties() {
         return penaltyService.findAllPenalties();
     }
 
+    /**
+     * Retorna os detalhes de uma penalidade específica pelo ID.
+     */
     @GetMapping("/{id}")
     public PenaltyDTO findPenaltyById(@PathVariable @NotNull @Positive Long id) {
         return penaltyService.findPenaltyById(id);
     }
     
+    /**
+     * Cria uma nova penalidade.
+     */
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public PenaltyDTO createPenalty(@RequestBody @Valid @NotNull PenaltyDTO penaltyDTO) {
         return penaltyService.createPenalty(penaltyDTO);    
     }
 
+    /**
+     * Atualiza os dados de uma penalidade existente pelo ID.
+     */
     @PutMapping("/{id}")
     public PenaltyDTO updatePenalty(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull PenaltyDTO penaltyDTO) {
         return penaltyService.updatePenalty(id, penaltyDTO);
     }
 
+    /**
+     * Exclui uma penalidade específica pelo ID.
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deletePenalty(@PathVariable @NotNull @Positive Long id) {

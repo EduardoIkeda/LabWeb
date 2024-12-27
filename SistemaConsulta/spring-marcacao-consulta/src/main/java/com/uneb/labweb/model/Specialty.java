@@ -34,26 +34,31 @@ public class Specialty {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    // Nome da especialidade
     @NotBlank
     @Length(min = 5, max = 100)
     @Column(length = 100, nullable = false)
     private String name;
 
+    // Relacionamento com a entidade Appointment (consultas associadas à especialidade)
     @Valid
     @JsonManagedReference
     @OneToMany(mappedBy = "specialty")
     private List<Appointment> appointments = new ArrayList<>();
 
+    // Relacionamento com a entidade Doctor (médicos associados à especialidade)
     @Valid
     @JsonManagedReference
     @ManyToMany(mappedBy = "specialties")
     private List<Doctor> doctors = new ArrayList<>();
 
+    // Relacionamento com a entidade HealthCenter (postos de saúde associados à especialidade)
     @Valid
     @JsonManagedReference
     @ManyToMany(mappedBy = "specialties")
     private List<HealthCenter> healthCenters = new ArrayList<>();
 
+    // Status da especialidade (Ativo/Inativo)
     @NotNull
     @Column(length = 10, nullable = false)
     @Convert(converter = StatusConverter.class)

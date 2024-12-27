@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class GuestGuard implements CanActivate {
 
   constructor(
     private readonly router: Router,
@@ -15,27 +15,14 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (isPlatformBrowser(this.platformId)) {
-      const authToken = localStorage.getItem('authToken');
+      const isLoggedIn = !!localStorage.getItem('authToken');
 
-      if (authToken) {
-        console.log("Passou pelo authToken")
-        const expectedRoles = route.data['roles'] as string[];
-
-        if (expectedRoles && expectedRoles.length > 0) {
-          const userRole = localStorage.getItem('userRole');
-
-          if (userRole && expectedRoles.includes(userRole)) {
-            console.log("Permissão total")
-            return true;
-          }
-        }
-
+      if (isLoggedIn) {
         this.router.navigate(['/consultas/list']);
         return false;
       }
 
-      this.router.navigate(['/auth/login']);
-      return false;
+      return true;
     }
     return false;
   }

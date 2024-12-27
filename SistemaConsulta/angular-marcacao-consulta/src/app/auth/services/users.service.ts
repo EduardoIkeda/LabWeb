@@ -32,7 +32,7 @@ export class UsersService {
     return this.httpClient.post<AuthResponse>(`${this.API}/register`, record, { headers: this.noAuthHeader }).pipe(
       tap((value) => {
         if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-          localStorage.setItem("userId", record.id!)
+          localStorage.setItem("userId", value.id)
           localStorage.setItem("userName", value.name)
           localStorage.setItem("userAvatarUrl", value.avatarUrl)
           localStorage.setItem("userRole", value.role)

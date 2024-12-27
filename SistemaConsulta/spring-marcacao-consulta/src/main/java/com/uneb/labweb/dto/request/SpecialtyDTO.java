@@ -7,6 +7,9 @@ import jakarta.validation.constraints.NotBlank;
 public record SpecialtyDTO(
         Long id,
 
+        /**
+         * Nome da especialidade. Deve ter entre 5 e 100 caracteres.
+         */
         @NotBlank
         @Length(min = 5, max = 100) 
         String name//,

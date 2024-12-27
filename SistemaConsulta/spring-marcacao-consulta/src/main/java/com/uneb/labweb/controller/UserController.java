@@ -37,43 +37,66 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Realiza o login do usuário com as credenciais fornecidas.
+     */
     @PostMapping("/login")
     public AuthResponseDTO login(@RequestBody @Valid @NotNull LoginDTO loginDTO) {
         return userService.login(loginDTO);
     }
 
+    /**
+     * Registra um novo usuário no sistema.
+     */
     @PostMapping("/register")
     public AuthResponseDTO register(@RequestBody @Valid @NotNull RegisterDTO registerDTO) {
         return userService.register(registerDTO);
     }
 
-
+    /**
+     * Retorna a lista de todos os usuários.
+     */
     @GetMapping
     public List<UserDTO> findAllUsers() {
         return userService.findAllUsers();  
     }
 
+    /**
+     * Retorna os detalhes de um usuário específico pelo ID.
+     */
     @GetMapping("/{id}")
     public UserDTO findUserById(@PathVariable @NotNull @Positive Long id) {
         return userService.findUserById(id);
     }
 
+    /**
+     * Cria um novo usuário no sistema.
+     */
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public UserDTO createUser(@RequestBody @Valid @NotNull UserDTO userDTO) {
         return userService.createUser(userDTO);
     }
 
+    /**
+     * Atualiza os dados de um usuário existente pelo ID.
+     */
     @PutMapping("/{id}")
     public UserDTO updateUser(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull UserDTO userDTO) {
         return userService.updateUser(id, userDTO);
     }
 
+    /**
+     * Realiza uma atualização parcial dos dados de um usuário pelo ID.
+     */
     @PatchMapping("/{id}")
     public UserDTO partialUpdateUser(@PathVariable @NotNull @Positive Long id, @RequestBody UserPartialDTO userDTO) {
         return userService.patchUser(id, userDTO);
     }
 
+    /**
+     * Exclui um usuário específico pelo ID.
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable @NotNull @Positive Long id) {

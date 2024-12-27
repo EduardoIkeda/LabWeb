@@ -40,6 +40,10 @@ public class HealthCenterService {
         this.doctorRepository = doctorRepository;
     }
 
+    /**
+     * Retorna todos os postos de saúde cadastrados.
+     * @return Lista de DTOs de postos de saúde
+     */
     public List<HealthCenterResponseDTO> findAllHealthCenters() {
         return healthCenterRepository.findAll()
                 .stream()
@@ -47,28 +51,50 @@ public class HealthCenterService {
                 .toList();
     }
 
+    /**
+     * Retorna postos de saúde por especialidade, filtrando os que têm vagas disponíveis.
+     * @param specialtyId ID da especialidade
+     * @return Lista de postos de saúde
+     * @throws RecordNotFoundException Se a especialidade não for encontrada
+     */
     public List<HealthCenterResponseDTO> findHealthCentersBySpecialty(@NotNull @Positive Long specialtyId) {
         return specialtyRepository.findById(specialtyId)
-                .map(recordFound -> {
-                    return healthCenterRepository.findBySpecialtyId(specialtyId)
-                            .stream()
-                            .map(healthCenter -> healthCenterMapper.toDTOwithAppointmentFilter(healthCenter, specialtyId))
-                            .filter(healthCenterDTO -> healthCenterDTO.availableAppointmentsCount() > 0)
-                            .toList();
-                })
+                .map(recordFound -> healthCenterRepository.findBySpecialtyId(specialtyId)
+                        .stream()
+                        .map(healthCenter -> healthCenterMapper.toDTOwithAppointmentFilter(healthCenter, specialtyId))
+                        .filter(healthCenterDTO -> healthCenterDTO.availableAppointmentsCount() > 0)
+                        .toList())
                 .orElseThrow(() -> new RecordNotFoundException("Especialidade não encontrada com o id: " + specialtyId));
     }
 
+    /**
+     * Retorna um posto de saúde pelo ID.
+     * @param id ID do posto de saúde
+     * @return DTO do posto de saúde
+     * @throws RecordNotFoundException Se o posto de saúde não for encontrado
+     */
     public HealthCenterResponseDTO findHealthCenterById(@NotNull @Positive Long id) {
         return healthCenterRepository.findById(id)
                 .map(healthCenterMapper::toDTO)
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    /**
+     * Cria um novo posto de saúde.
+     * @param healthCenterDTO Dados do novo posto de saúde
+     * @return DTO do posto de saúde criado
+     */
     public HealthCenterResponseDTO createHealthCenter(@Valid @NotNull HealthCenterDTO healthCenterDTO) {
         return healthCenterMapper.toDTO(healthCenterRepository.save(healthCenterMapper.toEntity(healthCenterDTO)));
     }
 
+    /**
+     * Atualiza um posto de saúde existente.
+     * @param id ID do posto de saúde
+     * @param healthCenterDTO Dados atualizados do posto de saúde
+     * @return DTO do posto de saúde atualizado
+     * @throws RecordNotFoundException Se o posto de saúde não for encontrado
+     */
     public HealthCenterResponseDTO updateHealthCenter(@NotNull @Positive Long id, @Valid @NotNull HealthCenterDTO healthCenterDTO) {
         return healthCenterRepository.findById(id)
                 .map(recordFound -> {
@@ -77,8 +103,8 @@ public class HealthCenterService {
                     recordFound.setOpeningHour(healthCenterMapper.parseTime(healthCenterDTO.openingHour()));
                     recordFound.setClosingHour(healthCenterMapper.parseTime(healthCenterDTO.closingHour()));
 
+                    // Limpa especialidades antigas e adiciona as novas
                     recordFound.getSpecialties().clear();
-
                     healthCenterDTO.specialtyIds().forEach(specialtyId -> {
                         Specialty specialty = specialtyRepository.findById(specialtyId)
                                 .orElseThrow(() -> new RecordNotFoundException("Especialidade não encontrada com o id: " + specialtyId));
@@ -90,14 +116,22 @@ public class HealthCenterService {
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+    /**
+     * Adiciona médicos a um posto de saúde.
+     * @param id ID do posto de saúde
+     * @param healthCenterDTO Dados do posto de saúde com médicos
+     * @return DTO do posto de saúde atualizado
+     * @throws RecordNotFoundException Se o posto de saúde ou médico não for encontrado
+     */
     public HealthCenterResponseDTO addDoctors(@NotNull @Positive Long id, @Valid @NotNull HealthCenterDTO healthCenterDTO) {
         return healthCenterRepository.findById(id)
                 .map(recordFound -> {
+                    // Remove médicos antigos e limpa a lista
                     recordFound.getDoctors().forEach(doctor -> doctor.getHealthCenters().remove(recordFound));
-
                     doctorRepository.saveAll(recordFound.getDoctors());
                     recordFound.getDoctors().clear();
 
+                    // Adiciona médicos novos ao posto de saúde
                     healthCenterDTO.doctorIds().forEach(doctorId -> {
                         Doctor doctor = doctorRepository.findById(doctorId)
                                 .orElseThrow(() -> new RecordNotFoundException("Médico não encontrado com o id: " + doctorId));
@@ -112,6 +146,11 @@ public class HealthCenterService {
                 .orElseThrow(() -> new RecordNotFoundException("Posto de saúde não encontrado com o id: " + id));
     }
 
+    /**
+     * Exclui um posto de saúde pelo ID.
+     * @param id ID do posto de saúde
+     * @throws RecordNotFoundException Se o posto de saúde não for encontrado
+     */
     public void deleteHealthCenter(@NotNull @Positive Long id) {
         healthCenterRepository.delete(healthCenterRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException(id)));

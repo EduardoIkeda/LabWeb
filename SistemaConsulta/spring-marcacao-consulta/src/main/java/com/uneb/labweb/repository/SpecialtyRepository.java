@@ -13,9 +13,11 @@ import com.uneb.labweb.model.Specialty;
 @Repository
 public interface SpecialtyRepository extends JpaRepository<Specialty, Long> {
 
+    // Consulta para encontrar especialidades associadas a um posto de saúde específico
     @Query("SELECT s FROM Specialty s JOIN s.healthCenters hc WHERE hc.id = :healthCenterId")
     List<Specialty> findByHealthCenterId(@Param("healthCenterId") Long healthCenterId);
 
+    // Consulta para encontrar especialidades com o número de consultas realizadas em um ano específico
     @Query("SELECT new com.uneb.labweb.dto.response.SpecialtyCountDTO(s.name AS specialtyName, COUNT(a) AS appointmentsCount) " +
        "FROM Specialty s " +
        "JOIN s.appointments a " +
