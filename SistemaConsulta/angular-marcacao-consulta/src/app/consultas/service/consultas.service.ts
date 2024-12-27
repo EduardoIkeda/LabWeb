@@ -58,6 +58,6 @@ export class ConsultasService {
   }
 
   cancelarConsulta(record: Partial<Consulta>) {
-    return this.http.patch<Consulta>(`${this.API}/cancel/${record.id}`, {});
+    return this.http.patch<Consulta>(`${this.API}/cancel/${record.id}`, record);
   }
 }

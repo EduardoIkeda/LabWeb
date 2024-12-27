@@ -109,8 +109,8 @@ public class AppointmentController {
      * Cancela um agendamento específico.
      */
     @PatchMapping("/cancel/{id}")
-    public AppointmentResponseDTO cancelAppointment(@PathVariable @NotNull @Positive Long id) {
-        return appointmentService.cancelAppointment(id);     
+    public AppointmentResponseDTO cancelAppointment(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull AppointmentDTO appointmentDTO) {
+        return appointmentService.cancelAppointment(id, appointmentDTO);     
     }
 
     /**

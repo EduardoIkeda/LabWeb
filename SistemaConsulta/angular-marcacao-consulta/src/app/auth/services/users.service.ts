@@ -22,6 +22,7 @@ export class UsersService {
           localStorage.setItem("userName", value.name)
           localStorage.setItem("userAvatarUrl", value.avatarUrl)
           localStorage.setItem("userRole", value.role)
+          localStorage.setItem("userStatus", value.userStatus)
           localStorage.setItem("authToken", value.token)
         }
       })
@@ -36,6 +37,7 @@ export class UsersService {
           localStorage.setItem("userName", value.name)
           localStorage.setItem("userAvatarUrl", value.avatarUrl)
           localStorage.setItem("userRole", value.role)
+          localStorage.setItem("userStatus", value.userStatus)
           localStorage.setItem("authToken", value.token)
         }
       })

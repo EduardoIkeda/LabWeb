@@ -79,6 +79,7 @@ public class SecurityConfig {
                         // Doctor entity permissions
                         .requestMatchers(HttpMethod.GET, "/api/doctors").hasRole("DOCTOR")
                         .requestMatchers(HttpMethod.GET, "/api/doctors/by-health-center/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/doctors/doctor-id/{userId}").hasRole("DOCTOR")
                         .requestMatchers(HttpMethod.GET, "/api/doctors/{id}").hasRole("DOCTOR")
                         .requestMatchers(HttpMethod.POST, "/api/doctors").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/doctors/{id}").hasRole("ADMIN")

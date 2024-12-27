@@ -6,7 +6,7 @@
       class="logo"
     />
     <button mat-button class="sidebar-button" (click)="goToPage('/consultas/list')">
-      <mat-icon>home</mat-icon> Minhas consultas
+      <mat-icon>home</mat-icon> Consultas marcadas
     </button>
     <button mat-button class="sidebar-button" (click)="goToPage('/perfil')">
       <mat-icon>person</mat-icon> Meu perfil
@@ -16,11 +16,11 @@
     </button>
 
     <!-- Botões personalizados para doctor -->
-    <button mat-button class="sidebar-button" *ngIf="isDoctor" (click)="goToPage('/medico/perfil')">
+    <button mat-button class="sidebar-button" *ngIf="isDoctor" (click)="goToPage('/medico/perfil/' + userId)">
       <mat-icon>perm_identity</mat-icon> Minhas especialidades
     </button>
-    <button mat-button class="sidebar-button" *ngIf="isDoctor" (click)="goToPage('/medico/consultas')">
-      <mat-icon>healing</mat-icon> Consultas
+    <button mat-button class="sidebar-button" *ngIf="isDoctor" (click)="goToPage('/medico/consultas/' + userId)">
+      <mat-icon>healing</mat-icon> Minhas consultas
     </button>
 
     <!-- Botões personalizados para admin -->

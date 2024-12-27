@@ -29,6 +29,12 @@ public record AuthResponseDTO(
         String role,
 
         /**
+         * Para controle de penalidade (ex: ativo ou bloqueado).
+         */
+        @NotBlank
+        String userStatus,
+
+        /**
          * Token JWT gerado após a autenticação bem-sucedida.
          * Esse token será utilizado para autenticação em requisições subsequentes.
          */

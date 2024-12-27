@@ -25,7 +25,7 @@ export const APP_ROUTES: Routes = [
     path: 'medico',
     loadChildren: () =>
       import('./medico/medico.routes').then((m) => m.MEDICO_ROUTES),
-    canActivate: [AuthGuard], data: { roles: ['doctor', 'admin'] }
+    canActivate: [AuthGuard], data: { roles: ['doctor'] }
   },
   {
     path: 'admin',

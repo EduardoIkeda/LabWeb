@@ -22,4 +22,11 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     // Consulta para encontrar todos os médicos associados a um posto de saúde específico
     @Query("SELECT d FROM Doctor d JOIN d.healthCenters hc WHERE hc.id = :healthCenterId")
     List<Doctor> findByHealthCenterId(@Param("healthCenterId") Long healthCenterId);
+
+    // Consulta para buscar o ID do médico associado a um determinado usuário
+    @Query("SELECT d.id " +
+       "FROM User u " +
+       "JOIN u.doctor d " +
+       "WHERE u.id = :userId")
+    Long findDoctorIdByUserId(@Param("userId") Long userId);
 }

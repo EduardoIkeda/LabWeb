@@ -28,11 +28,11 @@
             >
             <span class="centered"
               ><strong>Data:</strong>
-              {{ consulta.appointmentDateTime | date : "dd/MM/yyyy" }}</span
+              {{ convertToDateTime(consulta.appointmentDateTime.toString()) | date:"dd/MM/yyyy" }}</span
             >
             <span class="right-aligned"
               ><strong>Hora:</strong>
-              {{ consulta.appointmentDateTime | date : "HH:mm" }}</span
+              {{ convertToDateTime(consulta.appointmentDateTime.toString()) | date:'HH:mm' }}</span
             >
           </div>
 

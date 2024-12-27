@@ -18,14 +18,17 @@ import com.uneb.labweb.dto.response.DoctorResponseDTO;
 import com.uneb.labweb.dto.response.MonthlyAppointmentStatsDTO;
 import com.uneb.labweb.dto.response.YearsWithAppointmentsDTO;
 import com.uneb.labweb.enums.AppointmentStatus;
+import com.uneb.labweb.enums.UserStatus;
 import com.uneb.labweb.exception.AppointmentCancelException;
 import com.uneb.labweb.exception.RecordNotFoundException;
 import com.uneb.labweb.model.Doctor;
 import com.uneb.labweb.model.HealthCenter;
+import com.uneb.labweb.model.Penalty;
 import com.uneb.labweb.model.Specialty;
 import com.uneb.labweb.model.User;
 import com.uneb.labweb.repository.AppointmentRepository;
 import com.uneb.labweb.repository.HealthCenterRepository;
+import com.uneb.labweb.repository.PenaltyRepository;
 import com.uneb.labweb.repository.SpecialtyRepository;
 import com.uneb.labweb.repository.UserRepository;
 
@@ -45,6 +48,7 @@ public class AppointmentService {
     private final UserRepository userRepository;
     private final HealthCenterRepository healthCenterRepository;
     private final SpecialtyRepository specialtyRepository;
+    private final PenaltyRepository penaltyRepository;
     private final AppointmentMapper appointmentMapper;
     private final DoctorMapper doctorMapper;
 
@@ -54,6 +58,7 @@ public class AppointmentService {
             UserRepository userRepository,
             HealthCenterRepository healthCenterRepository,
             SpecialtyRepository specialtyRepository,
+            PenaltyRepository penaltyRepository,
             AppointmentMapper appointmentMapper,
             DoctorMapper doctorMapper
     ) {
@@ -61,6 +66,7 @@ public class AppointmentService {
         this.userRepository = userRepository;
         this.healthCenterRepository = healthCenterRepository;
         this.specialtyRepository = specialtyRepository;
+        this.penaltyRepository = penaltyRepository;
         this.appointmentMapper = appointmentMapper;
         this.doctorMapper = doctorMapper;
     }
@@ -75,8 +81,8 @@ public class AppointmentService {
 
     // Retorna um grupo de agendamentos por data, para uma especialidade e posto de saúde específicos
     public List<AppointmentsByDateDTO> findAppointmentsGroup(
-        @NotNull @Positive Long healthCenterId,
-        @NotNull @Positive Long specialtyId
+            @NotNull @Positive Long healthCenterId,
+            @NotNull @Positive Long specialtyId
     ) {
         // Verifica a existência da especialidade e posto de saúde
         Specialty specialty = specialtyRepository.findById(specialtyId)
@@ -91,7 +97,7 @@ public class AppointmentService {
 
     // Função auxiliar que busca agendamentos agrupados por data
     private List<AppointmentsByDateDTO> fetchAppointmentsGroup(Specialty specialty, HealthCenter healthCenter) {
-        List<AppointmentsByDateDTO> AppointmentsByDateDTOList = new ArrayList<>();        
+        List<AppointmentsByDateDTO> AppointmentsByDateDTOList = new ArrayList<>();
 
         // Recupera todas as datas distintas de agendamento
         List<LocalDate> dates = appointmentRepository.findDistinctDates(specialty.getId(), healthCenter.getId())
@@ -107,7 +113,7 @@ public class AppointmentService {
             // Para cada médico, verifica os agendamentos pendentes
             for (Doctor doctor : doctors) {
                 List<AppointmentResponseDTO> appointmentDTOList = appointmentRepository.findByDateAndDoctor(
-                    date, doctor.getId(), specialty.getId(), healthCenter.getId())
+                        date, doctor.getId(), specialty.getId(), healthCenter.getId())
                         .stream()
                         .filter(appointment -> appointment.getAppointmentStatus() == AppointmentStatus.PENDING && appointment.getUser() == null)
                         .map(appointmentMapper::toDTO)
@@ -149,8 +155,8 @@ public class AppointmentService {
             // Para cada mês, encontra os contadores correspondentes
             for (int month = 1; month <= 12; month++) {
                 int scheduledCount = 0;
-                int attendedCount = 0; 
-                int missedCount = 0; 
+                int attendedCount = 0;
+                int missedCount = 0;
                 int cancelledCount = 0;
 
                 // Verifica os resultados de cada tipo de agendamento para o mês
@@ -248,19 +254,56 @@ public class AppointmentService {
     }
 
     // Cancela um agendamento, se estiver no estado "SCHEDULED"
-    public AppointmentResponseDTO cancelAppointment(@NotNull @Positive Long id) {
+    public AppointmentResponseDTO cancelAppointment(@NotNull @Positive Long id, @Valid @NotNull AppointmentDTO appointmentDTO) {
         return appointmentRepository.findById(id)
                 .map(recordFound -> {
+                    // Verifica se o agendamento está no estado "SCHEDULED"
                     if (recordFound.getAppointmentStatus() == AppointmentStatus.SCHEDULED) {
+                        // Remove a associação com o usuário e altera o status do agendamento para "PENDING"
                         recordFound.setUser(null);
                         recordFound.setAppointmentStatus(AppointmentStatus.PENDING);
+
+                        // Incrementa o contador de cancelamentos
                         recordFound.setCancellationCount(recordFound.getCancellationCount() + 1);
+
+                        // Obtém a data da consulta e a data atual
+                        LocalDate appointmentDate = recordFound.getAppointmentDateTime().toLocalDate();
+                        LocalDate today = LocalDate.now();
+
+                        // Verifica se a consulta foi cancelada um dia antes de sua data agendada
+                        if (appointmentDate.isEqual(today.plusDays(1))) {
+                            // Busca o usuário associado ao ID do paciente
+                            Optional<User> user = userRepository.findById(appointmentDTO.patientId());
+
+                            // Lança exceção caso o usuário não seja encontrado
+                            if (user.isEmpty()) {
+                                throw new RecordNotFoundException("Usuário não encontrado com o id: " + appointmentDTO.patientId());
+                            }
+
+                            // Altera o status do usuário para "BLOCKED" devido ao cancelamento em curto prazo
+                            user.get().setUserStatus(UserStatus.BLOCKED);
+                            userRepository.save(user.get());
+
+                            // Define as datas de início e término da penalidade
+                            LocalDate penaltyStartDate = today.plusDays(1); // Penalidade começa amanhã
+                            LocalDate penaltyEndDate = penaltyStartDate.plusWeeks(1); // Penalidade termina após uma semana
+
+                            // Cria e salva a penalidade associada ao usuário
+                            Penalty penalty = new Penalty();
+                            penalty.setPenaltyStartDate(penaltyStartDate);
+                            penalty.setPenaltyEndDate(penaltyEndDate);
+                            penalty.setUser(user.get());
+                            penaltyRepository.save(penalty);
+                        }
                     } else {
+                        // Lança exceção se o agendamento não puder ser cancelado devido ao estado atual
                         throw new AppointmentCancelException("Não é possível desmarcar uma consulta com o estado: " + recordFound.getAppointmentStatus());
                     }
 
+                    // Salva o agendamento com as alterações realizadas e retorna o DTO correspondente
                     return appointmentMapper.toDTO(appointmentRepository.save(recordFound));
                 })
+                // Lança exceção caso o agendamento não seja encontrado
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 

@@ -40,6 +40,7 @@ export class RemarcarConsultaComponent implements OnInit {
   listaPorData: ConsultaPorData[] = [];
   displayedListaPorData: ConsultaPorData[] = [];
   selectedDate: Date | null = null;
+  bloqueado: boolean = false;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -85,35 +86,49 @@ export class RemarcarConsultaComponent implements OnInit {
   }
 
   async onSelect(event: Event, consulta_nova: Consulta) {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const userStatus = localStorage.getItem("userStatus");
+      if (userStatus === "Bloqueado") {
+        this.bloqueado = true;
 
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: `Deseja realmente remarcar a consulta?
-
-              Especialidade: ${consulta_nova.specialtyName}
-              Posto: ${consulta_nova.healthCenterName}
-              Endereço: ${consulta_nova.healthCenterAddress}
-              Profissional: ${consulta_nova.doctorName}
-              Data e hora: ${consulta_nova.appointmentDateTime}`,
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result && consulta_nova != null && this.consulta != null) {
-        consulta_nova.patientId = this.consulta.patientId;
-        this.consulta.patientId = null;
-
-        this.consultasService.cancelarConsulta(this.consulta).subscribe({
-          next: () => {
-            console.log("Consulta desmarcada com sucesso");
-            this.consultasService.marcarConsulta(consulta_nova).subscribe({
-              next: () => this.onSuccess(),
-              error: (error) => this.onError(error)
-            })
-          },
-          error: (error) => this.onError(error)
+        this.snackBar.open('Você está bloqueado de fazer marcações!', 'Fechar', {
+          duration: 5000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
         });
-        console.log("Consulta marcada com sucesso com o id:" + consulta_nova.id);
+        this.router.navigate(['/consultas/list']);
       }
-    });
+    }
+
+    if (!this.bloqueado) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: `Deseja realmente remarcar a consulta?
+
+                Especialidade: ${consulta_nova.specialtyName}
+                Posto: ${consulta_nova.healthCenterName}
+                Endereço: ${consulta_nova.healthCenterAddress}
+                Profissional: ${consulta_nova.doctorName}
+                Data e hora: ${consulta_nova.appointmentDateTime}`,
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result && consulta_nova != null && this.consulta != null) {
+          consulta_nova.patientId = this.consulta.patientId;
+
+          this.consultasService.cancelarConsulta(this.consulta).subscribe({
+            next: () => {
+              console.log("Consulta desmarcada com sucesso");
+              this.consultasService.marcarConsulta(consulta_nova).subscribe({
+                next: () => this.onSuccess(),
+                error: (error) => this.onError(error)
+              })
+            },
+            error: (error) => this.onError(error)
+          });
+          console.log("Consulta marcada com sucesso com o id:" + consulta_nova.id);
+        }
+      });
+    }
   }
 
   private onSuccess() {

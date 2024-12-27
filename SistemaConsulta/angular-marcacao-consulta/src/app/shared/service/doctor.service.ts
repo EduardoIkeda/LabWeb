@@ -32,19 +32,23 @@ export class DoctorService {
     );
   }
 
+  getDoctorIdByUserId(userId: string | null): Observable<string> {
+    return this.httpClient.get<string>(`${this.API}/doctor-id/${userId}`).pipe(first());
+  }
+
   getDoctorById(id: string): Observable<Doctor> {
     console.log('Buscando dados do médico com ID:', id);
-    return this.httpClient.get<Doctor[]>(this.CAPI).pipe(
-      first(),
-      map((doctors: Doctor[]) => {
-        const doctor = doctors.find(d => d.id === id);
-        if (!doctor) {
-          throw new Error('Médico não encontrado');
-        }
-        console.log('Médico encontrado:', doctor);
-        return doctor;
-      })
-    );
+    return this.httpClient.get<Doctor>(`${this.API}/${id}`).pipe(first());
+    //   first(),
+    //   map((doctors: Doctor[]) => {
+    //     const doctor = doctors.find(d => d.id === id);
+    //     if (!doctor) {
+    //       throw new Error('Médico não encontrado');
+    //     }
+    //     console.log('Médico encontrado:', doctor);
+    //     return doctor;
+    //   })
+    // );
   }
 
   getSpecialties(): Observable<Especialidade[]> {

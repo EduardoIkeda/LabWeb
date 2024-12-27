@@ -14,19 +14,33 @@ import org.springframework.stereotype.Component;
 import com.uneb.labweb.dto.request.DoctorDTO;
 import com.uneb.labweb.dto.response.AppointmentResponseDTO;
 import com.uneb.labweb.dto.response.DoctorResponseDTO;
+import com.uneb.labweb.dto.response.SpecialtyResponseDTO;
 import com.uneb.labweb.exception.InvalidDateTimeException;
 import com.uneb.labweb.exception.InvalidDayOfWeekException;
 import com.uneb.labweb.model.Doctor;
+import com.uneb.labweb.repository.AppointmentRepository;
 import com.uneb.labweb.repository.DoctorRepository;
+import com.uneb.labweb.repository.SpecialtyRepository;
 
 @Component
 public class DoctorMapper {
 
     private static final DateTimeFormatter FORMATTER_BR = DateTimeFormatter.ofPattern("HH:mm");
     private final DoctorRepository doctorRepository;
+    private final SpecialtyRepository specialtyRepository;
+    private final AppointmentRepository appointmentRepository;
+    private final AppointmentMapper appointmentMapper;
 
-    public DoctorMapper(DoctorRepository doctorRepository) {
+    public DoctorMapper(
+        DoctorRepository doctorRepository,
+        SpecialtyRepository specialtyRepository,
+        AppointmentRepository appointmentRepository,
+        AppointmentMapper appointmentMapper
+    ) {
         this.doctorRepository = doctorRepository;
+        this.specialtyRepository = specialtyRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.appointmentMapper = appointmentMapper;
     }
 
     /**
@@ -52,8 +66,17 @@ public class DoctorMapper {
                 .map(Enum::name)
                 .toList();
 
+        // Recupera as especialidades referentes ao médico
+        List<SpecialtyResponseDTO> specialties = specialtyRepository.findByDoctorId(doctor.getId())
+                .stream()
+                .map(specialty -> new SpecialtyResponseDTO(specialty.getId(), specialty.getName()))
+                .toList();
+
         // Cria a lista de agendamentos do médico (inicialmente vazia)
-        List<AppointmentResponseDTO> doctorAppointments = new ArrayList<>();
+        List<AppointmentResponseDTO> doctorAppointments = appointmentRepository.findByDoctorId(doctor.getId())
+                .stream()                        
+                .map(appointmentMapper::toDTO)
+                .toList();
 
         // Retorna o DTO com os dados do médico
         return new DoctorResponseDTO(
@@ -63,6 +86,7 @@ public class DoctorMapper {
             startTime, 
             endTime, 
             workingDays,
+            specialties,
             doctorAppointments
         );
     }
@@ -150,6 +174,12 @@ public class DoctorMapper {
                 .map(Enum::name)
                 .toList();
 
+        // Recupera as especialidades referentes ao médico
+        List<SpecialtyResponseDTO> specialties = specialtyRepository.findByDoctorId(doctor.getId())
+                .stream()
+                .map(specialty -> new SpecialtyResponseDTO(specialty.getId(), specialty.getName()))
+                .toList();
+
         // Atribui a lista de agendamentos ao médico
         List<AppointmentResponseDTO> doctorAppointments = appointmentDTOs;
 
@@ -161,6 +191,7 @@ public class DoctorMapper {
             startTime, 
             endTime, 
             workingDays,
+            specialties,
             doctorAppointments
         );
     }

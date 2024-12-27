@@ -59,7 +59,8 @@ public class UserService {
                             user.getId(), 
                             user.getName(), 
                             user.getAvatarUrl(), 
-                            user.getRole().getValue(), 
+                            user.getRole().getValue(),
+                            user.getUserStatus().getValue(), 
                             token
                         );
                     }
@@ -97,7 +98,8 @@ public class UserService {
                 registeredUser.getId(), 
                 registeredUser.getName(), 
                 registeredUser.getAvatarUrl(), 
-                registeredUser.getRole().getValue(), 
+                registeredUser.getRole().getValue(),
+                registeredUser.getUserStatus().getValue(), 
                 token
             );
         }

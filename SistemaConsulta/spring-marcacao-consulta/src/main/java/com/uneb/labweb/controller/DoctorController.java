@@ -50,6 +50,16 @@ public class DoctorController {
     }
 
     /**
+     * Recupera o ID do médico associado a um determinado usuário.
+     */
+
+
+    @GetMapping("/doctor-id/{userId}")
+    public Long getDoctorIdByUserId(@PathVariable Long userId) {
+        return doctorService.findDoctorIdByUserId(userId);
+    }
+
+    /**
      * Retorna os detalhes de um médico específico pelo ID.
      */
     @GetMapping("/{id}")

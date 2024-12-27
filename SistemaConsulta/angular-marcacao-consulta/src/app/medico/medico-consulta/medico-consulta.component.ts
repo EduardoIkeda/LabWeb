@@ -13,6 +13,8 @@ import { HealthCenter } from '../../shared/model/health-center';
 import { DoctorService } from '../../shared/service/doctor.service';
 import { HealthCenterService } from '../../shared/service/health-center.service';
 import { UserService } from '../../shared/service/user.service';
+import { firstValueFrom } from 'rxjs';
+import { Doctor } from '../../shared/model/doctor';
 
 @Component({
   selector: 'app-medico-consulta',
@@ -34,7 +36,7 @@ export class MedicoConsultaComponent implements OnInit {
   dateList: Date[] = [];
   consultas: Consulta[] = [];
   healthCenters: HealthCenter[] = [];
-  doctorName: string = '';
+  doctor!: Doctor;
   userNames: { [key: string]: string } = {};
   @Input() consulta!: Consulta;
   @Output() reschedule = new EventEmitter<Consulta>();
@@ -59,28 +61,18 @@ export class MedicoConsultaComponent implements OnInit {
     private readonly userService: UserService,
     private readonly doctorService: DoctorService,
     private readonly route: ActivatedRoute
-  ) {}
+  ) { }
 
-  ngOnInit(): void {
-    const doctorId = this.route.snapshot.paramMap.get('id');
+  async ngOnInit(): Promise<void> {
+    const userId = this.route.snapshot.paramMap.get('id');
+    const doctorId = await firstValueFrom(this.doctorService.getDoctorIdByUserId(userId));
+
     if (doctorId) {
       this.loadHealthCenters();
-      this.loadDoctorName(doctorId);
+      this.loadDoctor(doctorId);
     } else {
       console.error('ID do médico não encontrado na rota.');
     }
-  }
-
-  loadDoctorName(doctorId: string): void {
-    this.doctorService.getDoctorById(doctorId).subscribe({
-      next: (doctor) => {
-        if (doctor) {
-          this.doctorName = doctor.doctorName;
-          this.loadConsultas(doctor.doctorName);
-        }
-      },
-      error: (error) => console.error('Erro ao carregar o médico:', error),
-    });
   }
 
   loadHealthCenters(): void {
@@ -91,34 +83,44 @@ export class MedicoConsultaComponent implements OnInit {
       error: (error) => console.error('Erro ao carregar postos:', error),
     });
   }
-  loadConsultas(doctorName: string): void {
-    this.consultasService.listByDoctor(doctorName).subscribe({
-      next: (consultas) => {
-        this.consultas = consultas;
-        this.dateList = consultas.map(
-          (consulta) => new Date(consulta.appointmentDateTime)
-        );
 
-        consultas.forEach((consulta) => {
-          console.log('Consulta:', consulta);
-
-          const patientId = consulta.patientId;
-          if (patientId && typeof patientId === 'string') {
-            this.userService.docgetById(patientId).subscribe({
-              next: (user) => {
-                if (user) {
-                  this.userNames[patientId] = user.name;
-                }
-              },
-              error: (error) => console.error('Erro ao carregar nome do paciente:', error),
-            });
-          }
-        });
+  loadDoctor(doctorId: string): void {
+    this.doctorService.getDoctorById(doctorId).subscribe({
+      next: (doctor) => {
+        if (doctor) {
+          this.doctor = doctor;
+          this.consultas = doctor.doctorAppointments;
+          console.log(this.consultas);
+          this.loadConsultas();
+        }
       },
-      error: (error) => console.error('Erro ao carregar consultas:', error),
+      error: (error) => console.error('Erro ao carregar o médico:', error),
     });
   }
 
+  loadConsultas(): void {
+    this.dateList = this.consultas.map(
+      (consulta) => new Date(consulta.appointmentDateTime)
+    );
+
+    this.consultas.forEach((consulta) => {
+      console.log('Consulta:', consulta);
+
+      const patientId = consulta.patientId;
+
+      if (patientId && typeof patientId === 'string') {
+        this.userService.get(patientId).subscribe({
+          next: (user) => {
+            if (user) {
+              this.userNames[patientId] = user.name;
+            }
+          },
+          error: (error) => console.error('Erro ao carregar nome do paciente:', error),
+        });
+      }
+    });
+
+  }
 
   getHealthCenterName(healthCenterId: string): string {
     if (!healthCenterId) {
@@ -147,6 +149,15 @@ export class MedicoConsultaComponent implements OnInit {
       const patientName = this.userNames[patientId];
       return patientName ? patientName : 'Paciente não encontrado';
     }
-    return 'ID do paciente não fornecido';
+    return 'Sem paciente';
+  }
+
+  convertToDateTime(dateString: string): Date {
+    const [datePart, timePart] = dateString.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart.split(':');
+
+    // Retorna o objeto Date com os componentes de data e hora
+    return new Date(+year, +month - 1, +day, +hours, +minutes);
   }
 }

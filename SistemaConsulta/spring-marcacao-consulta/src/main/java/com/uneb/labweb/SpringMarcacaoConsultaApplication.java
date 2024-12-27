@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.uneb.labweb.enums.AppointmentStatus;
 import com.uneb.labweb.enums.Role;
+import com.uneb.labweb.enums.UserStatus;
 import com.uneb.labweb.model.Appointment;
 import com.uneb.labweb.model.Doctor;
 import com.uneb.labweb.model.HealthCenter;
@@ -215,6 +216,7 @@ public class SpringMarcacaoConsultaApplication {
             user10.setPassword(this.passwordEncoder.encode(this.password));
             user10.setAvatarUrl("https://i.imgur.com/xl5cLQd.png");
             user10.setRole(Role.CITIZEN);
+            user10.setUserStatus(UserStatus.BLOCKED);
             this.userRepository.save(user10);
 
             // Criação e persistência de especialidades
@@ -248,7 +250,7 @@ public class SpringMarcacaoConsultaApplication {
             healthCenter1.getSpecialties().add(specialty3);
             healthCenter1.getSpecialties().add(specialty4);
             healthCenter1.getSpecialties().add(specialty5);
-            this.healthCenterRepository.save(healthCenter1);
+            this.healthCenterRepository.save(healthCenter1); 
 
             HealthCenter healthCenter2 = new HealthCenter();
             healthCenter2.setName("Itinga");
@@ -328,14 +330,8 @@ public class SpringMarcacaoConsultaApplication {
             Penalty penalty1 = new Penalty();
             penalty1.setPenaltyStartDate(LocalDate.parse("14/12/2025", dateFormatter));
             penalty1.setPenaltyEndDate(LocalDate.parse("21/12/2025", dateFormatter));
-            penalty1.setUser(user1);
+            penalty1.setUser(user10);
             this.penaltyRepository.save(penalty1);
-
-            Penalty penalty2 = new Penalty();
-            penalty2.setPenaltyStartDate(LocalDate.parse("16/12/2025", dateFormatter));
-            penalty2.setPenaltyEndDate(LocalDate.parse("23/12/2025", dateFormatter));
-            penalty2.setUser(user2);
-            this.penaltyRepository.save(penalty2);
 
             // Criação e persistência de consultas
             Appointment appointment1 = new Appointment();
@@ -469,7 +465,7 @@ public class SpringMarcacaoConsultaApplication {
             this.appointmentRepository.save(appointment13);
 
             Appointment appointment14 = new Appointment();
-            appointment14.setAppointmentDateTime(LocalDateTime.parse("04/01/2025 14:00", dateTimeFormatter));
+            appointment14.setAppointmentDateTime(LocalDateTime.parse("06/01/2025 16:00", dateTimeFormatter));
             appointment14.setAppointmentStatus(AppointmentStatus.PENDING);
             appointment14.setDoctor(doctor1);
             appointment14.setHealthCenter(healthCenter1);

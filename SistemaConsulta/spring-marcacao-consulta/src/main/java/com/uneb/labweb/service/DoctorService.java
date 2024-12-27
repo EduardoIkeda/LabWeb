@@ -60,6 +60,24 @@ public class DoctorService {
                 .orElseThrow(() -> new RecordNotFoundException("Posto de saúde não encontrado com o id: " + healthCenterId));
     }
 
+
+    /**
+     * Busca o ID do médico associado a um determinado usuário.
+     *
+     * @param usuarioId o ID do usuário
+     * @return o ID do médico, se encontrado
+     * @throws RecordNotFoundException se nenhum médico estiver associado ao usuário
+     */
+    public Long findDoctorIdByUserId(Long userId) {
+        Long doctorId = doctorRepository.findDoctorIdByUserId(userId);
+
+        if (doctorId == null) {
+            throw new RecordNotFoundException("Id de médico não encontrado com o id de usuário: " + userId);
+        }
+               
+        return doctorId;
+    }
+
     /**
      * Retorna um médico pelo ID.
      * @param id ID do médico

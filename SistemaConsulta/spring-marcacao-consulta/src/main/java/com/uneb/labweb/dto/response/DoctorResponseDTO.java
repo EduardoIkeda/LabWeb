@@ -48,6 +48,12 @@ public record DoctorResponseDTO(
         List<String> workingDays,
 
         /**
+         * Lista de especialidades relacionadas a este médico.
+         * Cada especialidade é representada por um objeto de `SpecialtyResponseDTO`.
+         */
+        List<SpecialtyResponseDTO> specialties,
+
+        /**
          * Lista de consultas agendadas para este médico.
          * Cada consulta é representada por um objeto de `AppointmentResponseDTO`.
          */

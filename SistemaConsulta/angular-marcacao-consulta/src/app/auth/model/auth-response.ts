@@ -3,5 +3,6 @@ export interface AuthResponse {
   name: string;
   avatarUrl: string;
   role: string;
+  userStatus: string;
   token: string;
 }

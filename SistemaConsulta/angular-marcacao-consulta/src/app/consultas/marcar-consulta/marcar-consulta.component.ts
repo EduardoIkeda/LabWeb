@@ -29,6 +29,7 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
   speciality!: Especialidade | null;
   healthCenter!: HealthCenter | null;
   page: string = "especialidade";
+  bloqueado: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -67,24 +68,40 @@ export class MarcarConsultaComponent implements OnInit, OnDestroy {
 
 
   onMarcarConsulta() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: `Deseja realmente marcar a consulta?
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const userStatus = localStorage.getItem("userStatus");
+      if (userStatus === "Bloqueado") {
+        this.bloqueado = true;
 
-            Especialidade: ${this.speciality?.name}
-            Posto: ${this.healthCenter?.name}
-            Endereço: ${this.healthCenter?.address}
-            Profissional: ${this.consulta?.doctorName}
-            Data e hora: ${this.consulta?.appointmentDateTime}`,
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result && this.consulta != null) {
-        this.consultaService.marcarConsulta(this.consulta).subscribe({
-          next: () => this.onSuccess(),
-          error: (error) => this.onError(error)
+        this.snackBar.open('Você está bloqueado de fazer marcações!', 'Fechar', {
+          duration: 5000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
         });
+        this.router.navigate(['/consultas/list']);
       }
-    });
+    }
+
+    if (!this.bloqueado) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: `Deseja realmente marcar a consulta?
+
+              Especialidade: ${this.speciality?.name}
+              Posto: ${this.healthCenter?.name}
+              Endereço: ${this.healthCenter?.address}
+              Profissional: ${this.consulta?.doctorName}
+              Data e hora: ${this.consulta?.appointmentDateTime}`,
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result && this.consulta != null) {
+          this.consultaService.marcarConsulta(this.consulta).subscribe({
+            next: () => this.onSuccess(),
+            error: (error) => this.onError(error)
+          });
+        }
+      });
+    }
   }
 
   private onSuccess() {

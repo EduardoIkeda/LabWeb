@@ -14,17 +14,22 @@ import { Router } from '@angular/router';
 export class SidebarComponent {
   isDoctor: boolean = false;
   isAdmin: boolean = false;
+  userId: null | string = '';
 
   constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
-    const userRole = localStorage.getItem('userRole');
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      const userRole = localStorage.getItem('userRole');
+      this.userId = localStorage.getItem('userId');
 
-    this.isDoctor = (userRole === 'admin' || userRole === 'doctor');
-    this.isAdmin = (userRole === 'admin');
+      this.isDoctor = (userRole === 'doctor');
+      this.isAdmin = (userRole === 'admin');
+    }
   }
 
   goToPage(page: string) {
+    console.log(page);
     this.router.navigate([page]);
   }
 

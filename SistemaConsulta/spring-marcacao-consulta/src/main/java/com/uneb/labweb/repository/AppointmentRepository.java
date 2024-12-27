@@ -39,6 +39,13 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
         + "WHERE a.user.id = :userId")
     List<Appointment> findByUserId(@Param("userId") Long userId);
 
+    // Consulta para encontrar todas as consultas de um médico específico
+    @Query("SELECT a "
+       + "FROM Appointment a "
+       + "JOIN a.doctor d " 
+       + "WHERE d.id = :doctorId")
+    List<Appointment> findByDoctorId(@Param("doctorId") Long doctorId);
+
     // Consulta para encontrar datas distintas de consultas de uma especialidade e posto de saúde específicos
     @Query("""
         SELECT DISTINCT CAST(a.appointmentDateTime AS date)
